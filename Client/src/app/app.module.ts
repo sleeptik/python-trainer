@@ -6,6 +6,7 @@ import {AppComponent} from './app.component';
 import {EducationComponent} from './components/education/education.component';
 import {EducationExerciseComponent} from './components/education-exercise/education-exercise.component';
 import {EducationListComponent} from './components/education-list/education-list.component';
+import {AppRoutingModule} from "./app-routing.module";
 
 @NgModule({
   declarations: [
@@ -15,7 +16,9 @@ import {EducationListComponent} from './components/education-list/education-list
     EducationListComponent
   ],
   imports: [
-    BrowserModule, HttpClientModule
+    BrowserModule,
+    HttpClientModule,
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
