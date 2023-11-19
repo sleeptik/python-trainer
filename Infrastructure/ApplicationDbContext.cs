@@ -5,7 +5,7 @@ namespace Infrastructure;
 
 public sealed class ApplicationDbContext(DbContextOptions options) : DbContext(options)
 {
-    public DbSet<Subject> Subjects { get; private set; } = null!; ;
+    public DbSet<Subject> Subjects { get; private set; } = null!;
     public DbSet<Exercise> Exercises { get; private set; } = null!;
     public DbSet<Difficulty> Difficulties { get; private set; } = null!;
 
