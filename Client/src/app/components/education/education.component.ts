@@ -19,4 +19,8 @@ export class EducationComponent implements OnInit {
       this.currentExercise = this.exercises[0];
     });
   }
+
+  changeExercise(number: number) {
+    this.currentExercise = this.exercises[number];
+  }
 }

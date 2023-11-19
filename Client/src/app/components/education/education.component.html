@@ -6,7 +6,7 @@
       <app-education-exercise [exercise]="currentExercise"/>
     </div>
     <div class="col-4">
-      <app-education-list [amount]="exercises.length"/>
+      <app-education-list (selectIndex)="changeExercise($event)" [amount]="exercises.length"/>
     </div>
   </div>
 </div>
