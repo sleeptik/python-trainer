@@ -1,0 +1,25 @@
+<section>
+
+  <header class="bg-body-secondary rounded p-3">
+    <div>
+      <h4>Задание</h4>
+      <div class="text-uppercase">
+        <span class="badge text-bg-danger">Сложность: {{exercise.difficulty.name}}</span>
+        <span *ngFor="let subject of exercise.subjects" class="badge text-bg-secondary ms-1">{{subject.name}}</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="bg-body-secondary rounded p-3 mt-2">
+    <h5>Описание задание</h5>
+    <div>
+      {{exercise.contents}}
+    </div>
+  </div>
+
+  <div class="bg-body-secondary rounded p-3 mt-2">
+    <h5>Решение</h5>
+    <textarea class="form-control"></textarea>
+  </div>
+
+</section>
