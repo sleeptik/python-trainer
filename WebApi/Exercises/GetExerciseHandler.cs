@@ -9,9 +9,11 @@ public class GetExerciseHandler(ApplicationDbContext context) : IRequestHandler<
 {
     public async Task<IList<Exercise>> Handle(GetExerciseRequest request, CancellationToken cancellationToken)
     {
-        return await context.Exercises
+        var exercises = await context.Exercises
             .Where(exercise => exercise.DifficultyId == request.DifficultyId)
             .Where(exercise => exercise.Subjects.Any(subject => subject.Id == request.SubjectId))
             .ToListAsync(cancellationToken: cancellationToken);
+
+        return exercises.OrderBy(_ => Random.Shared.Next()).Take(3).ToList();
     }
 }
