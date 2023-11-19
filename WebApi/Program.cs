@@ -1,6 +1,6 @@
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddMediatR(configuration => configuration.RegisterServicesFromAssemblies());
+builder.Services.AddMediatR(configuration => configuration.RegisterServicesFromAssemblyContaining<Program>());
 
 builder.Services.AddInfrastructureServices(builder.Configuration);
 
