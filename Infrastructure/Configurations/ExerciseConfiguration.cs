@@ -8,7 +8,7 @@ public class ExerciseConfiguration : IEntityTypeConfiguration<Exercise>
 {
     public void Configure(EntityTypeBuilder<Exercise> builder)
     {
-        builder.HasOne<Difficulty>()
+        builder.HasMany<Subject>(exercise => exercise.Subjects)
             .WithMany();
     }
 }
