@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
+import {Exercise} from "../models/exercise";
 
 @Injectable({
   providedIn: "root"
@@ -9,6 +10,6 @@ export class EducationService {
   }
 
   getNewExercises() {
-    return this.httpClient.get("api/education/new");
+    return this.httpClient.get<Exercise>("api/education/new");
   }
 }
