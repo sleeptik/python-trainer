@@ -9,7 +9,9 @@ public class GetExerciseHandler(ApplicationDbContext context) : IRequestHandler<
 {
     public async Task<IList<Exercise>> Handle(GetExerciseRequest request, CancellationToken cancellationToken)
     {
-        var exercises = await context.Exercises
+        var exercises = await context.Exercises.AsNoTracking()
+            .Include(exercise => exercise.Difficulty)
+            .Include(exercise => exercise.Subjects)
             .Where(exercise => exercise.DifficultyId == request.DifficultyId)
             .Where(exercise => exercise.Subjects.Any(subject => subject.Id == request.SubjectId))
             .ToListAsync(cancellationToken: cancellationToken);
