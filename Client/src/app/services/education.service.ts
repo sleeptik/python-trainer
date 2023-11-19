@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {Exercise} from "../models/exercise";
 
 @Injectable({
@@ -10,6 +10,7 @@ export class EducationService {
   }
 
   getNewExercises() {
-    return this.httpClient.get<Exercise>("api/education/new");
+    const params = new HttpParams().set("subjectId", 3)
+    return this.httpClient.get<Exercise>("api/education/new", {params: params});
   }
 }
