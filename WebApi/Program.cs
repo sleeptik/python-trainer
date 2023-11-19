@@ -1,5 +1,6 @@
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddControllers();
 builder.Services.AddMediatR(configuration => configuration.RegisterServicesFromAssemblyContaining<Program>());
 
 builder.Services.AddInfrastructureServices(builder.Configuration);
@@ -16,5 +17,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseRouting();
+app.UseEndpoints(routeBuilder => routeBuilder.MapControllers());
 app.Run();

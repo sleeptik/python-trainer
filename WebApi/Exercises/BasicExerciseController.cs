@@ -7,9 +7,9 @@ namespace WebApi.Exercises;
 public sealed class BasicExerciseController(ISender sender) : ApiController
 {
     [HttpGet("get")]
-    public async Task<IActionResult> GetExerciseBySubjectAndDifficulty(GetExerciseRequest request)
+    public async Task<IActionResult> GetExerciseBySubjectAndDifficulty([FromQuery] int subjectId,[FromQuery] int difficultyId)
     {
-        var exercises = await sender.Send(request);
+        var exercises = await sender.Send(new GetExerciseRequest(subjectId,difficultyId));
         return Ok(exercises);
     }
 
