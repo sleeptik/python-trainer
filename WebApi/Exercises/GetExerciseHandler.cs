@@ -7,15 +7,21 @@ namespace WebApi.Exercises;
 
 public class GetExerciseHandler(ApplicationDbContext context) : IRequestHandler<GetExerciseRequest, IList<Exercise>>
 {
-    public async Task<IList<Exercise>> Handle(GetExerciseRequest request, CancellationToken cancellationToken)
+    public Task<IList<Exercise>> Handle(GetExerciseRequest request, CancellationToken cancellationToken)
     {
-        var exercises = await context.Exercises.AsNoTracking()
+        var subjectExercises = context.Exercises.AsNoTracking()
             .Include(exercise => exercise.Difficulty)
             .Include(exercise => exercise.Subjects)
-            .Where(exercise => exercise.DifficultyId == request.DifficultyId)
             .Where(exercise => exercise.Subjects.Any(subject => subject.Id == request.SubjectId))
-            .ToListAsync(cancellationToken: cancellationToken);
+            .ToList()
+            .OrderBy(_ => Random.Shared.Next())
+            .ToList();
 
-        return exercises.OrderBy(_ => Random.Shared.Next()).Take(3).ToList();
+        var exercises = new List<Exercise>();
+        exercises.AddRange(subjectExercises.Where(exercise => exercise.DifficultyId == 1).Take(3));
+        exercises.AddRange(subjectExercises.Where(exercise => exercise.DifficultyId == 2).Take(2));
+        exercises.AddRange(subjectExercises.Where(exercise => exercise.DifficultyId == 3).Take(1));
+
+        return Task.FromResult<IList<Exercise>>(exercises);
     }
 }
