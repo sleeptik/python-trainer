@@ -1,6 +1,7 @@
 ﻿namespace WebApi.Education;
 
-// TODO use later
 public record GetNewExercisesResponse(
-    GetNewExercisesResponseInner[] Exercises
+    string Contents,
+    string Difficulty,
+    string[] Subjects
 );
