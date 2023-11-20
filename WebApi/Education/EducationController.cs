@@ -4,7 +4,7 @@ using WebApi.Common;
 
 namespace WebApi.Education;
 
-[Route("education")]
+[Route("api/education")]
 public sealed class EducationController(ISender sender) : ApiController
 {
     [HttpGet("new")]
