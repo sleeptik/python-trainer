@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using WebApi.Common;
 
 namespace WebApi.Exercises;
-[Route("api/education")]
+[Route("education")]
 public sealed class BasicExerciseController(ISender sender) : ApiController
 {
     [HttpGet("new")]

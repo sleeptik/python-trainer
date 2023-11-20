@@ -2,5 +2,5 @@
 
 namespace WebApi.Common;
 
-[ApiController]
+[ApiController, Route("api")]
 public class ApiController : ControllerBase;
