@@ -1,13 +1,16 @@
-﻿using Domain.Trainer;
+﻿using AutoMapper;
+using Domain.Trainer;
 using Infrastructure;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace WebApi.Exercises;
+namespace WebApi.Education;
 
-public class GetExerciseHandler(ApplicationDbContext context) : IRequestHandler<GetExerciseRequest, IList<Exercise>>
+public class GetNewExercisesHandler(ApplicationDbContext context, IMapper mapper)
+    : IRequestHandler<GetNewExercisesRequest, IList<GetNewExercisesResponse>>
 {
-    public Task<IList<Exercise>> Handle(GetExerciseRequest request, CancellationToken cancellationToken)
+    public Task<IList<GetNewExercisesResponse>> Handle(GetNewExercisesRequest request,
+        CancellationToken cancellationToken)
     {
         var subjectExercises = context.Exercises.AsNoTracking()
             .Include(exercise => exercise.Difficulty)
@@ -22,6 +25,8 @@ public class GetExerciseHandler(ApplicationDbContext context) : IRequestHandler<
         exercises.AddRange(subjectExercises.Where(exercise => exercise.DifficultyId == 2).Take(2));
         exercises.AddRange(subjectExercises.Where(exercise => exercise.DifficultyId == 3).Take(1));
 
-        return Task.FromResult<IList<Exercise>>(exercises);
+        var responses = mapper.Map<IList<GetNewExercisesResponse>>(exercises);
+
+        return Task.FromResult(responses);
     }
 }
