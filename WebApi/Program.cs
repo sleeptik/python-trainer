@@ -17,6 +17,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
 app.UseRouting();
 app.UseEndpoints(routeBuilder => routeBuilder.MapControllers());
+
 app.Run();
