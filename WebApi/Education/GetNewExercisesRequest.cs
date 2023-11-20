@@ -1,5 +1,4 @@
-﻿using Domain.Trainer;
-using MediatR;
+﻿using MediatR;
 
 namespace WebApi.Education;
 

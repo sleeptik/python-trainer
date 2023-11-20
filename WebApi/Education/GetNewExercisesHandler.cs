@@ -26,7 +26,7 @@ public class GetNewExercisesHandler(ApplicationDbContext context, IMapper mapper
         exercises.AddRange(subjectExercises.Where(exercise => exercise.DifficultyId == 3).Take(1));
 
         var responses = mapper.Map<IList<GetNewExercisesResponse>>(exercises);
-        
+
         return Task.FromResult(responses);
     }
 }
