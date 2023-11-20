@@ -3,7 +3,7 @@ using Infrastructure;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace WebApi.Exercises;
+namespace WebApi.Education;
 
 public class GetExerciseHandler(ApplicationDbContext context) : IRequestHandler<GetExerciseRequest, IList<Exercise>>
 {
