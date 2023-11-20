@@ -3,4 +3,4 @@ using MediatR;
 
 namespace WebApi.Exercises;
 
-public record GetExerciseRequest(int SubjectId, int DifficultyId) : IRequest<IList<Exercise>>;
+public record GetExerciseRequest(int SubjectId) : IRequest<IList<Exercise>>;
