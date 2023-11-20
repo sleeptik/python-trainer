@@ -5,9 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace WebApi.Education;
 
-public class GetExerciseHandler(ApplicationDbContext context) : IRequestHandler<GetExerciseRequest, IList<Exercise>>
+public class GetNewExercisesHandler
+    (ApplicationDbContext context) : IRequestHandler<GetNewExercisesRequest, IList<Exercise>>
 {
-    public Task<IList<Exercise>> Handle(GetExerciseRequest request, CancellationToken cancellationToken)
+    public Task<IList<Exercise>> Handle(GetNewExercisesRequest request, CancellationToken cancellationToken)
     {
         var subjectExercises = context.Exercises.AsNoTracking()
             .Include(exercise => exercise.Difficulty)
