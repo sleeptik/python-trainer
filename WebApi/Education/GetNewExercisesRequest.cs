@@ -3,4 +3,4 @@ using MediatR;
 
 namespace WebApi.Education;
 
-public record GetNewExercisesRequest(int SubjectId) : IRequest<IList<Exercise>>;
+public record GetNewExercisesRequest(int SubjectId) : IRequest<IList<GetNewExercisesResponse>>;
