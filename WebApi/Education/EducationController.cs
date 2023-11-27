@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Domain.Trainer;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Common;
 
@@ -8,7 +9,7 @@ namespace WebApi.Education;
 public sealed class EducationController(ISender sender) : ApiController
 {
     [HttpGet("new")]
-    public async Task<IActionResult> GetNewExercisesSet(int subjectId)
+    public async Task<IActionResult> GetNewExercise(int subjectId)
     {
         var exercises = await sender.Send(new GetNewExercisesRequest(subjectId));
         return Ok(exercises);
