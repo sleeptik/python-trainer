@@ -11,4 +11,5 @@ public sealed class History
     public Exercise Exercise { get; private set; } = null!;
     
     public bool IsPassed { get; private set; }
+    public DateTime Finished { get; private set; }
 }
