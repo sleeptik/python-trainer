@@ -1,7 +1,7 @@
 ﻿using Domain.Users;
 using Infrastructure;
 
-namespace WebApi.Education;
+namespace WebApi.Features.Education.Services;
 
 public class UserRankService(ApplicationDbContext context)
 {

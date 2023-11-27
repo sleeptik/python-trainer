@@ -1,4 +1,4 @@
-﻿namespace WebApi.Education;
+﻿namespace WebApi.Features.Education.Responses;
 
 public record GetNewExercisesResponse(
     string Contents,

@@ -1,9 +1,9 @@
-﻿using Domain.Trainer;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Common;
+using WebApi.Features.Education.Requests;
 
-namespace WebApi.Education;
+namespace WebApi.Features.Education;
 
 [Route("api/education")]
 public sealed class EducationController(ISender sender) : ApiController

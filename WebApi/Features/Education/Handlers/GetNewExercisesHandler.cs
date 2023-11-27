@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using Domain.Trainer;
-using Domain.Users;
 using Infrastructure;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using WebApi.Features.Education.Requests;
+using WebApi.Features.Education.Responses;
+using WebApi.Features.Education.Services;
 
-namespace WebApi.Education;
+namespace WebApi.Features.Education.Handlers;
 
 public class GetNewExercisesHandler(ApplicationDbContext context, IMapper mapper, HistoryService historyService, UserRankService userRankService)
     : IRequestHandler<GetNewExercisesRequest, IList<GetNewExercisesResponse>>

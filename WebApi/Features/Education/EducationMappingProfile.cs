@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using Domain.Trainer;
+using WebApi.Features.Education.Responses;
 
-namespace WebApi.Education;
+namespace WebApi.Features.Education;
 
 public class EducationMappingProfile : Profile
 {

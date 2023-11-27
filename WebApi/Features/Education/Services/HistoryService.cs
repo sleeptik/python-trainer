@@ -2,7 +2,7 @@
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
-namespace WebApi.Education;
+namespace WebApi.Features.Education.Services;
 
 public class HistoryService(ApplicationDbContext context)
 {
