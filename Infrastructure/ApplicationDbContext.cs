@@ -11,6 +11,7 @@ public sealed class ApplicationDbContext(DbContextOptions options) : DbContext(o
     public DbSet<Difficulty> Difficulties => Set<Difficulty>();
     public DbSet<User> Users => Set<User>();
     public DbSet<History> Histories => Set<History>();
+    public DbSet<UserRank> UserRanks => Set<UserRank>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
