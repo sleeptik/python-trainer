@@ -1,11 +1,12 @@
 ﻿using Domain.Trainer;
 using Infrastructure;
 using MediatR;
+using WebApi.Features.EducationAdmin.Notifications;
 using WebApi.Features.EducationAdmin.Requests;
 
 namespace WebApi.Features.EducationAdmin.Handlers;
 
-public class SetHistoryStatusHandler(ApplicationDbContext context)
+public class SetHistoryStatusHandler(ApplicationDbContext context, IPublisher publisher)
     : IRequestHandler<SetHistoryStatusCommand>
 {
     public async Task Handle(SetHistoryStatusCommand request, CancellationToken cancellationToken)
@@ -19,5 +20,9 @@ public class SetHistoryStatusHandler(ApplicationDbContext context)
 
         await context.Histories.AddAsync(newHistory, cancellationToken);
         await context.SaveChangesAsync(cancellationToken);
+
+        var notification = new ExerciseHistoryCreated(request.UserId, request.Status);
+
+        await publisher.Publish(notification, cancellationToken);
     }
 }
