@@ -9,7 +9,8 @@ using WebApi.Features.Education.Services;
 
 namespace WebApi.Features.Education.Handlers;
 
-public class GetNewExercisesHandler(ApplicationDbContext context, IMapper mapper, HistoryService historyService, UserRankService userRankService)
+public class GetNewExercisesHandler(ApplicationDbContext context, IMapper mapper, HistoryService historyService,
+        UserRankService userRankService)
     : IRequestHandler<GetNewExercisesRequest, IList<GetNewExercisesResponse>>
 {
     public Task<IList<GetNewExercisesResponse>> Handle(GetNewExercisesRequest request,
@@ -53,7 +54,7 @@ public class GetNewExercisesHandler(ApplicationDbContext context, IMapper mapper
             .ToList()
             .OrderBy(_ => Random.Shared.Next())
             .ToList();
-        
+
 
         exercises = new List<Exercise>();
         if (history[^1].IsPassed)
@@ -68,17 +69,19 @@ public class GetNewExercisesHandler(ApplicationDbContext context, IMapper mapper
             if (userRank.Metric < 8.5F) userRank.AssignedDifficultyId = 1;
             else if (userRank.Metric < 14.5f) userRank.AssignedDifficultyId = 2;
         }
+
         List<string>? teor;
         if (userRank.Metric < 4)
         {
-            teor = new List<string>(){ "Theory"};
+            teor = new List<string> { "Theory" };
             exercises.AddRange(subjectExercises.Where(exercise => exercise.DifficultyId == 1).Take(1));
         }
         else
         {
-            exercises.AddRange(subjectExercises.Where(exercise => exercise.DifficultyId == userRank.AssignedDifficultyId).Take(1));
+            exercises.AddRange(subjectExercises
+                .Where(exercise => exercise.DifficultyId == userRank.AssignedDifficultyId).Take(1));
         }
-        
+
 
         responses = mapper.Map<IList<GetNewExercisesResponse>>(exercises);
 
