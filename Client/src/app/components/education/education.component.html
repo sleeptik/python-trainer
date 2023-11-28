@@ -2,11 +2,19 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-8">
-      <app-education-exercise [exercise]="currentExercise"/>
+
+    <div class="col-lg-7">
+      <div>
+        <app-exercise-details [exercise]="exercise"/>
+      </div>
+      <div>
+        <app-exercise-solution (solve)="sendSolution($event)"/>
+      </div>
     </div>
-    <div class="col-4">
-      <app-education-list (selectIndex)="changeExercise($event)" [amount]="exercises.length"/>
+
+    <div class="col-lg-5">
+      <app-verifier (good)="finishedSuccessfully()" (bad)="finishedWithErrors()"/>
     </div>
+
   </div>
 </div>

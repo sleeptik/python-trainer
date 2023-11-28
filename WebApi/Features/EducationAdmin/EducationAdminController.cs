@@ -9,7 +9,7 @@ namespace WebApi.Features.EducationAdmin;
 public class EducationAdminController(ISender sender) : ApiController
 {
     [HttpGet("status")]
-    public async Task<IActionResult> GetUnverifiedExercises(GetExerciseHistoryStatus status)
+    public async Task<IActionResult> GetUnverifiedExercises([FromQuery] GetExerciseHistoryStatus status)
     {
         var exercises = await sender.Send(status);
         return Ok(exercises);

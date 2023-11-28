@@ -9,8 +9,8 @@ export class EducationService {
   constructor(private readonly httpClient: HttpClient) {
   }
 
-  getNewExercises() {
-    const params = new HttpParams().set("subjectId", 3)
+  getNewExercise() {
+    const params = new HttpParams().set("subjectId", 3);
     return this.httpClient.get<Exercise>("api/education/new", {params: params});
   }
 }
