@@ -1,3 +1,5 @@
+using WebApi.Features.Education.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
@@ -9,6 +11,8 @@ builder.Services.AddInfrastructureServices(builder.Configuration);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<HistoryService>();
+builder.Services.AddScoped<UserRankService>();
 
 var app = builder.Build();
 

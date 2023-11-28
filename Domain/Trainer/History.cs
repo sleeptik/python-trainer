@@ -11,5 +11,5 @@ public sealed class History(int userId, int exerciseId, bool isPassed)
     public Exercise Exercise { get; private set; } = null!;
 
     public bool IsPassed { get; private set; } = isPassed;
-    public DateTime Finished { get; private set; } = DateTime.Now;
+    public DateTime Finished { get; private set; } = DateTime.UtcNow;
 }

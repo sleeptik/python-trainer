@@ -39,6 +39,7 @@ public class GetNewExerciseHandler(ApplicationDbContext context, IMapper mapper,
             .Include(exercise => exercise.Difficulty)
             .Include(exercise => exercise.Subjects)
             .Where(exercise => exercise.DifficultyId != 3)
+            .AsEnumerable()
             .Where(exercise => exercise.Subjects.Any(subject => currentExercise.Subjects.Any(s => s.Id == subject.Id)))
             .ToList();
 
@@ -46,6 +47,7 @@ public class GetNewExerciseHandler(ApplicationDbContext context, IMapper mapper,
             .Include(exercise => exercise.Difficulty)
             .Include(exercise => exercise.Subjects)
             .Where(exercise => exercise.DifficultyId == 3)
+            .AsEnumerable()
             .Where(exercise => currentExercise.Subjects.All(subject => exercise.Subjects.Contains(subject))));
 
         subjectExercises = subjectExercises
