@@ -14,7 +14,7 @@ public class EducationMappingProfile : Profile
         CreateMap<Difficulty, string>(MemberList.Destination)
             .ConstructUsing(difficulty => difficulty.Name);
 
-        CreateMap<Exercise, GetNewExercisesResponse>(MemberList.Destination)
+        CreateMap<Exercise, GetNewExerciseResponse>(MemberList.Destination)
             .ForMember(
                 dest => dest.Subjects,
                 src => src.MapFrom(exercise => exercise.Subjects)

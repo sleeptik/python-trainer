@@ -11,7 +11,7 @@ public sealed class EducationController(ISender sender) : ApiController
     [HttpGet("new")]
     public async Task<IActionResult> GetNewExercise(int subjectId)
     {
-        var exercises = await sender.Send(new GetNewExercisesRequest(subjectId));
+        var exercises = await sender.Send(new GetNewExerciseRequest(subjectId));
         return Ok(exercises);
     }
 }

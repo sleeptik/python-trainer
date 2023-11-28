@@ -9,27 +9,26 @@ using WebApi.Features.Education.Services;
 
 namespace WebApi.Features.Education.Handlers;
 
-public class GetNewExercisesHandler(ApplicationDbContext context, IMapper mapper, HistoryService historyService,
+public class GetNewExerciseHandler(ApplicationDbContext context, IMapper mapper, HistoryService historyService,
         UserRankService userRankService)
-    : IRequestHandler<GetNewExercisesRequest, IList<GetNewExercisesResponse>>
+    : IRequestHandler<GetNewExerciseRequest, GetNewExerciseResponse>
 {
-    public Task<IList<GetNewExercisesResponse>> Handle(GetNewExercisesRequest request,
+    public Task<GetNewExerciseResponse> Handle(GetNewExerciseRequest request,
         CancellationToken cancellationToken)
     {
         var history = historyService.GetUserHistory(1);
-        List<Exercise> exercises;
-        IList<GetNewExercisesResponse> responses;
+        var newExercise = new Exercise();
+        GetNewExerciseResponse response;
         if (history.Count == 0)
         {
-            exercises = new List<Exercise>();
-            exercises.AddRange(context.Exercises.AsNoTracking()
+            newExercise = context.Exercises
+                .AsNoTracking()
                 .Include(exercise => exercise.Difficulty)
                 .Include(exercise => exercise.Subjects)
-                .Where(exercise => exercise.Subjects.Any(subject => subject.Id == request.SubjectId))
-                .ToList().Take(1));
-            responses = mapper.Map<IList<GetNewExercisesResponse>>(exercises);
+                .First(exercise => exercise.Subjects.Any(subject => subject.Id == request.SubjectId));
+            response = mapper.Map<GetNewExerciseResponse>(newExercise);
 
-            return Task.FromResult(responses);
+            return Task.FromResult(response);
         }
 
         var currentExercise = history[0].Exercise;
@@ -54,37 +53,24 @@ public class GetNewExercisesHandler(ApplicationDbContext context, IMapper mapper
             .ToList()
             .OrderBy(_ => Random.Shared.Next())
             .ToList();
-
-
-        exercises = new List<Exercise>();
-        if (history[^1].IsPassed)
-        {
-            userRank.Metric += currentExercise.DifficultyId * 1.5f;
-            if (userRank.Metric >= 10f) userRank.AssignedDifficultyId = 2;
-            else if (userRank.Metric >= 16f) userRank.AssignedDifficultyId = userRank.AssignedDifficultyId = 3;
-        }
-        else
-        {
-            userRank.Metric -= currentExercise.DifficultyId * 1.5f;
-            if (userRank.Metric < 8.5F) userRank.AssignedDifficultyId = 1;
-            else if (userRank.Metric < 14.5f) userRank.AssignedDifficultyId = 2;
-        }
+        
 
         List<string>? teor;
         if (userRank.Metric < 4)
         {
             teor = new List<string> { "Theory" };
-            exercises.AddRange(subjectExercises.Where(exercise => exercise.DifficultyId == 1).Take(1));
+            newExercise=subjectExercises
+                .First(exercise => exercise.DifficultyId == userRank.AssignedDifficultyId);
         }
         else
         {
-            exercises.AddRange(subjectExercises
-                .Where(exercise => exercise.DifficultyId == userRank.AssignedDifficultyId).Take(1));
+            newExercise=subjectExercises
+                .First(exercise => exercise.DifficultyId == userRank.AssignedDifficultyId);
         }
 
 
-        responses = mapper.Map<IList<GetNewExercisesResponse>>(exercises);
+        response = mapper.Map<GetNewExerciseResponse>(newExercise);
 
-        return Task.FromResult(responses);
+        return Task.FromResult(response);
     }
 }
