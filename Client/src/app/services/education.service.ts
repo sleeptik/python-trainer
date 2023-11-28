@@ -10,7 +10,7 @@ export class EducationService {
   }
 
   getNewExercises() {
-    const params = new HttpParams().set("subjectId", 3)
+    const params = new HttpParams().set("subjectId", 3);
     return this.httpClient.get<Exercise>("api/education/new", {params: params});
   }
 }
