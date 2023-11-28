@@ -1,11 +1,14 @@
 ﻿using Infrastructure;
 using MediatR;
+using WebApi.Features.Education.Services;
 using WebApi.Features.EducationAdmin.Notifications;
+using WebApi.Features.EducationAdmin.Services;
 
 namespace WebApi.Features.EducationAdmin.Handlers;
 
 public class ExerciseHistoryCreatedNotificationHandler
-    (ApplicationDbContext context) : INotificationHandler<ExerciseHistoryCreatedNotification>
+    (ApplicationDbContext context, HistoryService historyService) : INotificationHandler<
+        ExerciseHistoryCreatedNotification>
 {
     public async Task Handle(ExerciseHistoryCreatedNotification notification, CancellationToken cancellationToken)
     {
@@ -18,10 +21,27 @@ public class ExerciseHistoryCreatedNotificationHandler
 
         var change = notification.IsPassed ? 1 : -1;
         rank.Metric += change;
+        var statisticOfTwoPast = historyService.GetUserHistory(notification.UserId)
+            .TakeLast(3)
+            .Take(2)
+            .ToList();
 
-        // TODO change user assigned difficulty so user can progress
-        rank.AssignedDifficultyId++;
-        rank.AssignedDifficultyId--;
+        var koef = 0f;
+
+        statisticOfTwoPast.Select(history => koef+=history.IsPassed?0.5f:0);
+
+        if (notification.IsPassed)
+        {
+            rank.Metric += (2-koef);
+            if (rank.Metric >= 8f) rank.AssignedDifficultyId = 2;
+            else if (rank.Metric >= 11f) rank.AssignedDifficultyId = 3; 
+        }
+        else
+        {
+            rank.Metric -= (1+koef);
+            if (rank.Metric < 7F) rank.AssignedDifficultyId = 1;
+            else if (rank.Metric < 10f) rank.AssignedDifficultyId = 2;
+        }
 
         await context.SaveChangesAsync(cancellationToken);
     }
