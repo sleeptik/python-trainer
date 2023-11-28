@@ -7,13 +7,15 @@ import {EducationComponent} from './components/education/education.component';
 import {AppRoutingModule} from "./app-routing.module";
 import {ExerciseDetailsComponent} from "./components/exercise-details/exercise-details.component";
 import {ExerciseSolutionComponent} from "./components/exercise-solution/exercise-solution.component";
+import {VerifierComponent} from './components/verifier/verifier.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     EducationComponent,
     ExerciseDetailsComponent,
-    ExerciseSolutionComponent
+    ExerciseSolutionComponent,
+    VerifierComponent
   ],
   imports: [
     BrowserModule,

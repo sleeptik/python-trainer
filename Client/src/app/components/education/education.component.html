@@ -1,12 +1,20 @@
 <p>education works!</p>
 
 <div class="container">
-  <div class="col-lg-6">
-    <div>
-      <app-exercise-details [exercise]="currentExercise"></app-exercise-details>
+  <div class="row">
+
+    <div class="col-lg-7">
+      <div>
+        <app-exercise-details [exercise]="currentExercise"/>
+      </div>
+      <div>
+        <app-exercise-solution/>
+      </div>
     </div>
-    <div>
-      <app-exercise-solution></app-exercise-solution>
+
+    <div class="col-lg-5">
+      <app-verifier/>
     </div>
+
   </div>
 </div>
