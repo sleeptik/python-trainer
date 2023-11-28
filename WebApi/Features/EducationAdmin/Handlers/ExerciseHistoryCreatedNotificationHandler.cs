@@ -1,4 +1,5 @@
-﻿using Infrastructure;
+﻿using Domain.Trainer;
+using Infrastructure;
 using MediatR;
 using WebApi.Features.Education.Services;
 using WebApi.Features.EducationAdmin.Notifications;
@@ -22,10 +23,10 @@ public class ExerciseHistoryCreatedNotificationHandler
         var change = notification.IsPassed ? 1 : -1;
         rank.Metric += change;
         var statisticOfTwoPast = historyService.GetUserHistory(notification.UserId)
-            .TakeLast(3)
-            .Take(2)
+            .SkipLast(1)
+            .TakeLast(2)
             .ToList();
-
+        
         var koef = 0f;
 
         statisticOfTwoPast.Select(history => koef+=history.IsPassed?0.5f:0);
