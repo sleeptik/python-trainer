@@ -7,20 +7,19 @@ import {Exercise} from "../../models/exercise";
   templateUrl: './education.component.html'
 })
 export class EducationComponent implements OnInit {
-  currentExercise!: Exercise;
-  exercises: Exercise[] = [];
+  exercise!: Exercise;
 
-  constructor(private readonly educationService: EducationService) {
+  constructor(
+    private readonly educationService: EducationService) {
   }
 
   ngOnInit(): void {
-    this.educationService.getNewExercises().subscribe((value: any) => {
-      this.exercises = value;
-      this.currentExercise = this.exercises[0];
-    });
+    this.educationService.getNewExercise().subscribe(
+      value => this.exercise = value
+    );
   }
 
-  changeExercise(number: number) {
-    this.currentExercise = this.exercises[number];
+  sendSolution(solution: string) {
+    this.educationService
   }
 }

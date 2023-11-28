@@ -5,10 +5,10 @@
 
     <div class="col-lg-7">
       <div>
-        <app-exercise-details [exercise]="currentExercise"/>
+        <app-exercise-details [exercise]="exercise"/>
       </div>
       <div>
-        <app-exercise-solution/>
+        <app-exercise-solution (solve)="sendSolution($event)"/>
       </div>
     </div>
 
