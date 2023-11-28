@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import {EducationAdminService} from "../../services/education-admin.service";
 
 @Component({
@@ -6,7 +6,10 @@ import {EducationAdminService} from "../../services/education-admin.service";
   templateUrl: './verifier.component.html'
 })
 export class VerifierComponent {
+  @Output() good = new EventEmitter<unknown>();
+  @Output() bad = new EventEmitter<unknown>();
   history: any | undefined;
+
 
   constructor(private readonly educationAdminService: EducationAdminService) {
   }

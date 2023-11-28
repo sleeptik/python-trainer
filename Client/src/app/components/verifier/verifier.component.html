@@ -8,8 +8,8 @@
       </div>
 
       <div class="col-auto">
-        <button class="btn btn-sm btn-success">Верно</button>
-        <button class="btn btn-sm btn-danger ms-1">Неверно</button>
+        <button class="btn btn-sm btn-success" (click)="good.emit()">Верно</button>
+        <button class="btn btn-sm btn-danger ms-1" (click)="bad.emit()">Неверно</button>
       </div>
 
     </div>
