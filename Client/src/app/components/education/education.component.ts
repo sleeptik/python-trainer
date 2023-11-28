@@ -19,6 +19,10 @@ export class EducationComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.extracted();
+  }
+
+  private extracted() {
     this.educationService.getNewExercise().subscribe(
       value => this.exercise = value
     );
@@ -30,13 +34,19 @@ export class EducationComponent implements OnInit {
 
   finishedSuccessfully() {
     this.educationAdminService.setStatus(1, this.exercise.id, true).subscribe(
-      () => this.history = undefined
+      () => {
+        this.history = undefined;
+        this.extracted();
+      }
     );
   }
 
   finishedWithErrors() {
     this.educationAdminService.setStatus(1, this.exercise.id, false).subscribe(
-      () => this.history = undefined
+      () => {
+        this.history = undefined;
+        this.extracted();
+      }
     );
   }
 }
