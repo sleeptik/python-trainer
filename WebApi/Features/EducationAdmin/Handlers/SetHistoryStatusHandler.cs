@@ -21,7 +21,7 @@ public class SetHistoryStatusHandler(ApplicationDbContext context, IPublisher pu
         await context.Histories.AddAsync(newHistory, cancellationToken);
         await context.SaveChangesAsync(cancellationToken);
 
-        var notification = new ExerciseHistoryCreated(request.UserId, request.Status);
+        var notification = new ExerciseHistoryCreatedNotification(request.UserId, request.Status);
 
         await publisher.Publish(notification, cancellationToken);
     }

@@ -5,9 +5,9 @@ using WebApi.Features.EducationAdmin.Notifications;
 namespace WebApi.Features.EducationAdmin.Handlers;
 
 public class ExerciseHistoryCreatedNotificationHandler
-    (ApplicationDbContext context) : INotificationHandler<ExerciseHistoryCreated>
+    (ApplicationDbContext context) : INotificationHandler<ExerciseHistoryCreatedNotification>
 {
-    public async Task Handle(ExerciseHistoryCreated notification, CancellationToken cancellationToken)
+    public async Task Handle(ExerciseHistoryCreatedNotification notification, CancellationToken cancellationToken)
     {
         var rank = await context.UserRanks.FindAsync(
             new object[] { notification.UserId }, cancellationToken
