@@ -2,9 +2,9 @@ import {Component, Input} from '@angular/core';
 import {Exercise} from "../../models/exercise";
 
 @Component({
-  selector: 'app-education-exercise',
-  templateUrl: './education-exercise.component.html'
+  selector: 'app-exercise-details',
+  templateUrl: './exercise-details.component.html'
 })
-export class EducationExerciseComponent {
+export class ExerciseDetailsComponent {
   @Input({required: true}) exercise!: Exercise;
 }

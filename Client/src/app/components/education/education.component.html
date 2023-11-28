@@ -1,12 +1,12 @@
 <p>education works!</p>
 
 <div class="container">
-  <div class="row">
-    <div class="col-8">
-      <app-education-exercise [exercise]="currentExercise"/>
+  <div class="col-lg-6">
+    <div>
+      <app-exercise-details [exercise]="currentExercise"></app-exercise-details>
     </div>
-    <div class="col-4">
-      <app-education-list (selectIndex)="changeExercise($event)" [amount]="exercises.length"/>
+    <div>
+      <app-exercise-solution></app-exercise-solution>
     </div>
   </div>
 </div>
