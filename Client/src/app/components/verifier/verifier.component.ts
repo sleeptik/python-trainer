@@ -1,5 +1,6 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {EducationAdminService} from "../../services/education-admin.service";
+import {ExerciseHistory} from "../education/exercise-history";
 
 @Component({
   selector: 'app-verifier',
@@ -8,7 +9,7 @@ import {EducationAdminService} from "../../services/education-admin.service";
 export class VerifierComponent {
   @Output() good = new EventEmitter<unknown>();
   @Output() bad = new EventEmitter<unknown>();
-  history: any | undefined;
+  @Input() history: ExerciseHistory | undefined;
 
 
   constructor(private readonly educationAdminService: EducationAdminService) {

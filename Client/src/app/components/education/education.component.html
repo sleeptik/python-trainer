@@ -13,7 +13,7 @@
     </div>
 
     <div class="col-lg-5">
-      <app-verifier (good)="finishedSuccessfully()" (bad)="finishedWithErrors()"/>
+      <app-verifier [history]="history" (good)="finishedSuccessfully()" (bad)="finishedWithErrors()"/>
     </div>
 
   </div>
