@@ -29,13 +29,13 @@ export class EducationComponent implements OnInit {
   }
 
   finishedSuccessfully() {
-    this.educationAdminService.setStatus(this.exercise.id, 1, true).subscribe(
+    this.educationAdminService.setStatus(1, this.exercise.id, true).subscribe(
       () => this.history = undefined
     );
   }
 
   finishedWithErrors() {
-    this.educationAdminService.setStatus(this.exercise.id, 1, false).subscribe(
+    this.educationAdminService.setStatus(1, this.exercise.id, false).subscribe(
       () => this.history = undefined
     );
   }
