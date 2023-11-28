@@ -30,12 +30,11 @@ public class ExerciseHistoryCreatedNotificationHandler
         var koef = 0f;
 
         statisticOfTwoPast.Select(history => koef+=history.IsPassed?0.5f:0);
-
         if (notification.IsPassed)
         {
             rank.Metric += (2-koef);
-            if (rank.Metric >= 8f) rank.AssignedDifficultyId = 2;
-            else if (rank.Metric >= 11f) rank.AssignedDifficultyId = 3; 
+            if (rank.Metric >= 11f) rank.AssignedDifficultyId = 3;
+            else if (rank.Metric >= 8f) rank.AssignedDifficultyId = 2; 
         }
         else
         {
@@ -43,6 +42,7 @@ public class ExerciseHistoryCreatedNotificationHandler
             if (rank.Metric < 7F) rank.AssignedDifficultyId = 1;
             else if (rank.Metric < 10f) rank.AssignedDifficultyId = 2;
         }
+
 
         await context.SaveChangesAsync(cancellationToken);
     }
