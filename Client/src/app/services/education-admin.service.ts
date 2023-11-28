@@ -11,11 +11,11 @@ export class EducationAdminService {
 
   getStatus(userId: number, exerciseId: number) {
     const params = new HttpParams().set("userId", userId).set("exerciseId", exerciseId);
-    return this.httpClient.get('api/admin/education', {params: params});
+    return this.httpClient.get('api/admin/education/status', {params: params});
   }
 
   setStatus(userId: number, exerciseId: number, status: boolean) {
     const request: SetHistoryStatusRequest = {userId: userId, exerciseId: exerciseId, status: status,};
-    return this.httpClient.put('api/admin/education', request);
+    return this.httpClient.put('api/admin/education/status', request);
   }
 }
