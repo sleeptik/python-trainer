@@ -9,14 +9,14 @@ using WebApi.Features.Education.Services;
 
 namespace WebApi.Features.Education.Handlers;
 
-public class GetNewExerciseHandler(ApplicationDbContext context, IMapper mapper, HistoryService historyService,
+public class GetNewExerciseHandler(ApplicationDbContext context, IMapper mapper, AssignmentService assignmentService,
         UserRankService userRankService)
     : IRequestHandler<GetNewExerciseRequest, GetNewExerciseResponse>
 {
     public Task<GetNewExerciseResponse> Handle(GetNewExerciseRequest request,
         CancellationToken cancellationToken)
     {
-        var history = historyService.GetUserHistory(1);
+        var history = assignmentService.GetUserHistory(1);
         var newExercise = new Exercise();
         GetNewExerciseResponse response;
         if (history.Count == 0)
