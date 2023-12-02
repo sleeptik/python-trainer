@@ -64,7 +64,9 @@ public class UpdateRankHandler(ApplicationDbContext context, RankService rankSer
     private async Task<float> GetStudentHighScoreCoefficient(AssignmentVerifiedNotification notification,
         CancellationToken cancellationToken)
     {
-        var score = (await context.Students.FindAsync(notification.UserId))!.Score;
+        var score = (await context.Students.FindAsync(
+                new object[] { notification.UserId }, cancellationToken: cancellationToken)
+            )!.Score;
 
         // TODO replace with lowest rank lower bound and highest rank upper bound
         var minScore = rankService.LowestLowerBound;
