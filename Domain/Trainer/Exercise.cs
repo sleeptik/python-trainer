@@ -2,11 +2,13 @@
 
 public sealed class Exercise
 {
-    public int Id { get; private set; }
+    private readonly IList<Subject> _subjects = new List<Subject>();
+
+    public int Id { get; private set; } = default;
     public string Contents { get; private set; } = null!;
 
-    public int DifficultyId { get; private set; }
+    public int RankId { get; private set; } = default;
     public Rank Rank { get; private set; } = null!;
-    
-    public IList<Subject> Subjects { get; private set; } = new List<Subject>();
+
+    public IList<Subject> Subjects => _subjects.AsReadOnly();
 }

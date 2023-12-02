@@ -37,7 +37,7 @@ public class GetNewExerciseHandler(ApplicationDbContext context, IMapper mapper,
         var subjectExercises = context.Exercises.AsNoTracking()
             .Include(exercise => exercise.Rank)
             .Include(exercise => exercise.Subjects)
-            .Where(exercise => exercise.DifficultyId != 3)
+            .Where(exercise => exercise.RankId != 3)
             .AsEnumerable()
             .Where(exercise => exercise.Subjects.Any(subject => currentExercise.Subjects.Any(s => s.Id == subject.Id)))
             .ToList();
@@ -45,7 +45,7 @@ public class GetNewExerciseHandler(ApplicationDbContext context, IMapper mapper,
         subjectExercises.AddRange(context.Exercises.AsNoTracking()
             .Include(exercise => exercise.Rank)
             .Include(exercise => exercise.Subjects)
-            .Where(exercise => exercise.DifficultyId == 3)
+            .Where(exercise => exercise.RankId == 3)
             .AsEnumerable()
             .Where(exercise => currentExercise.Subjects.All(subject => exercise.Subjects.Any(s => s.Id==subject.Id))));
 
@@ -61,12 +61,12 @@ public class GetNewExerciseHandler(ApplicationDbContext context, IMapper mapper,
         {
             teor = new List<string> { "Theory" };
             newExercise=subjectExercises
-                .First(exercise => exercise.DifficultyId == userRank.CurrentRankId);
+                .First(exercise => exercise.RankId == userRank.CurrentRankId);
         }
         else
         {
             newExercise=subjectExercises
-                .First(exercise => exercise.DifficultyId == userRank.CurrentRankId);
+                .First(exercise => exercise.RankId == userRank.CurrentRankId);
         }
 
 
