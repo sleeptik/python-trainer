@@ -12,7 +12,6 @@ public class SetAssignmentResultHandler(ApplicationDbContext context) : IRequest
 
         assignment.SetResult(request.Status);
 
-        context.Assignments.Update(assignment);
         await context.SaveChangesAsync(cancellationToken);
     }
 }
