@@ -2,7 +2,7 @@
 
 namespace Domain.Trainer;
 
-public class Student(int userId)
+public sealed class Student(int userId)
 {
     public int UserId { get; private set; } = userId;
     public User User { get; private set; } = null!;
