@@ -1,6 +1,6 @@
 ﻿namespace Domain.Trainer;
 
-public sealed class History(int userId, int exerciseId)
+public sealed class Assignment(int userId, int exerciseId)
 {
     public int StudentId { get; private set; } = userId;
     public Student Student { get; private set; } = null!;

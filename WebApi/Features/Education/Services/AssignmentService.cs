@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace WebApi.Features.Education.Services;
 
-public class HistoryService(ApplicationDbContext context)
+public class AssignmentService(ApplicationDbContext context)
 {
-    public IList<History> GetUserHistory(int userId)
+    public IList<Assignment> GetUserHistory(int userId)
     {
         return context.Histories.AsNoTracking()
             .Include(history => history.Exercise)

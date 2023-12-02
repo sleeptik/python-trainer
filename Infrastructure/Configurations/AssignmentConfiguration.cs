@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Configurations;
 
-public class HistoryConfiguration : IEntityTypeConfiguration<History>
+public class AssignmentConfiguration : IEntityTypeConfiguration<Assignment>
 {
-    public void Configure(EntityTypeBuilder<History> builder)
+    public void Configure(EntityTypeBuilder<Assignment> builder)
     {
         builder.HasKey(history => new { history.StudentId, history.ExerciseId });
     }
