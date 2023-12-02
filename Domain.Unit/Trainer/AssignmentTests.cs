@@ -1,5 +1,4 @@
 using Domain.Trainer;
-using FluentAssertions;
 
 namespace Domain.Unit.Trainer;
 
