@@ -5,7 +5,7 @@ using WebApi.Features.EducationAdmin.Notifications;
 
 namespace WebApi.Features.EducationAdmin.Handlers;
 
-public class ExerciseHistoryCreatedNotificationHandler
+public class UpdateRankHandler
     (ApplicationDbContext context, AssignmentService assignmentService) : INotificationHandler<
         ExerciseHistoryCreatedNotification>
 {
