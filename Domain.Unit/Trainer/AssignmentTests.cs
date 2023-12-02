@@ -5,7 +5,7 @@ namespace Domain.Unit.Trainer;
 
 public class AssignmentTests
 {
-    private readonly Assignment _assignment = new(1, 1);
+    private readonly Assignment _assignment = new(default, default);
 
     [Fact]
     public void ResultDefaultsToNull()
