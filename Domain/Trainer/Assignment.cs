@@ -18,7 +18,10 @@ public sealed class Assignment(int userId, int exerciseId)
         IsPassed = IsPassed is null
             ? isPassed
             : throw new InvalidOperationException("Updating completion status is forbidden");
+    }
 
+    public void Finish()
+    {
         FinishedAt = FinishedAt is null
             ? DateTime.UtcNow
             : throw new InvalidOperationException("Updating finish date is forbidden");

@@ -28,9 +28,18 @@ public class AssignmentTests
     }
 
     [Fact]
-    public void ForbidsUpdateResults()
+    public void SetsDateOnFinishing()
     {
-        _assignment.SetResult(true);
-        _assignment.Invoking(assignment => assignment.SetResult(true)).Should().Throw<InvalidOperationException>();
+        _assignment.Finish();
+        _assignment.FinishedAt.Should().NotBeNull();
+    }
+
+    [Fact]
+    public void ForbidsUpdatingResults()
+    {
+        _assignment.Finish();
+        _assignment.Invoking(assignment => assignment.Finish())
+            .Should().Throw<InvalidOperationException>()
+            .WithMessage("Updating finish date is forbidden");
     }
 }
