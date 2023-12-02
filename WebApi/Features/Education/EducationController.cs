@@ -14,4 +14,11 @@ public sealed class EducationController(ISender sender) : ApiController
         var exercises = await sender.Send(new GetNewExerciseRequest(subjectId));
         return Ok(exercises);
     }
+
+    [HttpPatch("finish")]
+    public async Task<IActionResult> FinishExercise(FinishExerciseCommand command)
+    {
+        await sender.Send(command);
+        return NoContent();
+    }
 }
