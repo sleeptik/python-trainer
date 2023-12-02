@@ -5,17 +5,16 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using WebApi.Features.Education.Requests;
 using WebApi.Features.Education.Responses;
-using WebApi.Features.Education.Services;
 
 namespace WebApi.Features.Education.Handlers;
 
-public class GetNewExerciseHandler(ApplicationDbContext context, IMapper mapper, AssignmentService assignmentService)
+public class GetNewExerciseHandler(ApplicationDbContext context, IMapper mapper)
     : IRequestHandler<GetNewExerciseRequest, GetNewExerciseResponse>
 {
-    public Task<GetNewExerciseResponse> Handle(GetNewExerciseRequest request,
+    public async Task<GetNewExerciseResponse> Handle(GetNewExerciseRequest request,
         CancellationToken cancellationToken)
     {
-        var history = assignmentService.GetUserHistory(1);
+        var history = await GetStudentFinishedAssignments(1, cancellationToken);
         var newExercise = new Exercise();
         GetNewExerciseResponse response;
         if (history.Count == 0)
@@ -27,7 +26,7 @@ public class GetNewExerciseHandler(ApplicationDbContext context, IMapper mapper,
                 .First(exercise => exercise.Subjects.Any(subject => subject.Id == request.SubjectId));
             response = mapper.Map<GetNewExerciseResponse>(newExercise);
 
-            return Task.FromResult(response);
+            return response;
         }
 
         var currentExercise = history[0].Exercise;
@@ -47,31 +46,45 @@ public class GetNewExerciseHandler(ApplicationDbContext context, IMapper mapper,
             .Include(exercise => exercise.Subjects)
             .Where(exercise => exercise.RankId == 3)
             .AsEnumerable()
-            .Where(exercise => currentExercise.Subjects.All(subject => exercise.Subjects.Any(s => s.Id==subject.Id))));
+            .Where(exercise =>
+                currentExercise.Subjects.All(subject => exercise.Subjects.Any(s => s.Id == subject.Id))));
 
         subjectExercises = subjectExercises
             .Where(exercise => !history.Any(his => his.ExerciseId == exercise.Id))
             .ToList()
             .OrderBy(_ => Random.Shared.Next())
             .ToList();
-        
+
 
         List<string>? teor;
         if (userRank.Score < 4)
         {
             teor = new List<string> { "Theory" };
-            newExercise=subjectExercises
+            newExercise = subjectExercises
                 .First(exercise => exercise.RankId == userRank.CurrentRankId);
         }
         else
         {
-            newExercise=subjectExercises
+            newExercise = subjectExercises
                 .First(exercise => exercise.RankId == userRank.CurrentRankId);
         }
 
 
         response = mapper.Map<GetNewExerciseResponse>(newExercise);
 
-        return Task.FromResult(response);
+        return response;
+    }
+
+    private async Task<IList<Assignment>> GetStudentFinishedAssignments(
+        int studentId, CancellationToken cancellationToken
+    )
+    {
+        return await context.Assignments.AsNoTracking()
+            .Include(assignment => assignment.Exercise)
+            .ThenInclude(exercise => exercise.Subjects)
+            .Where(assignment => assignment.IsPassed != null)
+            .Where(assignment => assignment.StudentId == studentId)
+            .OrderBy(assignment => assignment.FinishedAt)
+            .ToListAsync(cancellationToken);
     }
 }

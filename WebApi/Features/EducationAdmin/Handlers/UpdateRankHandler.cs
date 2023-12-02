@@ -1,11 +1,10 @@
 ﻿using Infrastructure;
 using MediatR;
-using WebApi.Features.Education.Services;
 using WebApi.Features.EducationAdmin.Notifications;
 
 namespace WebApi.Features.EducationAdmin.Handlers;
 
-public class UpdateRankHandler(ApplicationDbContext context, AssignmentService assignmentService)
+public class UpdateRankHandler(ApplicationDbContext context)
     : INotificationHandler<AssignmentVerifiedNotification>
 {
     public async Task Handle(AssignmentVerifiedNotification notification, CancellationToken cancellationToken)
