@@ -68,7 +68,6 @@ public class UpdateRankHandler(ApplicationDbContext context, RankService rankSer
                 new object[] { notification.UserId }, cancellationToken)
             )!.Score;
 
-        // TODO replace with lowest rank lower bound and highest rank upper bound
         var minScore = rankService.LowestLowerBound;
         var maxScore = rankService.HighestUpperBound;
 
