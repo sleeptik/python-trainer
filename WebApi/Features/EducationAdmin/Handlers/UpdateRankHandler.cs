@@ -55,7 +55,7 @@ public class UpdateRankHandler(ApplicationDbContext context, RankService rankSer
             .Select(assignment => assignment.IsPassed)
             .Where(b => b.HasValue)
             .Cast<bool>()
-            .Select(b => b ? .025f : -0.025f)
+            .Select(b => b ? 0.025f : -0.025f)
             .SumAsync(cancellationToken);
 
         return Math.Clamp(coefficient, 0.9f, 1.1f);
