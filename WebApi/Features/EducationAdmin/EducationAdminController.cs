@@ -10,9 +10,9 @@ namespace WebApi.Features.EducationAdmin;
 public class EducationAdminController(IMediator mediator) : ApiController
 {
     [HttpGet("status")]
-    public async Task<IActionResult> GetUnverifiedExercises([FromQuery] GetAssignmentStatusRequest request)
+    public async Task<IActionResult> GetUnverifiedExercises([FromQuery] GetAssignmentStatusQuery query)
     {
-        var exercises = await mediator.Send(request);
+        var exercises = await mediator.Send(query);
         return Ok(exercises);
     }
 
