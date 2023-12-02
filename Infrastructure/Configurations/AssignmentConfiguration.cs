@@ -8,6 +8,6 @@ public class AssignmentConfiguration : IEntityTypeConfiguration<Assignment>
 {
     public void Configure(EntityTypeBuilder<Assignment> builder)
     {
-        builder.HasKey(history => new { history.StudentId, history.ExerciseId });
+        builder.HasKey(assignment => new { assignment.StudentId, assignment.ExerciseId });
     }
 }
