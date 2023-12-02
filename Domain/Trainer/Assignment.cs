@@ -1,8 +1,8 @@
 ﻿namespace Domain.Trainer;
 
-public sealed class Assignment(int userId, int exerciseId)
+public sealed class Assignment(int studentId, int exerciseId)
 {
-    public int StudentId { get; private set; } = userId;
+    public int StudentId { get; private set; } = studentId;
     public Student Student { get; private set; } = null!;
 
     public int ExerciseId { get; private set; } = exerciseId;
