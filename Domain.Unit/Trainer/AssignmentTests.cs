@@ -23,6 +23,15 @@ public class AssignmentTests
     }
 
     [Fact]
+    public void ForbidsRefreshingResultStatus()
+    {
+        _assignment.SetResult(true);
+        _assignment.Invoking(assignment => assignment.SetResult(true))
+            .Should().Throw<InvalidOperationException>()
+            .WithMessage("Updating completion status is forbidden");
+    }
+
+    [Fact]
     public void SetsDateOnFinishing()
     {
         _assignment.Finish();
