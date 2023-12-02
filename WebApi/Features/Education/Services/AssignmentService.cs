@@ -8,7 +8,7 @@ public class AssignmentService(ApplicationDbContext context)
 {
     public IList<Assignment> GetUserHistory(int userId)
     {
-        return context.Histories.AsNoTracking()
+        return context.Assignments.AsNoTracking()
             .Include(history => history.Exercise)
             .ThenInclude(exercise => exercise.Subjects)
             .Where(history => history.StudentId == userId)

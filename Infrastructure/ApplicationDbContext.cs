@@ -6,12 +6,13 @@ namespace Infrastructure;
 
 public sealed class ApplicationDbContext(DbContextOptions options) : DbContext(options)
 {
-    public DbSet<Subject> Subjects => Set<Subject>();
-    public DbSet<Exercise> Exercises => Set<Exercise>();
-    public DbSet<Rank> Ranks => Set<Rank>();
-    public DbSet<User> Users => Set<User>();
+    public DbSet<Assignment> Assignments => Set<Assignment>();
     public DbSet<Student> Students => Set<Student>();
-    public DbSet<Assignment> Histories => Set<Assignment>();
+    public DbSet<Exercise> Exercises => Set<Exercise>();
+    public DbSet<Subject> Subjects => Set<Subject>();
+    public DbSet<Rank> Ranks => Set<Rank>();
+
+    public DbSet<User> Users => Set<User>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
