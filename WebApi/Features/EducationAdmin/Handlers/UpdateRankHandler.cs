@@ -2,10 +2,11 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using WebApi.Features.EducationAdmin.Notifications;
+using WebApi.Features.EducationAdmin.Services;
 
 namespace WebApi.Features.EducationAdmin.Handlers;
 
-public class UpdateRankHandler(ApplicationDbContext context)
+public class UpdateRankHandler(ApplicationDbContext context, RankService rankService)
     : INotificationHandler<AssignmentVerifiedNotification>
 {
     public async Task Handle(AssignmentVerifiedNotification notification, CancellationToken cancellationToken)
@@ -21,6 +22,10 @@ public class UpdateRankHandler(ApplicationDbContext context)
 
         change *= coefficient;
         student.Score += change;
+
+        student.CurrentRankId = await rankService.GetUpdatedRankId(
+            student.CurrentRankId, student.Score, cancellationToken
+        );
 
         await context.SaveChangesAsync(cancellationToken);
     }
@@ -62,8 +67,8 @@ public class UpdateRankHandler(ApplicationDbContext context)
         var score = (await context.Students.FindAsync(notification.UserId))!.Score;
 
         // TODO replace with lowest rank lower bound and highest rank upper bound
-        var minScore = 0f;
-        var maxScore = 1000f;
+        var minScore = rankService.LowestLowerBound;
+        var maxScore = rankService.HighestUpperBound;
 
         var coefficient = 1 - 0.2f * ((Math.Clamp(score, minScore, maxScore) - minScore) / (maxScore - minScore));
 

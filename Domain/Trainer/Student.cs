@@ -10,7 +10,7 @@ public sealed class Student(int userId)
     public int UserId { get; private set; } = userId;
     public User User { get; private set; } = null!;
 
-    public int CurrentRankId { get; private set; } = default;
+    public int CurrentRankId { get; set; } = default;
     public Rank CurrentRank { get; private set; } = null!;
 
     public float Score
