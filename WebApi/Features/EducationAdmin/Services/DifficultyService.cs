@@ -8,7 +8,7 @@ public class DifficultyService : IAsyncDisposable, IDisposable
     private readonly Timer _difficultyUpdateTimer;
     private readonly IServiceScopeFactory _scopeFactory;
 
-    private IReadOnlyList<Difficulty> _difficulties = Array.Empty<Difficulty>();
+    private IReadOnlyList<Rank> _difficulties = Array.Empty<Rank>();
 
     public DifficultyService(IServiceScopeFactory scopeFactory)
     {
@@ -32,7 +32,7 @@ public class DifficultyService : IAsyncDisposable, IDisposable
     {
         using var scope = _scopeFactory.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-        _difficulties = context.Difficulties.OrderBy(difficulty => difficulty.Id).ToList().AsReadOnly();
+        _difficulties = context.Ranks.OrderBy(difficulty => difficulty.Id).ToList().AsReadOnly();
     }
 
     public int GetLowerDifficultyId(int currentDifficultyId)

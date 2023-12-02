@@ -9,8 +9,7 @@ using WebApi.Features.Education.Services;
 
 namespace WebApi.Features.Education.Handlers;
 
-public class GetNewExerciseHandler(ApplicationDbContext context, IMapper mapper, AssignmentService assignmentService,
-        UserRankService userRankService)
+public class GetNewExerciseHandler(ApplicationDbContext context, IMapper mapper, AssignmentService assignmentService)
     : IRequestHandler<GetNewExerciseRequest, GetNewExerciseResponse>
 {
     public Task<GetNewExerciseResponse> Handle(GetNewExerciseRequest request,
@@ -23,7 +22,7 @@ public class GetNewExerciseHandler(ApplicationDbContext context, IMapper mapper,
         {
             newExercise = context.Exercises
                 .AsNoTracking()
-                .Include(exercise => exercise.Difficulty)
+                .Include(exercise => exercise.Rank)
                 .Include(exercise => exercise.Subjects)
                 .First(exercise => exercise.Subjects.Any(subject => subject.Id == request.SubjectId));
             response = mapper.Map<GetNewExerciseResponse>(newExercise);
@@ -32,11 +31,11 @@ public class GetNewExerciseHandler(ApplicationDbContext context, IMapper mapper,
         }
 
         var currentExercise = history[0].Exercise;
-        var userRank = userRankService.GetUserRank(1);
+        var userRank = context.Students.AsNoTracking().First();
 
 
         var subjectExercises = context.Exercises.AsNoTracking()
-            .Include(exercise => exercise.Difficulty)
+            .Include(exercise => exercise.Rank)
             .Include(exercise => exercise.Subjects)
             .Where(exercise => exercise.DifficultyId != 3)
             .AsEnumerable()
@@ -44,7 +43,7 @@ public class GetNewExerciseHandler(ApplicationDbContext context, IMapper mapper,
             .ToList();
 
         subjectExercises.AddRange(context.Exercises.AsNoTracking()
-            .Include(exercise => exercise.Difficulty)
+            .Include(exercise => exercise.Rank)
             .Include(exercise => exercise.Subjects)
             .Where(exercise => exercise.DifficultyId == 3)
             .AsEnumerable()
@@ -58,16 +57,16 @@ public class GetNewExerciseHandler(ApplicationDbContext context, IMapper mapper,
         
 
         List<string>? teor;
-        if (userRank.Metric < 4)
+        if (userRank.Score < 4)
         {
             teor = new List<string> { "Theory" };
             newExercise=subjectExercises
-                .First(exercise => exercise.DifficultyId == userRank.AssignedDifficultyId);
+                .First(exercise => exercise.DifficultyId == userRank.CurrentRankId);
         }
         else
         {
             newExercise=subjectExercises
-                .First(exercise => exercise.DifficultyId == userRank.AssignedDifficultyId);
+                .First(exercise => exercise.DifficultyId == userRank.CurrentRankId);
         }
 
 

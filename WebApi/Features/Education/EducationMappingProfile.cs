@@ -11,7 +11,7 @@ public class EducationMappingProfile : Profile
         CreateMap<Subject, string>(MemberList.Destination)
             .ConstructUsing(subject => subject.Name);
 
-        CreateMap<Difficulty, string>(MemberList.Destination)
+        CreateMap<Rank, string>(MemberList.Destination)
             .ConstructUsing(difficulty => difficulty.Name);
 
         CreateMap<Exercise, GetNewExerciseResponse>(MemberList.Destination)
@@ -21,7 +21,7 @@ public class EducationMappingProfile : Profile
             )
             .ForMember(
                 dest => dest.Difficulty,
-                src => src.MapFrom(exercise => exercise.Difficulty)
+                src => src.MapFrom(exercise => exercise.Rank)
             );
     }
 }

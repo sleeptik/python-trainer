@@ -16,7 +16,7 @@ public class SetHistoryStatusHandler(ApplicationDbContext context, IPublisher pu
         if (history is not null)
             return;
 
-        var newHistory = new History(request.UserId, request.ExerciseId, request.Status);
+        var newHistory = new Assignment(request.UserId, request.ExerciseId, request.Status);
 
         await context.Histories.AddAsync(newHistory, cancellationToken);
         await context.SaveChangesAsync(cancellationToken);

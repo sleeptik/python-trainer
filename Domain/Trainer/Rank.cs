@@ -1,6 +1,6 @@
 ﻿namespace Domain.Trainer;
 
-public sealed class Difficulty
+public sealed class Rank
 {
     public int Id { get; private set; } = default;
     public string Name { get; private set; } = null!;
