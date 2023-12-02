@@ -21,7 +21,7 @@ public class EducationAdminController(IMediator mediator) : ApiController
     {
         await mediator.Send(command);
 
-        var notification = new AssignmentVerifiedNotification(command.UserId, command.ExerciseId);
+        var notification = new AssignmentVerifiedNotification(command.StudentId, command.ExerciseId);
         await mediator.Publish(notification);
 
         return NoContent();

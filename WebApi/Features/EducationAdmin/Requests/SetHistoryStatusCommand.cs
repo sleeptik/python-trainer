@@ -2,4 +2,4 @@
 
 namespace WebApi.Features.EducationAdmin.Requests;
 
-public record SetHistoryStatusCommand(int UserId, int ExerciseId, bool Status) : IRequest;
+public record SetHistoryStatusCommand(int StudentId, int ExerciseId, bool Status) : IRequest;

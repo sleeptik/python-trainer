@@ -8,7 +8,7 @@ public class SetAssignmentResultHandler(ApplicationDbContext context) : IRequest
 {
     public async Task Handle(SetHistoryStatusCommand request, CancellationToken cancellationToken)
     {
-        var assignment = (await context.Assignments.FindAsync(request.UserId, request.ExerciseId))!;
+        var assignment = (await context.Assignments.FindAsync(request.StudentId, request.ExerciseId))!;
 
         assignment.SetResult(request.Status);
 
