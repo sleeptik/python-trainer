@@ -7,9 +7,9 @@ namespace WebApi.Features.EducationAdmin.Handlers;
 
 public class UpdateRankHandler
     (ApplicationDbContext context, AssignmentService assignmentService) : INotificationHandler<
-        ExerciseHistoryCreatedNotification>
+        AssignmentVerifiedNotification>
 {
-    public async Task Handle(ExerciseHistoryCreatedNotification notification, CancellationToken cancellationToken)
+    public async Task Handle(AssignmentVerifiedNotification notification, CancellationToken cancellationToken)
     {
         var rank = await context.Students.FindAsync(
             new object[] { notification.UserId }, cancellationToken

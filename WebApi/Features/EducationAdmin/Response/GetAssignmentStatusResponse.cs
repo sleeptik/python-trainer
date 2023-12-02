@@ -1,6 +1,6 @@
 ﻿namespace WebApi.Features.EducationAdmin.Response;
 
-public record GetExerciseHistoryStatus(
+public record GetAssignmentStatusResponse(
     bool AlreadyCompleted,
     bool HasErrors
 );
