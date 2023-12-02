@@ -13,7 +13,7 @@ public sealed class Assignment(int userId, int exerciseId)
     public DateTime AssignedAt { get; private set; } = DateTime.UtcNow;
     public DateTime? FinishedAt { get; private set; }
 
-    public void SetCompletion(bool isPassed)
+    public void SetResult(bool isPassed)
     {
         IsPassed = IsPassed is null
             ? isPassed
