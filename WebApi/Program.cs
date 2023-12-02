@@ -12,7 +12,6 @@ builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<AssignmentService>();
-builder.Services.AddScoped<UserRankService>();
 
 var app = builder.Build();
 
