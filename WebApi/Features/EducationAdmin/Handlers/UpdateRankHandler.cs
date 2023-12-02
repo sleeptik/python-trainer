@@ -65,7 +65,7 @@ public class UpdateRankHandler(ApplicationDbContext context, RankService rankSer
         CancellationToken cancellationToken)
     {
         var score = (await context.Students.FindAsync(
-                new object[] { notification.UserId }, cancellationToken: cancellationToken)
+                new object[] { notification.UserId }, cancellationToken)
             )!.Score;
 
         // TODO replace with lowest rank lower bound and highest rank upper bound
