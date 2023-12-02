@@ -1,7 +1,7 @@
 using Domain.Trainer;
 using FluentAssertions;
 
-namespace Domain.Unit;
+namespace Domain.Unit.Trainer;
 
 public class AssignmentTests
 {
