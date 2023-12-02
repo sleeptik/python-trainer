@@ -4,8 +4,8 @@ namespace Domain.Trainer;
 
 public sealed class History(int userId, int exerciseId, bool isPassed)
 {
-    public int UserId { get; private set; } = userId;
-    public User User { get; private set; } = null!;
+    public int StudentId { get; private set; } = userId;
+    public Student Student { get; private set; } = null!;
 
     public int ExerciseId { get; private set; } = exerciseId;
     public Exercise Exercise { get; private set; } = null!;

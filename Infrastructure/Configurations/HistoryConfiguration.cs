@@ -8,6 +8,6 @@ public class HistoryConfiguration : IEntityTypeConfiguration<History>
 {
     public void Configure(EntityTypeBuilder<History> builder)
     {
-        builder.HasKey(history => new { history.UserId, history.ExerciseId });
+        builder.HasKey(history => new { history.StudentId, history.ExerciseId });
     }
 }

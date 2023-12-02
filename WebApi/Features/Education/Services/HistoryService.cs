@@ -11,7 +11,7 @@ public class HistoryService(ApplicationDbContext context)
         return context.Histories.AsNoTracking()
             .Include(history => history.Exercise)
             .ThenInclude(exercise => exercise.Subjects)
-            .Where(history => history.UserId == userId)
+            .Where(history => history.StudentId == userId)
             .OrderBy(history => history.Finished)
             .ToList();
     }
