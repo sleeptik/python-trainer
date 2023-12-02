@@ -12,7 +12,7 @@ public class HistoryService(ApplicationDbContext context)
             .Include(history => history.Exercise)
             .ThenInclude(exercise => exercise.Subjects)
             .Where(history => history.StudentId == userId)
-            .OrderBy(history => history.Finished)
+            .OrderBy(history => history.FinishedAt)
             .ToList();
     }
 }

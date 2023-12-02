@@ -1,6 +1,4 @@
-﻿using Domain.Users;
-
-namespace Domain.Trainer;
+﻿namespace Domain.Trainer;
 
 public sealed class History(int userId, int exerciseId, bool isPassed)
 {
@@ -10,6 +8,8 @@ public sealed class History(int userId, int exerciseId, bool isPassed)
     public int ExerciseId { get; private set; } = exerciseId;
     public Exercise Exercise { get; private set; } = null!;
 
-    public bool IsPassed { get; private set; } = isPassed;
-    public DateTime Finished { get; private set; } = DateTime.UtcNow;
+    public bool? IsPassed { get; private set; } = isPassed;
+
+    public DateTime AssignedAt { get; private set; } = DateTime.UtcNow;
+    public DateTime? FinishedAt { get; private set; } = null;
 }
