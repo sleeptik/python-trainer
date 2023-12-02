@@ -13,18 +13,13 @@ public class AssignmentTests
         _assignment.IsPassed.Should().BeNull();
     }
 
-    [Fact]
-    public void SetsSuccessResult()
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public void SetsResult(bool result)
     {
-        _assignment.SetResult(true);
-        _assignment.IsPassed.Should().BeTrue();
-    }
-
-    [Fact]
-    public void SetsFailResult()
-    {
-        _assignment.SetResult(false);
-        _assignment.IsPassed.Should().BeFalse();
+        _assignment.SetResult(result);
+        _assignment.IsPassed.Should().Be(result);
     }
 
     [Fact]
