@@ -20,6 +20,6 @@ public sealed class Student(int userId)
         set => _score = Math.Max(0, value);
     }
 
-    public IList<Assignment> Assignments => _assignments.AsReadOnly();
-    public IList<Subject> SubjectsToStudy => _subjects.AsReadOnly();
+    public IReadOnlyList<Assignment> Assignments => _assignments.AsReadOnly();
+    public IReadOnlyList<Subject> SubjectsToStudy => _subjects.AsReadOnly();
 }
