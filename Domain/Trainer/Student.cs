@@ -5,6 +5,7 @@ namespace Domain.Trainer;
 public sealed class Student(int userId)
 {
     private readonly IList<Assignment> _assignments = new List<Assignment>();
+    private readonly IList<Subject> _subjects = new List<Subject>();
     private float _score;
 
     public int UserId { get; private set; } = userId;
@@ -20,4 +21,5 @@ public sealed class Student(int userId)
     }
 
     public IList<Assignment> Assignments => _assignments.AsReadOnly();
+    public IList<Subject> SubjectsToStudy => _subjects.AsReadOnly();
 }

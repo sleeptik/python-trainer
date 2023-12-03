@@ -12,5 +12,6 @@ public sealed class StudentConfiguration : IEntityTypeConfiguration<Student>
         builder.HasKey(student => student.UserId);
         builder.HasOne<Rank>(student => student.CurrentRank).WithMany();
         builder.HasOne<User>(student => student.User).WithOne();
+        builder.HasMany(student => student.SubjectsToStudy).WithMany();
     }
 }
