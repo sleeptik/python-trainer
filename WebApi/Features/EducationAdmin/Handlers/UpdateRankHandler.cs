@@ -49,7 +49,7 @@ public class UpdateRankHandler(ApplicationDbContext context, RankService rankSer
     {
         var coefficient = await context.Assignments.AsNoTracking()
             .Where(assignment => assignment.StudentId == notification.UserId)
-            .OrderByDescending(assignment => assignment.FinishedAt) // should order by FinishedAt or AssignedAt???
+            .OrderBy(assignment => assignment.FinishedAt)
             .SkipLast(1)
             .TakeLast(4)
             .Select(assignment => assignment.IsPassed)
