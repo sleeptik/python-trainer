@@ -41,7 +41,7 @@ public class UpdateRankHandler(ApplicationDbContext context, RankService rankSer
             );
 
         // IsPassed should be already set at this moment
-        return assignment.IsPassed!.Value ? 1.0f : 0.9f;
+        return assignment.IsPassed!.Value ? 1.0f : -0.9f;
     }
 
     private async Task<float> GetPastResultsCoefficient(AssignmentVerifiedNotification notification,
