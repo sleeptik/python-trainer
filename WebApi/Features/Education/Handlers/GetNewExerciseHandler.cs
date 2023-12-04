@@ -15,42 +15,59 @@ public class GetNewExerciseHandler(ApplicationDbContext context, IMapper mapper)
         CancellationToken cancellationToken)
     {
         var history = await GetStudentFinishedAssignments(1, cancellationToken);
+        var subjectToStudy = GetSubjectsToStudy(1);
         var newExercise = new Exercise();
         GetNewExerciseResponse response;
         if (history.Count == 0)
         {
-            newExercise = context.Exercises
-                .AsNoTracking()
-                .Include(exercise => exercise.Rank)
-                .Include(exercise => exercise.Subjects)
-                .First(exercise => exercise.Subjects.Any(subject => subject.Id == request.SubjectId));
+            if (subjectToStudy.Count>=3)
+            {
+                newExercise = context.Exercises
+                    .AsNoTracking()
+                    .Include(exercise => exercise.Rank)
+                    .Include(exercise => exercise.Subjects)
+                    .AsEnumerable()
+                    .First(exercise => exercise.Subjects.All(subject => subjectToStudy.Any(s => s.Id == subject.Id)));
+            }
+            else
+            {
+                newExercise = context.Exercises
+                    .AsNoTracking()
+                    .Include(exercise => exercise.Rank)
+                    .Include(exercise => exercise.Subjects)
+                    .AsEnumerable()
+                    .First(exercise => exercise.Subjects.Any(subject => subjectToStudy.Any(s => s.Id==subject.Id)));
+            }
             response = mapper.Map<GetNewExerciseResponse>(newExercise);
 
             return response;
         }
 
-        var currentExercise = history[0].Exercise;
         var userRank = context.Students.AsNoTracking().First();
 
 
-        var subjectExercises = context.Exercises.AsNoTracking()
-            .Include(exercise => exercise.Rank)
-            .Include(exercise => exercise.Subjects)
-            .Where(exercise => exercise.RankId != 3)
-            .AsEnumerable()
-            .Where(exercise => exercise.Subjects.Any(subject => currentExercise.Subjects.Any(s => s.Id == subject.Id)))
-            .ToList();
-
-        subjectExercises.AddRange(context.Exercises.AsNoTracking()
-            .Include(exercise => exercise.Rank)
-            .Include(exercise => exercise.Subjects)
-            .Where(exercise => exercise.RankId == 3)
-            .AsEnumerable()
-            .Where(exercise =>
-                currentExercise.Subjects.All(subject => exercise.Subjects.Any(s => s.Id == subject.Id))));
-
+        List<Exercise> subjectExercises;
+        if (subjectToStudy.Count>=3)
+        {
+            subjectExercises = context.Exercises.AsNoTracking()
+                .Include(exercise => exercise.Rank)
+                .Include(exercise => exercise.Subjects)
+                .AsEnumerable()
+                .Where(exercise => exercise.Subjects.All(subject => subjectToStudy.Any(s => s.Id == subject.Id)))
+                .ToList();
+        }
+        else
+        {
+            subjectExercises = context.Exercises.AsNoTracking()
+                .Include(exercise => exercise.Rank)
+                .Include(exercise => exercise.Subjects)
+                .AsEnumerable()
+                .Where(exercise => exercise.Subjects.Any(subject => subjectToStudy.Any(s => s.Id == subject.Id)))
+                .ToList();
+        }
+        
         subjectExercises = subjectExercises
-            .Where(exercise => !history.Any(his => his.ExerciseId == exercise.Id))
+            .Where(exercise => !history.Any(his => his.ExerciseId == exercise.Id && his.IsPassed==true))
             .ToList()
             .OrderBy(_ => Random.Shared.Next())
             .ToList();
@@ -86,5 +103,14 @@ public class GetNewExerciseHandler(ApplicationDbContext context, IMapper mapper)
             .Where(assignment => assignment.StudentId == studentId)
             .OrderBy(assignment => assignment.FinishedAt)
             .ToListAsync(cancellationToken);
+    }
+
+    private IList<Subject> GetSubjectsToStudy(int studentId)
+    {
+        return context.Students.AsNoTracking()
+            .Include(student => student.SubjectsToStudy)
+            .First(student => student.UserId == studentId)
+            .SubjectsToStudy
+            .ToList();
     }
 }
