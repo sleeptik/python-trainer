@@ -9,9 +9,9 @@ public class FinishExerciseHandler(ApplicationDbContext context) : IRequestHandl
     public async Task Handle(FinishExerciseCommand request, CancellationToken cancellationToken)
     {
         var assignment = (await context.Assignments
-            .FindAsync(new object[] { request.UserId, request.ExerciseId }, cancellationToken))!;
+            .FindAsync(new object[] { request.StudentId, request.ExerciseId }, cancellationToken))!;
 
-        assignment.Finish();
+        assignment.Finish(request.Solution);
 
         await context.SaveChangesAsync(cancellationToken);
     }
