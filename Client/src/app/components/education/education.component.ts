@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {EducationService} from "../../services/education.service";
 import {Exercise} from "../../models/exercise";
-import {ExerciseHistory} from "./exercise-history";
+import {Assignment} from "./assignment";
 import {EducationAdminService} from "../../services/education-admin.service";
+import {switchMap} from "rxjs";
 
 @Component({
   selector: 'app-education',
@@ -10,7 +11,7 @@ import {EducationAdminService} from "../../services/education-admin.service";
 })
 export class EducationComponent implements OnInit {
   exercise!: Exercise;
-  history: ExerciseHistory | undefined;
+  assignments: Assignment[] = [];
 
   constructor(
     private readonly educationService: EducationService,
@@ -19,34 +20,30 @@ export class EducationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.extracted();
-  }
-
-  private extracted() {
-    this.educationService.newExercise().subscribe(
-      value => this.exercise = value
-    );
+    this.getNewExercise();
   }
 
   sendSolution(solution: string) {
-    this.history = {exerciseId: this.exercise.id, userId: 1};
+    this.educationService.finishExercise(1, this.exercise.id, solution)
+      .pipe(switchMap(this.educationAdminService.getUnverifiedAssignments))
+      .subscribe(value => this.assignments = value);
   }
 
   finishedSuccessfully() {
     this.educationAdminService.setStatus(1, this.exercise.id, true).subscribe(
-      () => {
-        this.history = undefined;
-        this.extracted();
-      }
+      () => this.getNewExercise()
     );
   }
 
   finishedWithErrors() {
     this.educationAdminService.setStatus(1, this.exercise.id, false).subscribe(
-      () => {
-        this.history = undefined;
-        this.extracted();
-      }
+      () => this.getNewExercise()
+    );
+  }
+
+  private getNewExercise() {
+    this.educationService.newExercise().subscribe(
+      value => this.exercise = value
     );
   }
 }

@@ -16,7 +16,7 @@ export class EducationService {
     return this.httpClient.get<Exercise>("api/education/new", {params: params});
   }
 
-  finishExercise(studentId: number, exerciseId: number) {
+  finishExercise(studentId: number, exerciseId: number, solution: string) {
     const request: FinishExerciseRequest = {studentId: studentId, exerciseId: exerciseId};
     return this.httpClient.patch<void>("api/education/finish", request);
   }
