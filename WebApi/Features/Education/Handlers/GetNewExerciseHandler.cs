@@ -38,6 +38,10 @@ public class GetNewExerciseHandler(ApplicationDbContext context, IMapper mapper)
                     .AsEnumerable()
                     .First(exercise => exercise.Subjects.Any(subject => subjectToStudy.Any(s => s.Id==subject.Id)));
             }
+
+            await context.Assignments.AddAsync(new(1, newExercise.Id), cancellationToken);
+            await context.SaveChangesAsync(cancellationToken);
+
             response = mapper.Map<GetNewExerciseResponse>(newExercise);
 
             return response;
@@ -86,7 +90,9 @@ public class GetNewExerciseHandler(ApplicationDbContext context, IMapper mapper)
                 .First(exercise => exercise.RankId == userRank.CurrentRankId);
         }
 
-
+        await context.Assignments.AddAsync(new(1, newExercise.Id), cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
+        
         response = mapper.Map<GetNewExerciseResponse>(newExercise);
 
         return response;
