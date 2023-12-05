@@ -23,7 +23,7 @@ export class EducationComponent implements OnInit {
   }
 
   private extracted() {
-    this.educationService.getNewExercise().subscribe(
+    this.educationService.newExercise().subscribe(
       value => this.exercise = value
     );
   }
