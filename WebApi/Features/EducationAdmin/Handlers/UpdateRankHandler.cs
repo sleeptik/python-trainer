@@ -47,18 +47,19 @@ public class UpdateRankHandler(ApplicationDbContext context, RankService rankSer
     private async Task<float> GetPastResultsCoefficient(AssignmentVerifiedNotification notification,
         CancellationToken cancellationToken)
     {
-        var coefficient = await context.Assignments.AsNoTracking()
+        var change = await context.Assignments.AsNoTracking()
             .Where(assignment => assignment.StudentId == notification.UserId)
-            .OrderBy(assignment => assignment.FinishedAt)
-            .SkipLast(1)
-            .TakeLast(4)
+            .Where(assignment => assignment.FinishedAt != null)
+            .OrderByDescending(assignment => assignment.FinishedAt)
+            .Skip(1)
+            .Take(4)
             .Select(assignment => assignment.IsPassed)
-            .Where(b => b.HasValue)
+            .Where(b => b != null)
             .Cast<bool>()
             .Select(b => b ? 0.025f : -0.025f)
             .SumAsync(cancellationToken);
 
-        return Math.Clamp(coefficient, 0.9f, 1.1f);
+        return Math.Clamp(1f + change, 0.9f, 1.1f);
     }
 
     private async Task<float> GetStudentHighScoreCoefficient(AssignmentVerifiedNotification notification,
