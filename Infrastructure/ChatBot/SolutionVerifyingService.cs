@@ -46,7 +46,18 @@ public class SolutionVerifyingService(ApplicationDbContext context, IChatComplet
     {
         // TODO
         var instructions = new StringBuilder()
+            .AppendLine("Я студент изучаю питон, ты мне нужен для проверки моих решений.")
+            .AppendLine("Запрос всегда в формате:")
+            .AppendLine("Задача: текст задачи.")
+            .AppendLine("Темы: Список тем которые подразумевались в задаче.")
+            .AppendLine("Обязательные условия: Список условий которые должны выполняться в решении.")
+            .AppendLine("Решение: моё решение, данной задачи, которое ты должен проверить.")
             .AppendLine()
+            .AppendLine("Обязательные условия всегда должны соблюдаться в решении, если они не соблюдается решение - не верно")
+            .AppendLine("Отвечай в формате json")
+            .AppendLine("valid: true/false - верно или неверно.")
+            .AppendLine("errors: array - список ошибок если не верно или если выполнены не все обязательные условия.")
+            .AppendLine("suggestions: array - опциональный список подсказок. может быть добавлен вместе с errors.")
             .ToString();
 
         return ChatMessage.FromSystem(instructions);
@@ -54,11 +65,16 @@ public class SolutionVerifyingService(ApplicationDbContext context, IChatComplet
 
     private ChatMessage bar(Exercise exercise, string solution)
     {
+        var subjects = exercise.Subjects.Select(subject => subject.Name).ToList();
+        var themes = String.Join(',',subjects);
+        var condition = String.Join(", наличие",subjects);
         // TODO
         var instructions = new StringBuilder()
-            .AppendLine()
+            .AppendLine($"Задача: {exercise.Contents}.")
+            .AppendLine($"Темы: {themes}.")
+            .AppendLine($"Обязательные условия: наличие {condition}.")
+            .AppendLine($"Решение: {solution}")
             .ToString();
-
         return ChatMessage.FromUser(instructions);
     }
 }
