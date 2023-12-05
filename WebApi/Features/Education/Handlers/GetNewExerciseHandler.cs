@@ -105,12 +105,11 @@ public class GetNewExerciseHandler(ApplicationDbContext context, IMapper mapper)
             .ToListAsync(cancellationToken);
     }
 
-    private IList<Subject> GetSubjectsToStudy(int studentId)
+    private IReadOnlyList<Subject> GetSubjectsToStudy(int studentId)
     {
         return context.Students.AsNoTracking()
             .Include(student => student.SubjectsToStudy)
             .First(student => student.UserId == studentId)
-            .SubjectsToStudy
-            .ToList();
+            .SubjectsToStudy;
     }
 }
