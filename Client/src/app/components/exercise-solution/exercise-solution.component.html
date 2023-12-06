@@ -1,15 +1,9 @@
-<div class="bg-body-tertiary rounded p-3">
-<!--  <h5>Решение</h5>-->
-
-  <div class="">
-    <textarea class="form-control" [(ngModel)]="solution"></textarea>
-  </div>
-
-  <div class="mt-2">
-    <div class="row justify-content-md-end">
-      <div class="col-auto">
-        <button (click)="solve.emit(solution)" class="btn btn-sm btn-primary">Отправить решение</button>
-      </div>
-    </div>
-  </div>
+<div class="rounded">
+  <div #editor class="rounded" style="min-height: 300px"></div>
 </div>
+
+<div class="bg-body-tertiary rounded p-2 mt-2">
+  <button class="btn btn-sm btn-primary">Отправить решение</button>
+</div>
+
+
