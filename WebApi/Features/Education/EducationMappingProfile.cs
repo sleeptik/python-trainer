@@ -20,7 +20,7 @@ public class EducationMappingProfile : Profile
                 src => src.MapFrom(exercise => exercise.Subjects)
             )
             .ForMember(
-                dest => dest.Difficulty,
+                dest => dest.Rank,
                 src => src.MapFrom(exercise => exercise.Rank)
             );
     }

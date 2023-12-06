@@ -3,6 +3,6 @@
 public record GetNewExerciseResponse(
     int Id,
     string Contents,
-    string Difficulty,
+    string Rank,
     string[] Subjects
 );

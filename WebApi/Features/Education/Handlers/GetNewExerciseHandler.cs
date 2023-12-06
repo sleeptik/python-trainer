@@ -17,31 +17,6 @@ public class GetNewExerciseHandler(ApplicationDbContext context, IMapper mapper)
         var history = await GetStudentFinishedAssignments(1, cancellationToken);
         var subjectToStudy = GetSubjectsToStudy(1);
         var newExercise = new Exercise();
-        GetNewExerciseResponse response;
-        if (history.Count == 0)
-        {
-            if (subjectToStudy.Count>=3)
-            {
-                newExercise = context.Exercises
-                    .AsNoTracking()
-                    .Include(exercise => exercise.Rank)
-                    .Include(exercise => exercise.Subjects)
-                    .AsEnumerable()
-                    .First(exercise => exercise.Subjects.All(subject => subjectToStudy.Any(s => s.Id == subject.Id)));
-            }
-            else
-            {
-                newExercise = context.Exercises
-                    .AsNoTracking()
-                    .Include(exercise => exercise.Rank)
-                    .Include(exercise => exercise.Subjects)
-                    .AsEnumerable()
-                    .First(exercise => exercise.Subjects.Any(subject => subjectToStudy.Any(s => s.Id==subject.Id)));
-            }
-            response = mapper.Map<GetNewExerciseResponse>(newExercise);
-
-            return response;
-        }
 
         var userRank = context.Students.AsNoTracking().First();
 
@@ -67,7 +42,7 @@ public class GetNewExerciseHandler(ApplicationDbContext context, IMapper mapper)
         }
         
         subjectExercises = subjectExercises
-            .Where(exercise => !history.Any(his => his.ExerciseId == exercise.Id && his.IsPassed==true))
+            .Where(exercise => !history.Any(his => his.ExerciseId == exercise.Id))
             .ToList()
             .OrderBy(_ => Random.Shared.Next())
             .ToList();
@@ -86,8 +61,10 @@ public class GetNewExerciseHandler(ApplicationDbContext context, IMapper mapper)
                 .First(exercise => exercise.RankId == userRank.CurrentRankId);
         }
 
-
-        response = mapper.Map<GetNewExerciseResponse>(newExercise);
+        await context.Assignments.AddAsync(new(1, newExercise.Id), cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
+        
+        var response = mapper.Map<GetNewExerciseResponse>(newExercise);
 
         return response;
     }
@@ -99,7 +76,6 @@ public class GetNewExerciseHandler(ApplicationDbContext context, IMapper mapper)
         return await context.Assignments.AsNoTracking()
             .Include(assignment => assignment.Exercise)
             .ThenInclude(exercise => exercise.Subjects)
-            .Where(assignment => assignment.IsPassed != null)
             .Where(assignment => assignment.StudentId == studentId)
             .OrderBy(assignment => assignment.FinishedAt)
             .ToListAsync(cancellationToken);

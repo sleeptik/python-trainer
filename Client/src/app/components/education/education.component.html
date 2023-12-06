@@ -1,20 +1,15 @@
-<p>education works!</p>
-
 <div class="container">
-  <div class="row">
-
-    <div class="col-lg-7">
+  <div class="row g-2">
+    <div class="col-lg-5">
       <div>
         <app-exercise-details [exercise]="exercise"/>
       </div>
+    </div>
+
+    <div class="col-lg-7">
       <div>
         <app-exercise-solution (solve)="sendSolution($event)"/>
       </div>
     </div>
-
-    <div class="col-lg-5">
-      <app-verifier [history]="history" (good)="finishedSuccessfully()" (bad)="finishedWithErrors()"/>
-    </div>
-
   </div>
 </div>

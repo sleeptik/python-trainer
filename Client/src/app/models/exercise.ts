@@ -1,6 +1,6 @@
 ﻿export interface Exercise {
   id: number;
   contents: string,
-  difficulty: string
+  rank: string
   subjects: string[]
 }
