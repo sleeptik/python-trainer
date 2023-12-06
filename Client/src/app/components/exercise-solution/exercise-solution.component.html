@@ -2,11 +2,11 @@
   <div #editor class="rounded" style="min-height: 300px"></div>
 </div>
 
-<div class="bg-body-tertiary rounded p-2 mt-2">
+<div class="bg-body-tertiary rounded mt-2">
   <div class="row justify-content-between g-1">
     <div class="col-auto">
-      <button class="btn btn-sm btn-success me-1 disabled">Запустить приложение</button>
-      <button class="btn btn-sm btn-secondary disabled">Очистить вывод</button>
+      <button (click)="runCode()" class="btn btn-sm btn-success me-1">Запустить приложение</button>
+      <button (click)="clearOutput()" class="btn btn-sm btn-secondary disabled">Очистить вывод</button>
     </div>
     <div class="col-auto">
       <button (click)="solved()" class="btn btn-sm btn-primary">Отправить решение</button>
