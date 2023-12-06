@@ -27,7 +27,7 @@ public class SolutionVerifyingService(ApplicationDbContext context, IOpenAIServi
             Messages = new List<ChatMessage>
             {
                 foo(),
-                bar(assignment.Exercise, "")
+                bar(assignment.Exercise, assignment.Solution!)
             }
         };
 
