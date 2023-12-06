@@ -8,7 +8,7 @@ using OpenAI.ObjectModels.RequestModels;
 
 namespace Infrastructure.ChatBot;
 
-public class SolutionVerifyingService(ApplicationDbContext context, IChatCompletionService completionService)
+public class SolutionVerifyingService(ApplicationDbContext context, IOpenAIService completionService)
 {
     private static readonly string GptModel = Models.Gpt_3_5_Turbo_1106;
 
@@ -31,7 +31,7 @@ public class SolutionVerifyingService(ApplicationDbContext context, IChatComplet
             }
         };
 
-        var response = await completionService.CreateCompletion(request, GptModel, cancellationToken);
+        var response = await completionService.ChatCompletion.CreateCompletion(request, GptModel, cancellationToken);
         if (!response.Successful) throw new Exception();
 
         var content = response.Choices.First().Message.Content;
@@ -53,7 +53,9 @@ public class SolutionVerifyingService(ApplicationDbContext context, IChatComplet
             .AppendLine("Обязательные условия: Список условий которые должны выполняться в решении.")
             .AppendLine("Решение: моё решение, данной задачи, которое ты должен проверить.")
             .AppendLine()
-            .AppendLine("Обязательные условия всегда должны соблюдаться в решении, если они не соблюдается решение - не верно")
+            .AppendLine(
+                "Обязательные условия всегда должны соблюдаться в решении, если они не соблюдается решение - не верно"
+            )
             .AppendLine("Отвечай в формате json")
             .AppendLine("valid: true/false - верно или неверно.")
             .AppendLine("errors: array - список ошибок если не верно или если выполнены не все обязательные условия.")
@@ -66,8 +68,8 @@ public class SolutionVerifyingService(ApplicationDbContext context, IChatComplet
     private ChatMessage bar(Exercise exercise, string solution)
     {
         var subjects = exercise.Subjects.Select(subject => subject.Name).ToList();
-        var themes = String.Join(',',subjects);
-        var condition = String.Join(", наличие",subjects);
+        var themes = string.Join(',', subjects);
+        var condition = string.Join(", наличие", subjects);
         // TODO
         var instructions = new StringBuilder()
             .AppendLine($"Задача: {exercise.Contents}.")
