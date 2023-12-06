@@ -11,6 +11,7 @@ import {VerifierComponent} from './components/verifier/verifier.component';
 import {HomeComponent} from './components/home/home.component';
 import {NavMenuComponent} from './components/nav-menu/nav-menu.component';
 import {FormsModule} from "@angular/forms";
+import {newExerciseResolver} from "./resolvers/new-exercise.resolver";
 
 @NgModule({
   declarations: [
