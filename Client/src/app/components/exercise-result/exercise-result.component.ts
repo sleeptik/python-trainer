@@ -1,5 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {NgIf} from "@angular/common";
+import {VerificationResult} from "../../models/verification-result";
 
 @Component({
   selector: 'app-exercise-result',
@@ -11,10 +12,4 @@ import {NgIf} from "@angular/common";
 })
 export class ExerciseResultComponent {
   @Input({required: true}) result: VerificationResult | undefined;
-}
-
-export interface VerificationResult {
-  valid: boolean;
-  errors: Array<string> | undefined;
-  suggestions: Array<string> | undefined;
 }

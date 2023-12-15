@@ -2,7 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {EducationService} from "../../services/education.service";
 import {Exercise} from "../../models/exercise";
 import {ActivatedRoute} from "@angular/router";
-import {VerificationResult} from "../exercise-result/exercise-result.component";
+import {VerificationResult} from "../../models/verification-result";
+
 
 @Component({
   selector: 'app-education',
