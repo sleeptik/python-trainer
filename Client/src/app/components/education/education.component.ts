@@ -24,6 +24,6 @@ export class EducationComponent implements OnInit {
   }
 
   sendSolution(solution: string) {
-    this.educationService.finishExercise(1, this.exercise.id, solution).subscribe();
+    this.educationService.finishExercise(1, this.exercise.id, solution).subscribe(value => this.result = value);
   }
 }
