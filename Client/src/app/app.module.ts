@@ -12,6 +12,7 @@ import {HomeComponent} from './components/home/home.component';
 import {NavMenuComponent} from './components/nav-menu/nav-menu.component';
 import {FormsModule} from "@angular/forms";
 import {ExerciseResultComponent} from "./components/exercise-result/exercise-result.component";
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import {ExerciseResultComponent} from "./components/exercise-result/exercise-res
     AppRoutingModule,
     FormsModule,
     ExerciseResultComponent,
+    BrowserAnimationsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
