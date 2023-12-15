@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {EducationService} from "../../services/education.service";
 import {Exercise} from "../../models/exercise";
 import {ActivatedRoute} from "@angular/router";
+import {VerificationResult} from "../exercise-result/exercise-result.component";
 
 @Component({
   selector: 'app-education',
@@ -9,6 +10,7 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class EducationComponent implements OnInit {
   exercise!: Exercise;
+  result: VerificationResult | undefined;
 
   constructor(
     private readonly activatedRoute: ActivatedRoute,
