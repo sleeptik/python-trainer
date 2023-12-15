@@ -3,6 +3,8 @@ import {HttpClient, HttpParams} from "@angular/common/http";
 import {Exercise} from "../models/exercise";
 
 import {FinishExerciseRequest} from "../models/finish-exercise.request";
+import {VerificationResult} from "../models/verification-result";
+
 
 @Injectable({
   providedIn: "root"
@@ -18,6 +20,6 @@ export class EducationService {
 
   finishExercise(studentId: number, exerciseId: number, solution: string) {
     const request: FinishExerciseRequest = {studentId: studentId, exerciseId: exerciseId, solution: solution};
-    return this.httpClient.patch<void>("api/education/finish", request);
+    return this.httpClient.patch<VerificationResult>("api/education/finish", request);
   }
 }
