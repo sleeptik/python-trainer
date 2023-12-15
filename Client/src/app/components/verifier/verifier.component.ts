@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {EducationAdminService} from "../../services/education-admin.service";
-import {Assignment} from "../education/assignment";
+import {Assignment} from "../../models/assignment";
 
 @Component({
   selector: 'app-verifier',
