@@ -1,10 +1,13 @@
 ﻿using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using Domain.Trainer;
 using Microsoft.EntityFrameworkCore;
+using OpenAI.Builders;
 using OpenAI.Interfaces;
 using OpenAI.ObjectModels;
 using OpenAI.ObjectModels.RequestModels;
+using OpenAI.ObjectModels.SharedModels;
 
 namespace Infrastructure.ChatBot;
 
@@ -28,15 +31,17 @@ public class SolutionVerifyingService(ApplicationDbContext context, IOpenAIServi
             {
                 foo(),
                 bar(assignment.Exercise, assignment.Solution!)
-            }
+            },
+            Functions = new List<FunctionDefinition> { baz() }
         };
 
         var response = await completionService.ChatCompletion.CreateCompletion(request, GptModel, cancellationToken);
         if (!response.Successful) throw new Exception();
 
-        var content = response.Choices.First().Message.Content;
+        var json = response.Choices.First().Message.FunctionCall?.Arguments ?? throw new Exception();
 
-        var verification = JsonSerializer.Deserialize<VerificationResult>(content);
+        var verification = JsonSerializer.Deserialize<VerificationResult>(json,
+            new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
 
         // TODO probably throw?
         return verification;
@@ -54,8 +59,7 @@ public class SolutionVerifyingService(ApplicationDbContext context, IOpenAIServi
             .AppendLine("Решение: моё решение, данной задачи, которое ты должен проверить.")
             .AppendLine()
             .AppendLine(
-                "Обязательные условия всегда должны соблюдаться в решении, если они не соблюдается решение - не верно"
-            )
+                "Обязательные условия всегда должны соблюдаться в решении, если они не соблюдается решение - не верно")
             .AppendLine("Отвечай в формате json")
             .AppendLine("valid: true/false - верно или неверно.")
             .AppendLine("errors: array - список ошибок если не верно или если выполнены не все обязательные условия.")
@@ -78,5 +82,15 @@ public class SolutionVerifyingService(ApplicationDbContext context, IOpenAIServi
             .AppendLine($"Решение: {solution}")
             .ToString();
         return ChatMessage.FromUser(instructions);
+    }
+
+    private FunctionDefinition baz()
+    {
+        return new FunctionDefinitionBuilder("get_verification_response")
+            .AddParameter("valid", PropertyDefinition.DefineBoolean())
+            .AddParameter("errors", PropertyDefinition.DefineArray(PropertyDefinition.DefineString()), false)
+            .AddParameter("suggestions", PropertyDefinition.DefineArray(PropertyDefinition.DefineString()), false)
+            .Validate()
+            .Build();
     }
 }
