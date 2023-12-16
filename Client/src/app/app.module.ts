@@ -10,27 +10,42 @@ import {ExerciseSolutionComponent} from "./components/exercise-solution/exercise
 import {VerifierComponent} from './components/verifier/verifier.component';
 import {HomeComponent} from './components/home/home.component';
 import {NavMenuComponent} from './components/nav-menu/nav-menu.component';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ExerciseResultComponent} from "./components/exercise-result/exercise-result.component";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatTableModule} from "@angular/material/table";
+import {EducationExercisesComponent} from "./components/education-exercises/education-exercises.component";
+import {EducationControlComponent} from "./components/education-control/education-control.component";
+import {ExerciseComponent} from "./components/exercise/exercise.component";
+import {EducationRatingComponent} from './components/education-rating/education-rating.component';
+import {EducationHistoryComponent} from './components/education-history/education-history.component';
+import {MatPaginatorModule} from "@angular/material/paginator";
 
 @NgModule({
   declarations: [
     AppComponent,
+    HomeComponent,
+    NavMenuComponent,
     EducationComponent,
+    EducationExercisesComponent,
+    EducationControlComponent,
+    EducationRatingComponent,
+    EducationHistoryComponent,
+    ExerciseComponent,
     ExerciseDetailsComponent,
     ExerciseSolutionComponent,
+    ExerciseResultComponent,
     VerifierComponent,
-    HomeComponent,
-    NavMenuComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
     FormsModule,
-    ExerciseResultComponent,
-    BrowserAnimationsModule,
+    ReactiveFormsModule,
+    MatTableModule,
+    MatPaginatorModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

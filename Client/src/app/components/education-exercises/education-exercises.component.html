@@ -1,0 +1,40 @@
+<table [dataSource]="dataSource" mat-table>
+
+  <ng-container matColumnDef="assignedAt">
+    <th *matHeaderCellDef mat-header-cell>Дата назначения</th>
+    <td *matCellDef="let element" mat-cell>{{ element.assignedAt | date : "short" }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="exercise">
+    <th *matHeaderCellDef mat-header-cell>Задание</th>
+    <td *matCellDef="let element" mat-cell>
+      {{ element.shortContents }}
+      {{ element.shortContents }}
+      {{ element.shortContents }}
+      {{ element.shortContents }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="isFinished">
+    <th *matHeaderCellDef mat-header-cell>Завершил</th>
+    <td *matCellDef="let element" mat-cell>{{ element.isFinished }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="isPassed">
+    <th *matHeaderCellDef mat-header-cell>Верно</th>
+    <td *matCellDef="let element" mat-cell>{{ element.isPassed }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th *matHeaderCellDef mat-header-cell></th>
+    <td *matCellDef="let element" mat-cell>
+      <a class="btn btn-sm btn-secondary" [routerLink]="['exercises', element.exerciseId]">&gt;</a>
+    </td>
+  </ng-container>
+
+  <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+  <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+
+</table>
+
+<mat-paginator></mat-paginator>

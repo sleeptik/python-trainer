@@ -1,0 +1,22 @@
+<div>
+  <app-education-history [assignments]="example"/>
+</div>
+
+<div class="row mt-2">
+
+  <div class="col-8">
+    <div>
+      <app-education-exercises [assignments]="example"/>
+    </div>
+  </div>
+
+  <div class="col-4">
+    <div>
+      <app-education-rating/>
+    </div>
+    <div class="mt-2">
+      <app-education-control [subjects]="[{id:1, name: 'bukovka'}]" (request)="requestNewExercise($event)"/>
+    </div>
+  </div>
+
+</div>

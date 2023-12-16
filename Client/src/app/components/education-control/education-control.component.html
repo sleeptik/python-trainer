@@ -1,0 +1,24 @@
+<div>
+  <div class="bg-body-secondary rounded-top p-3">
+    <h5 class="mb-0">Получить новое задание</h5>
+  </div>
+
+  <div class="bg-body-tertiary rounded-bottom p-3">
+
+    <div>
+      <select [formControl]="selected" class="form-select form-select-sm">
+        @for (subject of subjects;track subject.id) {
+          <option [value]="subject.id">{{ subject.name }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="mt-2">
+      <div class="btn-group btn-group-sm w-100">
+        <button (click)="receiveSelected()" class="btn btn-primary me-1">Выбранной темы</button>
+        <button (click)="receiveRandom()" class="btn btn-primary">Случайной темы</button>
+      </div>
+    </div>
+
+  </div>
+</div>

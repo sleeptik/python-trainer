@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {ExerciseResultComponent} from "../exercise-result/exercise-result.component";
 import {Exercise} from "../../models/exercise";
 import {VerificationResult} from "../../models/verification-result";
 import {ActivatedRoute} from "@angular/router";
@@ -7,10 +6,6 @@ import {EducationService} from "../../services/education.service";
 
 @Component({
   selector: 'app-exercise',
-  standalone: true,
-  imports: [
-    ExerciseResultComponent
-  ],
   templateUrl: './exercise.component.html'
 })
 export class ExerciseComponent implements OnInit {
