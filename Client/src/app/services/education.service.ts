@@ -1,9 +1,6 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpParams} from "@angular/common/http";
-import {Exercise} from "../models/exercise";
-
-import {FinishExerciseRequest} from "../models/finish-exercise.request";
-import {VerificationResult} from "../models/verification-result";
+import {HttpClient} from "@angular/common/http";
+import {ListAssignment} from "../models/list-assignment";
 
 
 @Injectable({
@@ -13,13 +10,12 @@ export class EducationService {
   constructor(private readonly httpClient: HttpClient) {
   }
 
-  newExercise(subjectId: number = 3) {
-    const params = new HttpParams().set("subjectId", subjectId);
-    return this.httpClient.get<Exercise>("api/education/new", {params: params});
+  myExercises() {
+    return this.httpClient.get<ListAssignment[]>("api/education");
   }
 
-  finishExercise(studentId: number, exerciseId: number, solution: string) {
-    const request: FinishExerciseRequest = {studentId: studentId, exerciseId: exerciseId, solution: solution};
-    return this.httpClient.patch<VerificationResult>("api/education/finish", request);
+  newExercise(subjectId: number | null) {
+    const request = {subjectId: subjectId};
+    return this.httpClient.post<ListAssignment>("", request);
   }
 }

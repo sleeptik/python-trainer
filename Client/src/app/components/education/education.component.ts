@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 
 import {ListAssignment} from "../../models/list-assignment";
+import {EducationService} from "../../services/education.service";
 
 
 const example: ListAssignment[] = [
@@ -26,8 +27,10 @@ const example: ListAssignment[] = [
 export class EducationComponent {
   protected readonly example = example;
 
+  constructor(private readonly educationService: EducationService) {
+  }
 
-  requestNewExercise($event: number | null) {
-    
+  requestNewExercise(subjectId: number | null) {
+    this.educationService.newExercise(subjectId).subscribe(value => example.unshift(value));
   }
 }
