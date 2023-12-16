@@ -20,6 +20,7 @@ public class SolutionVerifyingService(ApplicationDbContext context, IOpenAIServi
     {
         var assignment = await context.Assignments.AsNoTracking()
             .Include(assignment1 => assignment1.Exercise)
+            .ThenInclude(exercise => exercise.Subjects)
             .FirstAsync(
                 assignment1 => assignment1.StudentId == studentId && assignment1.ExerciseId == exerciseId,
                 cancellationToken

@@ -21,28 +21,15 @@ public class GetNewExerciseHandler(ApplicationDbContext context, IMapper mapper)
         var userRank = context.Students.AsNoTracking().First();
 
 
-        List<Exercise> subjectExercises;
-        if (subjectToStudy.Count>=3)
-        {
-            subjectExercises = context.Exercises.AsNoTracking()
-                .Include(exercise => exercise.Rank)
-                .Include(exercise => exercise.Subjects)
-                .AsEnumerable()
-                .Where(exercise => exercise.Subjects.All(subject => subjectToStudy.Any(s => s.Id == subject.Id)))
-                .ToList();
-        }
-        else
-        {
-            subjectExercises = context.Exercises.AsNoTracking()
-                .Include(exercise => exercise.Rank)
-                .Include(exercise => exercise.Subjects)
-                .AsEnumerable()
-                .Where(exercise => exercise.Subjects.Any(subject => subjectToStudy.Any(s => s.Id == subject.Id)))
-                .ToList();
-        }
+        List<Exercise> subjectExercises = context.Exercises.AsNoTracking()
+            .Include(exercise => exercise.Rank)
+            .Include(exercise => exercise.Subjects)
+            .AsEnumerable()
+            .Where(exercise => exercise.Subjects.All(subject => subjectToStudy.Any(s => s.Id == subject.Id)))
+            .ToList();
         
         subjectExercises = subjectExercises
-            .Where(exercise => !history.Any(his => his.ExerciseId == exercise.Id))
+            .Where(exercise => !history.Any(his => his.ExerciseId == exercise.Id && his.IsPassed is true))
             .ToList()
             .OrderBy(_ => Random.Shared.Next())
             .ToList();

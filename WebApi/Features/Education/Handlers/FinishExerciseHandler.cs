@@ -13,6 +13,7 @@ public class FinishExerciseHandler(ApplicationDbContext context, SolutionVerifyi
             .FindAsync(new object[] { request.StudentId, request.ExerciseId }, cancellationToken))!;
 
         assignment.Finish(request.Solution);
+        await context.SaveChangesAsync(cancellationToken);
 
         var result = await verifyingService.VerifyAsync(request.StudentId, request.ExerciseId, cancellationToken);
         assignment.SetResult(result.Valid);
