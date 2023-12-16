@@ -26,7 +26,7 @@ public sealed class Assignment(int studentId, int exerciseId)
     {
         FinishedAt = FinishedAt is null
             ? DateTime.UtcNow
-            : throw new InvalidOperationException("Updating finish date is forbidden");
+            : throw new InvalidOperationException("Updating solution is forbidden");
 
         Solution = solution;
     }
