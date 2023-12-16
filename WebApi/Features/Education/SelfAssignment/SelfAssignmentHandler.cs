@@ -1,17 +1,14 @@
-﻿using AutoMapper;
-using Domain.Trainer;
+﻿using Domain.Trainer;
 using Infrastructure;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using WebApi.Features.Education.Requests;
-using WebApi.Features.Education.Responses;
 
-namespace WebApi.Features.Education.Handlers;
+namespace WebApi.Features.Education.SelfAssignment;
 
-public class GetNewExerciseHandler(ApplicationDbContext context, IMapper mapper)
-    : IRequestHandler<GetNewExerciseRequest, GetNewExerciseResponse>
+public class SelfAssignmentHandler(ApplicationDbContext context)
+    : IRequestHandler<SelfAssignmentRequest, Exercise>
 {
-    public async Task<GetNewExerciseResponse> Handle(GetNewExerciseRequest request,
+    public async Task<Exercise> Handle(SelfAssignmentRequest request,
         CancellationToken cancellationToken)
     {
         var history = await GetStudentFinishedAssignments(1, cancellationToken);
@@ -19,22 +16,20 @@ public class GetNewExerciseHandler(ApplicationDbContext context, IMapper mapper)
         var newExercise = new Exercise();
 
         var userRank = context.Students.AsNoTracking().First();
-
-
-        List<Exercise> subjectExercises = context.Exercises.AsNoTracking()
+        
+        var subjectExercises = context.Exercises.AsNoTracking()
             .Include(exercise => exercise.Rank)
             .Include(exercise => exercise.Subjects)
             .AsEnumerable()
             .Where(exercise => exercise.Subjects.All(subject => subjectToStudy.Any(s => s.Id == subject.Id)))
             .ToList();
-        
+
         subjectExercises = subjectExercises
             .Where(exercise => !history.Any(his => his.ExerciseId == exercise.Id && his.IsPassed is true))
             .ToList()
             .OrderBy(_ => Random.Shared.Next())
             .ToList();
-
-
+        
         List<string>? teor;
         if (userRank.Score < 4)
         {
@@ -48,12 +43,10 @@ public class GetNewExerciseHandler(ApplicationDbContext context, IMapper mapper)
                 .First(exercise => exercise.RankId == userRank.CurrentRankId);
         }
 
-        await context.Assignments.AddAsync(new(1, newExercise.Id), cancellationToken);
+        await context.Assignments.AddAsync(new Assignment(1, newExercise.Id), cancellationToken);
         await context.SaveChangesAsync(cancellationToken);
-        
-        var response = mapper.Map<GetNewExerciseResponse>(newExercise);
 
-        return response;
+        return newExercise;
     }
 
     private async Task<IList<Assignment>> GetStudentFinishedAssignments(
