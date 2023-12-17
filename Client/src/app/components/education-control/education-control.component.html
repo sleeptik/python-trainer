@@ -8,7 +8,7 @@
     <div>
       <select [formControl]="selected" class="form-select form-select-sm">
         @for (subject of subjects;track subject.id) {
-          <option [value]="subject.id">{{ subject.name }}</option>
+          <option [value]="subject">{{ subject.name }}</option>
         }
       </select>
     </div>

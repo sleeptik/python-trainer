@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {SetAssignmentResultRequest} from "../models/set-assignment-result.request";
 import {UnverifiedAssignmentResponse} from "../models/unverified-assignment.response";
+import {of} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,8 @@ export class EducationAdminService {
   }
 
   setStatus(studentId: number, exerciseId: number, status: boolean) {
-    const request: SetAssignmentResultRequest = {studentId: studentId, exerciseId: exerciseId, status: status};
-    return this.httpClient.patch<void>('api/admin/education/status', request);
+    // const request: SetAssignmentResultRequest = {studentId: studentId, exerciseId: exerciseId, status: status};
+    // return this.httpClient.patch<void>('api/admin/education/status', request);
+    return of();
   }
 }

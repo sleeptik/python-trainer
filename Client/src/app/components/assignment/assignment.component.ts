@@ -1,15 +1,15 @@
 import {Component, OnInit} from '@angular/core';
-import {Exercise} from "../../models/exercise";
 import {VerificationResult} from "../../models/verification-result";
 import {ActivatedRoute} from "@angular/router";
 import {EducationService} from "../../services/education.service";
+import {Assignment} from "../../models/assignment";
 
 @Component({
-  selector: 'app-exercise',
-  templateUrl: './exercise.component.html'
+  selector: 'app-assignment',
+  templateUrl: './assignment.component.html'
 })
-export class ExerciseComponent implements OnInit {
-  exercise!: Exercise;
+export class AssignmentComponent implements OnInit {
+  assignment!: Assignment;
   result: VerificationResult | undefined;
 
   constructor(
@@ -19,10 +19,12 @@ export class ExerciseComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.exercise = this.activatedRoute.snapshot.data["exercise"];
+    this.assignment = this.activatedRoute.snapshot.data["exercise"];
   }
 
   sendSolution(solution: string) {
-    this.educationService.finishExercise(1, this.exercise.id, solution).subscribe(value => this.result = value);
+    this.educationService.setAssignmentSolution(this.assignment.exerciseId, solution).subscribe(
+      value => this.result = value
+    );
   }
 }

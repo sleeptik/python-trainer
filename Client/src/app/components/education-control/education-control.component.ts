@@ -16,14 +16,14 @@ export class EducationControlComponent implements OnInit {
   @Input({required: true}) subjects!: Array<Subject>;
   @Output() readonly request = new EventEmitter<number | null>();
 
-  selected!: FormControl<number | null>;
+  selected!: FormControl<Subject>;
 
   receiveSelected() {
-    this.request.emit(this.selected.value);
+    this.request.emit(this.selected.value.id);
   }
 
   ngOnInit(): void {
-    this.selected = new FormControl<number>(this.subjects[0].id);
+    this.selected = new FormControl<Subject>(this.subjects[0], {nonNullable: true});
   }
 
   receiveRandom() {

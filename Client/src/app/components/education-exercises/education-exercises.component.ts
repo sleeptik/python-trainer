@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
-import {MatTableDataSource, MatTableModule} from "@angular/material/table";
+import {MatTableDataSource} from "@angular/material/table";
 
-import {ListAssignment} from "../../models/list-assignment";
+import {Assignment} from "../../models/assignment";
 
 @Component({
   selector: 'app-education-exercises',
@@ -9,9 +9,9 @@ import {ListAssignment} from "../../models/list-assignment";
 })
 export class EducationExercisesComponent {
   readonly displayedColumns = ["assignedAt", "exercise", "isFinished", "isPassed", "actions"];
-  dataSource!: MatTableDataSource<ListAssignment>;
+  readonly dataSource: MatTableDataSource<Assignment> = new MatTableDataSource<Assignment>();
 
-  @Input({required: true}) set assignments(value: ListAssignment[]) {
-    this.dataSource = new MatTableDataSource<ListAssignment>(value);
+  @Input({required: true}) set assignments(value: Assignment[]) {
+    this.dataSource.connect().next(value);
   };
 }

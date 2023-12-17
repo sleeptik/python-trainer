@@ -1,6 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {ListAssignment} from "../models/list-assignment";
+import {Assignment} from "../models/assignment";
+import {SelfAssignmentRequest} from "../models/self-assignment-request";
+import {SetAssignmentSolutionRequest} from "../models/set-assignment-solution-request";
+import {Subject} from "../models/subject";
 
 
 @Injectable({
@@ -10,12 +13,26 @@ export class EducationService {
   constructor(private readonly httpClient: HttpClient) {
   }
 
-  myExercises() {
-    return this.httpClient.get<ListAssignment[]>("api/education");
+  getMyAssignments() {
+    return this.httpClient.get<Assignment[]>("api/education");
   }
 
-  newExercise(subjectId: number | null) {
-    const request = {subjectId: subjectId};
-    return this.httpClient.post<ListAssignment>("", request);
+  getAssignment(exerciseId: number) {
+    return this.httpClient.get<Assignment>(`api/education/${exerciseId}`);
+  }
+
+  selfAssignNewExercise(subjectId: number | null = null) {
+    const request: SelfAssignmentRequest = {subjectId: subjectId, studentId: 1};
+    return this.httpClient.post<Assignment>("api/education", request);
+  }
+
+  setAssignmentSolution(exerciseId: number, solution: string) {
+    const request: SetAssignmentSolutionRequest = {exerciseId: exerciseId, studentId: 1, solution: solution};
+    return this.httpClient.patch<never>("api/education", request);
+  }
+
+  getMySubjects() {
+    return this.httpClient.get<Subject[]>("api/education/subjects");
   }
 }
+

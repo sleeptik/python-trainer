@@ -2,9 +2,9 @@ import {Component, Input} from '@angular/core';
 import {VerificationResult} from "../../models/verification-result";
 
 @Component({
-  selector: 'app-exercise-result',
-  templateUrl: './exercise-result.component.html'
+  selector: 'app-assignment-result',
+  templateUrl: './assignment-result.component.html'
 })
-export class ExerciseResultComponent {
+export class AssignmentResultComponent {
   @Input({required: true}) result: VerificationResult | undefined;
 }

@@ -8,21 +8,22 @@
   <ng-container matColumnDef="exercise">
     <th *matHeaderCellDef mat-header-cell>Задание</th>
     <td *matCellDef="let element" mat-cell>
-      {{ element.shortContents }}
-      {{ element.shortContents }}
-      {{ element.shortContents }}
-      {{ element.shortContents }}
+      {{ element.exercise.contents | slice : 0 : 48 }}
     </td>
   </ng-container>
 
   <ng-container matColumnDef="isFinished">
     <th *matHeaderCellDef mat-header-cell>Завершил</th>
-    <td *matCellDef="let element" mat-cell>{{ element.isFinished }}</td>
+    <td *matCellDef="let element" mat-cell>
+      {{ !!element.finishedAt }}
+    </td>
   </ng-container>
 
   <ng-container matColumnDef="isPassed">
     <th *matHeaderCellDef mat-header-cell>Верно</th>
-    <td *matCellDef="let element" mat-cell>{{ element.isPassed }}</td>
+    <td *matCellDef="let element" mat-cell>
+      {{ element.isPassed === null ? null : !!element.isPassed }}
+    </td>
   </ng-container>
 
   <ng-container matColumnDef="actions">
@@ -37,4 +38,4 @@
 
 </table>
 
-<mat-paginator></mat-paginator>
+<!--<mat-paginator></mat-paginator>-->

@@ -1,36 +1,30 @@
 import {Component} from '@angular/core';
 
-import {ListAssignment} from "../../models/list-assignment";
 import {EducationService} from "../../services/education.service";
-
-
-const example: ListAssignment[] = [
-  {exerciseId: 1, shortContents: "short contents", isFinished: true, isPassed: true, assignedAt: new Date()},
-  {exerciseId: 2, shortContents: "short contents", isFinished: true, isPassed: false, assignedAt: new Date()},
-  {exerciseId: 3, shortContents: "short contents", isFinished: true, isPassed: undefined, assignedAt: new Date()},
-  {exerciseId: 4, shortContents: "short contents", isFinished: false, isPassed: undefined, assignedAt: new Date()},
-  {exerciseId: 5, shortContents: "short contents", isFinished: false, isPassed: undefined, assignedAt: new Date()},
-  {exerciseId: 6, shortContents: "short contents", isFinished: false, isPassed: undefined, assignedAt: new Date()},
-  {exerciseId: 7, shortContents: "short contents", isFinished: false, isPassed: undefined, assignedAt: new Date()},
-  {exerciseId: 8, shortContents: "short contents", isFinished: false, isPassed: undefined, assignedAt: new Date()},
-  {exerciseId: 9, shortContents: "short contents", isFinished: false, isPassed: undefined, assignedAt: new Date()},
-  {exerciseId: 10, shortContents: "short contents", isFinished: true, isPassed: true, assignedAt: new Date()},
-  {exerciseId: 11, shortContents: "short contents", isFinished: true, isPassed: false, assignedAt: new Date()},
-  {exerciseId: 12, shortContents: "short contents", isFinished: false, isPassed: undefined, assignedAt: new Date()},
-  {exerciseId: 13, shortContents: "short contents", isFinished: false, isPassed: undefined, assignedAt: new Date()},
-];
+import {Assignment} from "../../models/assignment";
+import {Subject} from "../../models/subject";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-education',
   templateUrl: './education.component.html'
 })
 export class EducationComponent {
-  protected readonly example = example;
+  assignments: Assignment[] = [];
+  subjects: Subject[] = [];
 
-  constructor(private readonly educationService: EducationService) {
+  constructor(
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly educationService: EducationService
+  ) {
+    const data = this.activatedRoute.snapshot.data;
+    this.assignments = data["assignments"];
+    this.subjects = data["subjects"];
   }
 
   requestNewExercise(subjectId: number | null) {
-    this.educationService.newExercise(subjectId).subscribe(value => example.unshift(value));
+    this.educationService.selfAssignNewExercise(subjectId).subscribe(
+      value => this.assignments.unshift(value)
+    );
   }
 }

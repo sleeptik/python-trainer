@@ -5,10 +5,7 @@
 
   <div class="bg-danger-subtle p-3">
     <ol class="mb-0">
-      <li>Mistake</li>
-      <li>Mistake</li>
-      <li>Mistake</li>
-      <li>Mistake</li>
+      <li *ngFor="let error of result.errors">{{ error }}</li>
     </ol>
   </div>
 
@@ -19,10 +16,7 @@
 
     <div class="bg-warning-subtle rounded-bottom p-3">
       <ol class="mb-0">
-        <li>Hint</li>
-        <li>Hint</li>
-        <li>Hint</li>
-        <li>Hint</li>
+        <li *ngFor="let suggestion of result.suggestions">{{ suggestion }}</li>
       </ol>
     </div>
   </ng-container>

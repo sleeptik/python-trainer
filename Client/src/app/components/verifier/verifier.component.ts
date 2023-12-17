@@ -13,9 +13,9 @@ export class VerifierComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.educationAdminService.getUnverifiedAssignments().subscribe(
-      value => this.assignments = value
-    );
+    // this.educationAdminService.getUnverifiedAssignments().subscribe(
+    //   value => this.assignments = value
+    // );
   }
 
   setFinished(assignment: Assignment) {

@@ -5,21 +5,22 @@ import {BrowserModule} from '@angular/platform-browser';
 import {AppComponent} from './app.component';
 import {EducationComponent} from './components/education/education.component';
 import {AppRoutingModule} from "./app-routing.module";
-import {ExerciseDetailsComponent} from "./components/exercise-details/exercise-details.component";
-import {ExerciseSolutionComponent} from "./components/exercise-solution/exercise-solution.component";
 import {VerifierComponent} from './components/verifier/verifier.component';
 import {HomeComponent} from './components/home/home.component';
 import {NavMenuComponent} from './components/nav-menu/nav-menu.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {ExerciseResultComponent} from "./components/exercise-result/exercise-result.component";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatTableModule} from "@angular/material/table";
 import {EducationExercisesComponent} from "./components/education-exercises/education-exercises.component";
 import {EducationControlComponent} from "./components/education-control/education-control.component";
-import {ExerciseComponent} from "./components/exercise/exercise.component";
 import {EducationRatingComponent} from './components/education-rating/education-rating.component';
-import {EducationHistoryComponent} from './components/education-history/education-history.component';
+import {EducationHistoryBarComponent} from './components/education-history-bar/education-history-bar.component';
 import {MatPaginatorModule} from "@angular/material/paginator";
+import {CommonModule} from "@angular/common";
+import {AssignmentComponent} from "./components/assignment/assignment.component";
+import {AssignmentDetailsComponent} from "./components/assignment-details/assignment-details.component";
+import {AssignmentSolutionComponent} from "./components/assignment-solution/assignment-solution.component";
+import {AssignmentResultComponent} from "./components/assignment-result/assignment-result.component";
 
 @NgModule({
   declarations: [
@@ -30,18 +31,19 @@ import {MatPaginatorModule} from "@angular/material/paginator";
     EducationExercisesComponent,
     EducationControlComponent,
     EducationRatingComponent,
-    EducationHistoryComponent,
-    ExerciseComponent,
-    ExerciseDetailsComponent,
-    ExerciseSolutionComponent,
-    ExerciseResultComponent,
+    EducationHistoryBarComponent,
+    AssignmentComponent,
+    AssignmentDetailsComponent,
+    AssignmentSolutionComponent,
+    AssignmentResultComponent,
     VerifierComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    HttpClientModule,
     AppRoutingModule,
+    CommonModule,
+    HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
     MatTableModule,

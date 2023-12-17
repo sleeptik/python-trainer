@@ -7,10 +7,10 @@ import "ace-builds/src-noconflict/ext-inline_autocomplete";
 import {PyodideService} from "../../services/pyodide.service";
 
 @Component({
-  selector: 'app-exercise-solution',
-  templateUrl: './exercise-solution.component.html'
+  selector: 'app-assignment-solution',
+  templateUrl: './assignment-solution.component.html'
 })
-export class ExerciseSolutionComponent implements OnInit, OnDestroy {
+export class AssignmentSolutionComponent implements OnInit, OnDestroy {
   @Output() readonly solve = new EventEmitter<string>();
 
   @ViewChild('editor', {static: true}) editorElement!: ElementRef<HTMLElement>;

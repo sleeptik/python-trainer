@@ -1,7 +1,9 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Common;
+using WebApi.Features.Education.GetAssignment;
 using WebApi.Features.Education.GetAssignments;
+using WebApi.Features.Education.GetSubjects;
 using WebApi.Features.Education.SelfAssignment;
 using WebApi.Features.Education.SetAssignmentSolution;
 using WebApi.Features.EducationAdmin.Notifications;
@@ -16,6 +18,13 @@ public sealed class EducationController(IMediator mediator) : ApiController
     {
         var exercises = await mediator.Send(new GetAssignmentsRequest(1));
         return Ok(exercises);
+    }
+
+    [HttpGet("{exerciseId:int}")]
+    public async Task<IActionResult> GetAssignment(int exerciseId)
+    {
+        var assignment = await mediator.Send(new GetAssignmentRequest(1, exerciseId));
+        return Ok(assignment);
     }
 
     [HttpPost("")]
@@ -34,5 +43,12 @@ public sealed class EducationController(IMediator mediator) : ApiController
         await mediator.Publish(notification);
 
         return Ok(result);
+    }
+
+    [HttpGet("subjects")]
+    public async Task<IActionResult> GetMySubjects()
+    {
+        var subjects = await mediator.Send(new GetSubjectsRequest(1));
+        return Ok(subjects);
     }
 }

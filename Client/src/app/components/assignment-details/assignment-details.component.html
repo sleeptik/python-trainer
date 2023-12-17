@@ -8,8 +8,8 @@
       </div>
       <div>
         <span class="badge text-bg-danger me-1">
-          {{exercise.rank}}
-          <span *ngFor="let s of exercise.subjects">
+          {{assignment.exercise.rank.name}}
+          <span *ngFor="let s of assignment.exercise.subjects">
             <i class="bi bi-star-fill"></i>
           </span>
         </span>
@@ -17,9 +17,9 @@
     </div>
 
     <div class="mt-1">
-      <span *ngFor="let subject of exercise.subjects; last as last" [class.me-1]="!last"
+      <span *ngFor="let subject of assignment.exercise.subjects; last as last" [class.me-1]="!last"
             class="badge text-bg-secondary">
-        {{subject}}
+        {{subject.name}}
       </span>
     </div>
 
@@ -27,7 +27,7 @@
 
   <div class="p-3">
     <span>
-      {{exercise.contents}}
+      {{assignment.exercise.contents}}
     </span>
   </div>
 

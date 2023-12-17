@@ -3,17 +3,17 @@
 
     <div class="col-lg-5">
       <div>
-        <app-exercise-details [exercise]="exercise"/>
+        <app-assignment-details [assignment]="assignment"/>
       </div>
 
       <div class="mt-2">
-        <app-exercise-result [result]="result"/>
+        <app-assignment-result [result]="result"/>
       </div>
     </div>
 
     <div class="col-lg-7">
       <div>
-        <app-exercise-solution (solve)="sendSolution($event)"/>
+        <app-assignment-solution (solve)="sendSolution($event)"/>
       </div>
     </div>
 
