@@ -21,6 +21,7 @@ import {AssignmentComponent} from "./components/assignment/assignment.component"
 import {AssignmentDetailsComponent} from "./components/assignment-details/assignment-details.component";
 import {AssignmentSolutionComponent} from "./components/assignment-solution/assignment-solution.component";
 import {AssignmentResultComponent} from "./components/assignment-result/assignment-result.component";
+import {WelcomeComponent} from './components/welcome/welcome.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import {AssignmentResultComponent} from "./components/assignment-result/assignme
     AssignmentSolutionComponent,
     AssignmentResultComponent,
     VerifierComponent,
+    WelcomeComponent,
   ],
   imports: [
     BrowserModule,

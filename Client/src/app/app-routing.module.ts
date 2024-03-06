@@ -6,6 +6,7 @@ import {HomeComponent} from "./components/home/home.component";
 import {exerciseResolver} from "./resolvers/exercise-resolver";
 import {myAssignmentsResolver} from "./resolvers/my-assignments.resolver";
 import {mySubjectsResolver} from "./resolvers/my-subjects.resolver";
+import {WelcomeComponent} from "./components/welcome/welcome.component";
 
 const routes: Routes = [
   {
@@ -14,15 +15,19 @@ const routes: Routes = [
     resolve: {exercise: exerciseResolver}
   },
   {
-    path: "trainer",
+    path: "trainer/education",
     component: EducationComponent,
     resolve: {assignments: myAssignmentsResolver, subjects: mySubjectsResolver}
   },
   {
-    path: "",
+    path: "trainer",
     component: HomeComponent,
-    pathMatch: "full"
   },
+  {
+    path: "",
+    component: WelcomeComponent,
+    pathMatch: "full"
+  }
 ];
 
 @NgModule({
