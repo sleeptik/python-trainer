@@ -6,7 +6,6 @@ using WebApi.Features.Education.GetAssignments;
 using WebApi.Features.Education.GetSubjects;
 using WebApi.Features.Education.SelfAssignment;
 using WebApi.Features.Education.SetAssignmentSolution;
-using WebApi.Features.EducationAdmin.Notifications;
 
 namespace WebApi.Features.Education;
 
@@ -39,7 +38,7 @@ public sealed class EducationController(IMediator mediator) : ApiController
     {
         var result = await mediator.Send(request);
 
-        var notification = new AssignmentVerifiedNotification(request.StudentId, request.ExerciseId);
+        var notification = new AssignmentSolutionVerifiedNotification(request.StudentId, request.ExerciseId);
         await mediator.Publish(notification);
 
         return Ok(result);

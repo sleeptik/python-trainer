@@ -1,4 +1,4 @@
-﻿using WebApi.Features.EducationAdmin.Services;
+﻿using WebApi.Services;
 
 // ReSharper disable once CheckNamespace
 namespace Microsoft.Extensions.DependencyInjection.Extensions;
