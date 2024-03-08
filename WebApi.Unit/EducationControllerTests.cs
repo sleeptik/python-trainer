@@ -1,17 +1,14 @@
 using Domain.Trainer;
 using Infrastructure.ChatBot;
 using MediatR;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
-using NSubstitute.ExceptionExtensions;
 using WebApi.Features.Education;
 using WebApi.Features.Education.GetAssignment;
 using WebApi.Features.Education.GetAssignments;
 using WebApi.Features.Education.GetSubjects;
 using WebApi.Features.Education.SelfAssignment;
 using WebApi.Features.Education.SetAssignmentSolution;
-using WebApi.Features.EducationAdmin.Notifications;
 
 namespace WebApi.Unit;
 
@@ -31,7 +28,7 @@ public class EducationControllerTests
 
         result.Should().BeOfType<OkObjectResult>();
     }
-    
+
     [Fact]
     public async Task Test2()
     {
@@ -42,7 +39,8 @@ public class EducationControllerTests
             Task.FromException<IList<Assignment>>(new InvalidOperationException())
         );
         var controller = new EducationController(mediator);
-        await controller.Invoking(educationController => educationController.GetMyAssignments()).Should().ThrowAsync<InvalidOperationException>();
+        await controller.Invoking(educationController => educationController.GetMyAssignments()).Should()
+            .ThrowAsync<InvalidOperationException>();
     }
 
     [Fact]
@@ -61,7 +59,7 @@ public class EducationControllerTests
         // Выдавал ошибку, исправили, отметить в презе
         (result as StatusCodeResult).StatusCode.Should().Be(501);
     }
-    
+
     [Fact]
     public async Task Test4()
     {
@@ -80,16 +78,17 @@ public class EducationControllerTests
     [Fact]
     public async Task Test5()
     {
-        var selfAssignmentRequest = new SelfAssignmentRequest(1, 0);
+        var selfAssignmentRequest = new SelfAssignmentRequest(1);
 
         var mediator = Substitute.For<IMediator>();
         mediator.Send(selfAssignmentRequest).Returns(
             Task.FromException<Exercise>(new InvalidOperationException())
         );
         var controller = new EducationController(mediator);
-        await controller.Invoking(educationController => educationController.AddSelfAssignment(selfAssignmentRequest)).Should().ThrowAsync<InvalidOperationException>();
+        await controller.Invoking(educationController => educationController.AddSelfAssignment(selfAssignmentRequest))
+            .Should().ThrowAsync<InvalidOperationException>();
     }
-    
+
     [Fact]
     public async Task Test6()
     {
@@ -97,14 +96,14 @@ public class EducationControllerTests
 
         var mediator = Substitute.For<IMediator>();
         mediator.Send(getAssignmentRequest).Returns(
-            Task.FromResult(new Assignment(1,1))
+            Task.FromResult(new Assignment(1, 1))
         );
         var controller = new EducationController(mediator);
         var result = await controller.GetAssignment(1);
 
         result.Should().BeOfType<OkObjectResult>();
     }
-    
+
     [Fact]
     public async Task Test7()
     {
@@ -119,7 +118,7 @@ public class EducationControllerTests
 
         result.Should().BeOfType<OkObjectResult>();
     }
-    
+
     [Fact]
     public async Task Test8()
     {
@@ -130,9 +129,10 @@ public class EducationControllerTests
             Task.FromException<Assignment>(new InvalidOperationException())
         );
         var controller = new EducationController(mediator);
-        await controller.Invoking(educationController => educationController.GetAssignment(0)).Should().ThrowAsync<InvalidOperationException>();
+        await controller.Invoking(educationController => educationController.GetAssignment(0)).Should()
+            .ThrowAsync<InvalidOperationException>();
     }
-    
+
     [Fact]
     public async Task Test9()
     {
@@ -143,28 +143,29 @@ public class EducationControllerTests
             Task.FromException<Assignment>(new InvalidOperationException())
         );
         var controller = new EducationController(mediator);
-        await controller.Invoking(educationController => educationController.GetAssignment(1)).Should().ThrowAsync<InvalidOperationException>();
+        await controller.Invoking(educationController => educationController.GetAssignment(1)).Should()
+            .ThrowAsync<InvalidOperationException>();
     }
-    
+
     [Fact]
     public async Task Test10()
     {
-        var setAssignmentSolutionRequest = new SetAssignmentSolutionRequest(1,1,"Решение");
+        var setAssignmentSolutionRequest = new SetAssignmentSolutionRequest(1, 1, "Решение");
 
         var mediator = Substitute.For<IMediator>();
         mediator.Send(setAssignmentSolutionRequest).Returns(
-            Task.FromResult(new VerificationResult(true,null,null))
+            Task.FromResult(new VerificationResult(true, null, null))
         );
         var controller = new EducationController(mediator);
         var result = await controller.SetAssignmentSolution(setAssignmentSolutionRequest);
 
         result.Should().BeOfType<OkObjectResult>();
     }
-    
+
     [Fact]
     public async Task Test11()
     {
-        var setAssignmentSolutionRequest = new SetAssignmentSolutionRequest(1,0,"Решение");
+        var setAssignmentSolutionRequest = new SetAssignmentSolutionRequest(1, 0, "Решение");
 
         var mediator = Substitute.For<IMediator>();
         mediator.Send(setAssignmentSolutionRequest).Returns(
@@ -177,7 +178,7 @@ public class EducationControllerTests
         // Выдавал ошибку, исправили, отметить в презе
         (result as StatusCodeResult).StatusCode.Should().Be(501);
     }
-    
+
     [Fact]
     public async Task Test12()
     {
@@ -194,7 +195,7 @@ public class EducationControllerTests
         // Выдавал ошибку, исправили, отметить в презе
         (result as StatusCodeResult).StatusCode.Should().Be(501);
     }
-    
+
     [Fact]
     public async Task Test13()
     {
@@ -202,14 +203,14 @@ public class EducationControllerTests
 
         var mediator = Substitute.For<IMediator>();
         mediator.Send(getSubjectsRequest).Returns(
-            new List<Subject>(){new Subject()}
+            new List<Subject> { new() }
         );
         var controller = new EducationController(mediator);
         var result = await controller.GetMySubjects();
 
         result.Should().BeOfType<OkObjectResult>();
     }
-    
+
     [Fact]
     public async Task Test14()
     {
@@ -220,6 +221,7 @@ public class EducationControllerTests
             Task.FromException<IList<Subject>>(new InvalidOperationException())
         );
         var controller = new EducationController(mediator);
-        await controller.Invoking(educationController => educationController.GetMySubjects()).Should().ThrowAsync<InvalidOperationException>();
+        await controller.Invoking(educationController => educationController.GetMySubjects()).Should()
+            .ThrowAsync<InvalidOperationException>();
     }
 }
