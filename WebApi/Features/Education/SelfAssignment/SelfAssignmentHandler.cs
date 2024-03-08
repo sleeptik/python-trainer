@@ -11,8 +11,8 @@ public class SelfAssignmentHandler(ApplicationDbContext context)
     public async Task<Exercise> Handle(SelfAssignmentRequest request,
         CancellationToken cancellationToken)
     {
-        var history = await GetStudentFinishedAssignments(1, cancellationToken);
-        var subjectToStudy = GetSubjectsToStudy(1);
+        var history = await GetStudentFinishedAssignments(request.StudentId, cancellationToken);
+        var subjectToStudy = GetSubjectsToStudy(request.StudentId);
         var newExercise = new Exercise();
 
         var userRank = context.Students.AsNoTracking().First();
@@ -22,6 +22,7 @@ public class SelfAssignmentHandler(ApplicationDbContext context)
             .Include(exercise => exercise.Subjects)
             .AsEnumerable()
             .Where(exercise => exercise.Subjects.All(subject => subjectToStudy.Any(s => s.Id == subject.Id)))
+            .Where(exercise => exercise.Subjects.Any(subject => subject.Id==request.SubjectId))
             .ToList();
 
         subjectExercises = subjectExercises
@@ -43,7 +44,7 @@ public class SelfAssignmentHandler(ApplicationDbContext context)
                 .First(exercise => exercise.RankId == userRank.CurrentRankId);
         }
 
-        await context.Assignments.AddAsync(new Assignment(1, newExercise.Id), cancellationToken);
+        await context.Assignments.AddAsync(new Assignment(request.StudentId, newExercise.Id), cancellationToken);
         await context.SaveChangesAsync(cancellationToken);
 
         return newExercise;
