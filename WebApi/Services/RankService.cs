@@ -1,7 +1,7 @@
 ﻿using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
-namespace WebApi.Features.EducationAdmin.Services;
+namespace WebApi.Services;
 
 public sealed class RankService(ApplicationDbContext context)
 {

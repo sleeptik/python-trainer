@@ -1,15 +1,14 @@
 ﻿using Infrastructure;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using WebApi.Features.EducationAdmin.Notifications;
-using WebApi.Features.EducationAdmin.Services;
+using WebApi.Services;
 
-namespace WebApi.Features.EducationAdmin.Handlers;
+namespace WebApi.Features.Education.SetAssignmentSolution;
 
 public class UpdateRankHandler(ApplicationDbContext context, RankService rankService)
-    : INotificationHandler<AssignmentVerifiedNotification>
+    : INotificationHandler<AssignmentSolutionVerifiedNotification>
 {
-    public async Task Handle(AssignmentVerifiedNotification notification, CancellationToken cancellationToken)
+    public async Task Handle(AssignmentSolutionVerifiedNotification notification, CancellationToken cancellationToken)
     {
         var student = (await context.Students.FindAsync(notification.StudentId))!;
 
@@ -30,7 +29,7 @@ public class UpdateRankHandler(ApplicationDbContext context, RankService rankSer
         await context.SaveChangesAsync(cancellationToken);
     }
 
-    private async Task<float> GetCurrentResultCoefficient(AssignmentVerifiedNotification notification,
+    private async Task<float> GetCurrentResultCoefficient(AssignmentSolutionVerifiedNotification notification,
         CancellationToken cancellationToken)
     {
         var assignment = await context.Assignments.AsNoTracking()
@@ -44,7 +43,7 @@ public class UpdateRankHandler(ApplicationDbContext context, RankService rankSer
         return assignment.IsPassed!.Value ? 1.0f : -0.9f;
     }
 
-    private async Task<float> GetPastResultsCoefficient(AssignmentVerifiedNotification notification,
+    private async Task<float> GetPastResultsCoefficient(AssignmentSolutionVerifiedNotification notification,
         CancellationToken cancellationToken)
     {
         var change = await context.Assignments.AsNoTracking()
@@ -62,7 +61,7 @@ public class UpdateRankHandler(ApplicationDbContext context, RankService rankSer
         return Math.Clamp(1f + change, 0.9f, 1.1f);
     }
 
-    private async Task<float> GetStudentHighScoreCoefficient(AssignmentVerifiedNotification notification,
+    private async Task<float> GetStudentHighScoreCoefficient(AssignmentSolutionVerifiedNotification notification,
         CancellationToken cancellationToken)
     {
         var score = (await context.Students.FindAsync(
