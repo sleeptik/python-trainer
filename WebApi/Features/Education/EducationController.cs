@@ -31,7 +31,8 @@ public sealed class EducationController(IMediator mediator) : ApiController
     public async Task<IActionResult> AddSelfAssignment(SelfAssignmentRequest request)
     {
         var newAssignment = await mediator.Send(request with { StudentId = 1 });
-        return Ok(newAssignment);
+        
+        return newAssignment is not null ? Ok(newAssignment): StatusCode(501);
     }
 
     [HttpPatch("")]
@@ -42,13 +43,13 @@ public sealed class EducationController(IMediator mediator) : ApiController
         var notification = new AssignmentVerifiedNotification(request.StudentId, request.ExerciseId);
         await mediator.Publish(notification);
 
-        return Ok(result);
+        return result is not null ? Ok(result): StatusCode(501);
     }
 
     [HttpGet("subjects")]
     public async Task<IActionResult> GetMySubjects()
     {
         var subjects = await mediator.Send(new GetSubjectsRequest(1));
-        return Ok(subjects);
+        return subjects is not null ? Ok(subjects): StatusCode(501);
     }
 }
