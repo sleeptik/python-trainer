@@ -43,6 +43,6 @@ public class AssignmentTests
         _assignment.Finish("");
         _assignment.Invoking(assignment => assignment.Finish(""))
             .Should().Throw<InvalidOperationException>()
-            .WithMessage("Updating finish date is forbidden");
+            .WithMessage("Updating solution is forbidden");
     }
 }
