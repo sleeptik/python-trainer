@@ -7,7 +7,7 @@ public class AssignmentTests
     private readonly Assignment _assignment = new(default, default);
 
     [Fact]
-    public void ResultDefaultsToNull()
+    public void Constructor_AssignmentCreated_ResultIsNull()
     {
         _assignment.IsPassed.Should().BeNull();
     }
@@ -15,14 +15,14 @@ public class AssignmentTests
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
-    public void SetsResult(bool result)
+    public void SetResult_ResultWasNotSetBefore_ResultSet(bool result)
     {
         _assignment.SetResult(result);
         _assignment.IsPassed.Should().Be(result);
     }
 
     [Fact]
-    public void ForbidsRefreshingResultStatus()
+    public void SetResult_ResultWasSetBefore_ThrowsException()
     {
         _assignment.SetResult(true);
         _assignment.Invoking(assignment => assignment.SetResult(true))
@@ -31,14 +31,14 @@ public class AssignmentTests
     }
 
     [Fact]
-    public void SetsDateOnFinishing()
+    public void Finish_WasNotFinishedBefore_FinishedAtSet()
     {
         _assignment.Finish("");
         _assignment.FinishedAt.Should().NotBeNull();
     }
 
     [Fact]
-    public void ForbidsUpdatingResults()
+    public void Finish_WasFinishedBefore_ThrowsException()
     {
         _assignment.Finish("");
         _assignment.Invoking(assignment => assignment.Finish(""))
