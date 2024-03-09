@@ -1,37 +1,39 @@
-﻿using MediatR;
+﻿using System.Security.Claims;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Common;
-using WebApi.Features.Education.GetAssignment;
-using WebApi.Features.Education.GetAssignments;
-using WebApi.Features.Education.GetSubjects;
-using WebApi.Features.Education.SelfAssignment;
+using WebApi.Features.Education.GetAssignmentDetails;
+using WebApi.Features.Education.GetStudentAssignmentList;
+using WebApi.Features.Education.GetStudentSubjectList;
 using WebApi.Features.Education.SetAssignmentSolution;
+using WebApi.Features.Education.StudentSelfAssignment;
 
 namespace WebApi.Features.Education;
 
 [Route("api/education")]
 public sealed class EducationController(IMediator mediator) : ApiController
 {
+    private int StudentId => int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
     [HttpGet("")]
     public async Task<IActionResult> GetMyAssignments()
     {
-        var exercises = await mediator.Send(new GetAssignmentsRequest(1));
+        var exercises = await mediator.Send(new GetStudentAssignmentListRequest(StudentId));
         return Ok(exercises);
     }
 
     [HttpGet("{exerciseId:int}")]
     public async Task<IActionResult> GetAssignment(int exerciseId)
     {
-        var assignment = await mediator.Send(new GetAssignmentRequest(1, exerciseId));
+        var assignment = await mediator.Send(new GetAssignmentDetailsRequest(StudentId, exerciseId));
         return Ok(assignment);
     }
 
     [HttpPost("")]
-    public async Task<IActionResult> AddSelfAssignment(SelfAssignmentRequest request)
+    public async Task<IActionResult> AddSelfAssignment(int subjectId)
     {
-        var newAssignment = await mediator.Send(request with { StudentId = 1 });
-        
-        return newAssignment is not null ? Ok(newAssignment): StatusCode(501);
+        var newAssignment = await mediator.Send(new StudentSelfAssignmentRequest(StudentId, subjectId));
+        return newAssignment is not null ? Ok(newAssignment) : StatusCode(501);
     }
 
     [HttpPatch("")]
@@ -42,13 +44,13 @@ public sealed class EducationController(IMediator mediator) : ApiController
         var notification = new AssignmentSolutionVerifiedNotification(request.StudentId, request.ExerciseId);
         await mediator.Publish(notification);
 
-        return result is not null ? Ok(result): StatusCode(501);
+        return result is not null ? Ok(result) : StatusCode(501);
     }
 
     [HttpGet("subjects")]
     public async Task<IActionResult> GetMySubjects()
     {
-        var subjects = await mediator.Send(new GetSubjectsRequest(1));
-        return subjects is not null ? Ok(subjects): StatusCode(501);
+        var subjects = await mediator.Send(new GetStudentSubjectListRequest(1));
+        return subjects is not null ? Ok(subjects) : StatusCode(501);
     }
 }

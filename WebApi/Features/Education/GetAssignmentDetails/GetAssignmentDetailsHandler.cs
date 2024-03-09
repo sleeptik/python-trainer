@@ -3,11 +3,11 @@ using Infrastructure;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace WebApi.Features.Education.GetAssignment;
+namespace WebApi.Features.Education.GetAssignmentDetails;
 
-public class GetAssignmentHandler(ApplicationDbContext context) : IRequestHandler<GetAssignmentRequest, Assignment>
+public class GetAssignmentDetailsHandler(ApplicationDbContext context) : IRequestHandler<GetAssignmentDetailsRequest, Assignment>
 {
-    public async Task<Assignment> Handle(GetAssignmentRequest request, CancellationToken cancellationToken)
+    public async Task<Assignment> Handle(GetAssignmentDetailsRequest detailsRequest, CancellationToken cancellationToken)
     {
         return await context.Assignments.AsNoTracking()
             .Include(assignment => assignment.Exercise)
@@ -15,7 +15,7 @@ public class GetAssignmentHandler(ApplicationDbContext context) : IRequestHandle
             .Include(assignment => assignment.Exercise)
             .ThenInclude(exercise => exercise.Subjects)
             .FirstAsync(
-                assignment => assignment.StudentId == request.StudentId && assignment.ExerciseId == request.ExerciseId,
+                assignment => assignment.StudentId == detailsRequest.StudentId && assignment.ExerciseId == detailsRequest.ExerciseId,
                 cancellationToken
             );
     }

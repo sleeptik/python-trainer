@@ -3,12 +3,12 @@ using Infrastructure;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace WebApi.Features.Education.SelfAssignment;
+namespace WebApi.Features.Education.StudentSelfAssignment;
 
-public class SelfAssignmentHandler(ApplicationDbContext context)
-    : IRequestHandler<SelfAssignmentRequest, Exercise>
+public class StudentSelfAssignmentHandler(ApplicationDbContext context)
+    : IRequestHandler<StudentSelfAssignmentRequest, Exercise>
 {
-    public async Task<Exercise> Handle(SelfAssignmentRequest request,
+    public async Task<Exercise> Handle(StudentSelfAssignmentRequest request,
         CancellationToken cancellationToken)
     {
         var history = await GetStudentFinishedAssignments(request.StudentId, cancellationToken);

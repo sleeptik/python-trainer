@@ -3,12 +3,12 @@ using Infrastructure;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace WebApi.Features.Education.GetAssignments;
+namespace WebApi.Features.Education.GetStudentAssignmentList;
 
-public class GetAssignmentsHandler(ApplicationDbContext context)
-    : IRequestHandler<GetAssignmentsRequest, IList<Assignment>>
+public class GetStudentAssignmentListHandler(ApplicationDbContext context)
+    : IRequestHandler<GetStudentAssignmentListRequest, IList<Assignment>>
 {
-    public async Task<IList<Assignment>> Handle(GetAssignmentsRequest request, CancellationToken cancellationToken)
+    public async Task<IList<Assignment>> Handle(GetStudentAssignmentListRequest request, CancellationToken cancellationToken)
     {
         return await context.Assignments.AsNoTracking()
             .Include(assignment => assignment.Exercise)
