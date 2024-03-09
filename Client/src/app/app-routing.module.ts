@@ -10,7 +10,7 @@ import {WelcomeComponent} from "./components/welcome/welcome.component";
 
 const routes: Routes = [
   {
-    path: "trainer/exercises/:exerciseId",
+    path: "trainer/education/exercises/:exerciseId",
     component: AssignmentComponent,
     resolve: {exercise: exerciseResolver}
   },
