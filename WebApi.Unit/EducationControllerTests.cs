@@ -139,7 +139,7 @@ public class EducationControllerTests
 
         var mediator = Substitute.For<IMediator>();
         mediator.Send(getSubjectsRequest).Returns(
-            new List<Subject> { new() }
+            new List<Subject> { Subject.Create("Test") }
         );
 
         var controller = new EducationController(mediator)
