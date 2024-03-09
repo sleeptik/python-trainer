@@ -29,7 +29,7 @@ public class EducationControllerTests
             ControllerContext = MockControllerContextFactory.CreateControllerContextWithUserIdClaim()
         };
 
-        var result = await controller.GetMyAssignments();
+        var result = await controller.GetStudentAssignmentList();
 
         result.Should().BeOfType<OkObjectResult>();
     }
@@ -49,7 +49,7 @@ public class EducationControllerTests
             ControllerContext = MockControllerContextFactory.CreateControllerContextWithUserIdClaim()
         };
 
-        await controller.Invoking(educationController => educationController.GetMyAssignments())
+        await controller.Invoking(educationController => educationController.GetStudentAssignmentList())
             .Should().ThrowAsync<InvalidOperationException>();
     }
 
@@ -88,7 +88,7 @@ public class EducationControllerTests
             ControllerContext = MockControllerContextFactory.CreateControllerContextWithUserIdClaim()
         };
 
-        var result = await controller.GetAssignment(1);
+        var result = await controller.GetAssignmentDetails(1);
 
         result.Should().BeOfType<OkObjectResult>();
     }
@@ -108,7 +108,7 @@ public class EducationControllerTests
             ControllerContext = MockControllerContextFactory.CreateControllerContextWithUserIdClaim()
         };
 
-        await controller.Invoking(educationController => educationController.GetAssignment(0)).Should()
+        await controller.Invoking(educationController => educationController.GetAssignmentDetails(0)).Should()
             .ThrowAsync<InvalidOperationException>();
     }
 
@@ -147,7 +147,7 @@ public class EducationControllerTests
             ControllerContext = MockControllerContextFactory.CreateControllerContextWithUserIdClaim()
         };
 
-        var result = await controller.GetMySubjects();
+        var result = await controller.GetStudentSubjectList();
 
         result.Should().BeOfType<OkObjectResult>();
     }

@@ -16,14 +16,14 @@ public sealed class EducationController(IMediator mediator) : ApiController
     private int StudentId => int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
 
     [HttpGet("")]
-    public async Task<IActionResult> GetMyAssignments()
+    public async Task<IActionResult> GetStudentAssignmentList()
     {
         var exercises = await mediator.Send(new GetStudentAssignmentListRequest(StudentId));
         return Ok(exercises);
     }
 
     [HttpGet("{exerciseId:int}")]
-    public async Task<IActionResult> GetAssignment(int exerciseId)
+    public async Task<IActionResult> GetAssignmentDetails(int exerciseId)
     {
         var assignment = await mediator.Send(new GetAssignmentDetailsRequest(StudentId, exerciseId));
         return Ok(assignment);
@@ -48,7 +48,7 @@ public sealed class EducationController(IMediator mediator) : ApiController
     }
 
     [HttpGet("subjects")]
-    public async Task<IActionResult> GetMySubjects()
+    public async Task<IActionResult> GetStudentSubjectList()
     {
         var subjects = await mediator.Send(new GetStudentSubjectListRequest(1));
         return subjects is not null ? Ok(subjects) : StatusCode(501);
