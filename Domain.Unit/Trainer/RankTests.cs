@@ -1,6 +1,6 @@
 ﻿using Domain.Trainer;
 
-namespace Domain.Unit;
+namespace Domain.Unit.Trainer;
 
 public class RankTests
 {
