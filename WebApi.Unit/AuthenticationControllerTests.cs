@@ -65,7 +65,7 @@ public class AuthenticationControllerTests
     [Fact]
     public async Task LogIn_IncorrectData_LoginFails()
     {
-        var logInRequest = new LogInRequest("example@mail.com", "examplePassword");
+        var logInRequest = new LogInRequest("example123@mail.com", "examplePassword");
 
         var provider = _serviceCollection.BuildServiceProvider();
 
