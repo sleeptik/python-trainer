@@ -10,8 +10,8 @@ public class UserTests
     public void UserCreate_ValidData_CreatesUser()
     {
         // Arrange
-        var email = "example@mail.com";
-        var password = "examplePassword";
+        const string email = "example@mail.com";
+        const string password = "examplePassword";
 
         // Act
         var user = User.Create(email, password);
@@ -25,8 +25,8 @@ public class UserTests
     public void UserCreate_InvalidEmail_CreatesUser()
     {
         // Arrange
-        var email = "examplemail.com";
-        var password = "examplePassword";
+        const string email = "examplemail.com";
+        const string password = "examplePassword";
 
         // Act & Assert
         var action = () => User.Create(email, password);
@@ -37,8 +37,8 @@ public class UserTests
     public void UserCreate_InvalidPassword_CreatesUser()
     {
         // Arrange
-        var email = "example@mail.com";
-        var password = "";
+        const string email = "example@mail.com";
+        const string password = "";
 
         // Act & Assert
         var action = () => User.Create(email, password);
