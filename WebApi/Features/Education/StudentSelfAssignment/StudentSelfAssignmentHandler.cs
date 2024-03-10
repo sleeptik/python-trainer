@@ -22,8 +22,13 @@ public class StudentSelfAssignmentHandler(ApplicationDbContext context)
             .Include(exercise => exercise.Subjects)
             .AsEnumerable()
             .Where(exercise => exercise.Subjects.All(subject => subjectToStudy.Any(s => s.Id == subject.Id)))
-            .Where(exercise => exercise.Subjects.Any(subject => subject.Id==request.SubjectId))
             .ToList();
+        if (request.SubjectId != 0)
+        {
+            subjectExercises = subjectExercises
+                .Where(exercise => exercise.Subjects.Any(subject => subject.Id == request.SubjectId))
+                .ToList();
+        }
 
         subjectExercises = subjectExercises
             .Where(exercise => !history.Any(his => his.ExerciseId == exercise.Id && his.IsPassed is true))
