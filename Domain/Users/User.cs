@@ -1,21 +1,40 @@
-﻿namespace Domain.Users;
+﻿using System.Net.Mail;
+
+// ReSharper disable UnusedAutoPropertyAccessor.Local
+
+namespace Domain.Users;
 
 public sealed class User
 {
-    // private readonly IList<Role> _roles = new List<Role>();
+    private User()
+    {
+    }
 
-    public int Id { get; private set; } = default;
+    public int Id { get; private set; }
     public string Email { get; private set; } = null!;
     public string Password { get; private set; } = null!;
-    // public IReadOnlyList<Role> Roles => _roles.AsReadOnly();
-    //
-    // public void AddRole(Role role)
-    // {
-    //     _roles.Add(role);
-    // }
-    //
-    // public bool RemoveRole(Role role)
-    // {
-    //     return _roles.Remove(role);
-    // }
+
+    public void SetEmail(string email)
+    {
+        if (!MailAddress.TryCreate(email, out _))
+            throw new ArgumentException();
+
+        Email = email;
+    }
+
+    public void SetPassword(string password)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(password);
+        Password = password;
+    }
+
+    public static User Create(string email, string password)
+    {
+        var user = new User();
+
+        user.SetEmail(email);
+        user.SetPassword(password);
+
+        return user;
+    }
 }

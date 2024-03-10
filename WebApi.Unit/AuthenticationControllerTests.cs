@@ -45,13 +45,11 @@ public class AuthenticationControllerTests
     [Fact]
     public async Task Login_CorrectData_LoginSucceeds()
     {
-        var logInRequest = new LogInRequest("exampleName", "examplePassword");
+        var logInRequest = new LogInRequest("example@mail.com", "examplePassword");
 
         var provider = _serviceCollection.BuildServiceProvider();
 
-        var user = new User();
-        typeof(User).GetProperty(nameof(User.Email))!.SetValue(user, "exampleName");
-        typeof(User).GetProperty(nameof(User.Password))!.SetValue(user, "examplePassword");
+        var user = User.Create("example@mail.com", "examplePassword");
 
         var context = provider.GetRequiredService<ApplicationDbContext>();
         await context.Users.AddAsync(user);
@@ -67,13 +65,11 @@ public class AuthenticationControllerTests
     [Fact]
     public async Task LogIn_IncorrectData_LoginFails()
     {
-        var logInRequest = new LogInRequest("exampleName", "examplePassword");
+        var logInRequest = new LogInRequest("example@mail.com", "examplePassword");
 
         var provider = _serviceCollection.BuildServiceProvider();
 
-        var user = new User();
-        typeof(User).GetProperty(nameof(User.Email))!.SetValue(user, "exampleName");
-        typeof(User).GetProperty(nameof(User.Password))!.SetValue(user, "exampleWrongPassword");
+        var user = User.Create("example@mail.com", "examplePassword");
 
         var context = provider.GetRequiredService<ApplicationDbContext>();
         await context.Users.AddAsync(user);

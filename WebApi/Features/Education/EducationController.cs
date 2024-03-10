@@ -13,7 +13,7 @@ namespace WebApi.Features.Education;
 [Route("api/education")]
 public sealed class EducationController(IMediator mediator) : ApiController
 {
-    private int StudentId => int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+    private int StudentId => int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "1");
 
     [HttpGet("")]
     public async Task<IActionResult> GetStudentAssignmentList()
