@@ -9,6 +9,7 @@ namespace WebApi.Features.Authentication;
 
 public class AuthenticationController(IMediator mediator) : ApiController
 {
+    [HttpPost("api/auth/login")]
     public async Task<IActionResult> LogIn(LogInRequest request)
     {
         var result = await mediator.Send(request);
