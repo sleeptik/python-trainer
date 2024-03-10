@@ -11,7 +11,7 @@ public class StudentTests
     [InlineData(50)]
     [InlineData(75)]
     [InlineData(100)]
-    public void AddsToScore(float change)
+    public void SetScore_ChangeIsPositive_ScoreIncreasing(float change)
     {
         _student.Score += change;
         _student.Score.Should().Be(change);
@@ -22,7 +22,7 @@ public class StudentTests
     [InlineData(-50)]
     [InlineData(-75)]
     [InlineData(-100)]
-    public void ClampsScoreToZero(float change)
+    public void SetScore_ChangeIsNegative_ClampsToZero(float change)
     {
         _student.Score += change;
         _student.Score.Should().Be(0f);

@@ -12,14 +12,14 @@ public class SubjectTests
     }
 
     [Fact]
-    public void SubjectCreate_EmptyName_ThrowsException()
+    public void SubjectCreate_NameIsEmpty_ThrowsException()
     {
         Action create = () => Subject.Create("");
         create.Invoking(action => action.Invoke()).Should().Throw<ArgumentException>();
     }
 
     [Fact]
-    public void SubjectCreate_NullName_ThrowsException()
+    public void SubjectCreate_NameIsNull_ThrowsException()
     {
         Action create = () => Subject.Create(null);
         create.Invoking(action => action.Invoke()).Should().Throw<ArgumentException>();

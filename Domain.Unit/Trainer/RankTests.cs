@@ -19,14 +19,14 @@ public class RankTests
     }
 
     [Fact]
-    public void RankCreate_EmptyName_ThrowsException()
+    public void RankCreate_NameIsEmpty_ThrowsException()
     {
         Action create = () => Rank.Create("", 0, 1, 1);
         create.Invoking(action => action.Invoke()).Should().Throw<ArgumentException>();
     }
 
     [Fact]
-    public void RankCreate_NullName_ThrowsException()
+    public void RankCreate_NameIsNull_ThrowsException()
     {
         Action create = () => Rank.Create(null, 0, 1, 1);
         create.Invoking(action => action.Invoke()).Should().Throw<ArgumentException>();
