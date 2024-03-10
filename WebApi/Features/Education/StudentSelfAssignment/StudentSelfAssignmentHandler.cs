@@ -44,7 +44,7 @@ public class StudentSelfAssignmentHandler(ApplicationDbContext context)
                 .First(exercise => exercise.RankId == userRank.CurrentRankId);
         }
 
-        await context.Assignments.AddAsync(new Assignment(request.StudentId, newExercise.Id), cancellationToken);
+        await context.Assignments.AddAsync(Assignment.Create(request.StudentId, newExercise.Id), cancellationToken);
         await context.SaveChangesAsync(cancellationToken);
 
         return newExercise;
