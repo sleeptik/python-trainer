@@ -52,6 +52,8 @@ public class StudentSelfAssignmentHandler(ApplicationDbContext context)
         var assignment = Assignment.Create(request.StudentId, newExercise.Id);
         await context.Assignments.AddAsync(assignment, cancellationToken);
         await context.SaveChangesAsync(cancellationToken);
+        
+        await context.Entry(assignment).Reference(assignment1=> assignment1.Exercise).LoadAsync(cancellationToken);
 
         return assignment;
     }
