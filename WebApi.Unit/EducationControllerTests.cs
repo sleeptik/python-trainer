@@ -60,7 +60,7 @@ public class EducationControllerTests
 
         var mediator = Substitute.For<IMediator>();
         mediator.Send(request).Returns(
-            Task.FromResult(new Exercise())
+            Task.FromResult(Assignment.Create(request.StudentId, request.SubjectId))
         );
 
         var controller = new EducationController(mediator)

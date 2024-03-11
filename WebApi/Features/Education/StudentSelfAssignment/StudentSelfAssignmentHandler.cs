@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore;
 namespace WebApi.Features.Education.StudentSelfAssignment;
 
 public class StudentSelfAssignmentHandler(ApplicationDbContext context)
-    : IRequestHandler<StudentSelfAssignmentRequest, Exercise>
+    : IRequestHandler<StudentSelfAssignmentRequest, Assignment>
 {
-    public async Task<Exercise> Handle(StudentSelfAssignmentRequest request,
+    public async Task<Assignment> Handle(StudentSelfAssignmentRequest request,
         CancellationToken cancellationToken)
     {
         var history = await GetStudentFinishedAssignments(request.StudentId, cancellationToken);
@@ -49,10 +49,11 @@ public class StudentSelfAssignmentHandler(ApplicationDbContext context)
                 .First(exercise => exercise.RankId == userRank.CurrentRankId);
         }
 
-        await context.Assignments.AddAsync(Assignment.Create(request.StudentId, newExercise.Id), cancellationToken);
+        var assignment = Assignment.Create(request.StudentId, newExercise.Id);
+        await context.Assignments.AddAsync(assignment, cancellationToken);
         await context.SaveChangesAsync(cancellationToken);
 
-        return newExercise;
+        return assignment;
     }
 
     private async Task<IList<Assignment>> GetStudentFinishedAssignments(
