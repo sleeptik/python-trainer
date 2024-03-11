@@ -50,7 +50,7 @@ public sealed class EducationController(IMediator mediator) : ApiController
     [HttpGet("subjects")]
     public async Task<IActionResult> GetStudentSubjectList()
     {
-        var subjects = await mediator.Send(new GetStudentSubjectListRequest(1));
+        var subjects = await mediator.Send(new GetStudentSubjectListRequest(StudentId));
         return subjects is not null ? Ok(subjects) : StatusCode(501);
     }
 }
