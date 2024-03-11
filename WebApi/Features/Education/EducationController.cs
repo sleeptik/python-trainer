@@ -23,16 +23,16 @@ public sealed class EducationController(IMediator mediator) : ApiController
     }
 
     [HttpGet("{exerciseId:int}")]
-    public async Task<IActionResult> GetAssignmentDetails(int exerciseId)
+    public async Task<IActionResult> GetAssignmentDetails(GetAssignmentDetailsDto dto)
     {
-        var assignment = await mediator.Send(new GetAssignmentDetailsRequest(StudentId, exerciseId));
+        var assignment = await mediator.Send(new GetAssignmentDetailsRequest(StudentId, dto.ExerciseId));
         return Ok(assignment);
     }
 
     [HttpPost("")]
-    public async Task<IActionResult> AddSelfAssignment(int subjectId)
+    public async Task<IActionResult> AddSelfAssignment(StudentSelfAssignmentDto dto)
     {
-        var newAssignment = await mediator.Send(new StudentSelfAssignmentRequest(StudentId, subjectId));
+        var newAssignment = await mediator.Send(new StudentSelfAssignmentRequest(StudentId, dto.SubjectId));
         return newAssignment is not null ? Ok(newAssignment) : StatusCode(501);
     }
 
