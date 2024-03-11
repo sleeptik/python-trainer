@@ -89,7 +89,7 @@ public class EducationControllerTests
         };
 
         var result =
-            await controller.GetAssignmentDetails(new GetAssignmentDetailsDto(request.ExerciseId));
+            await controller.GetAssignmentDetails(request.ExerciseId);
 
         result.Should().BeOfType<OkObjectResult>();
     }
@@ -110,7 +110,7 @@ public class EducationControllerTests
         };
 
         await controller.Invoking(educationController =>
-                educationController.GetAssignmentDetails(new GetAssignmentDetailsDto(request.ExerciseId)))
+                educationController.GetAssignmentDetails(request.ExerciseId))
             .Should().ThrowAsync<InvalidOperationException>();
     }
 

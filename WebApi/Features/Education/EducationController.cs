@@ -22,10 +22,10 @@ public sealed class EducationController(IMediator mediator) : ApiController
         return Ok(exercises);
     }
 
-    [HttpGet("{exerciseId:int}")]
-    public async Task<IActionResult> GetAssignmentDetails(GetAssignmentDetailsDto dto)
+    [HttpGet("exercises/{exerciseId:int}")]
+    public async Task<IActionResult> GetAssignmentDetails(int exerciseId)
     {
-        var assignment = await mediator.Send(new GetAssignmentDetailsRequest(StudentId, dto.ExerciseId));
+        var assignment = await mediator.Send(new GetAssignmentDetailsRequest(StudentId, exerciseId));
         return Ok(assignment);
     }
 
