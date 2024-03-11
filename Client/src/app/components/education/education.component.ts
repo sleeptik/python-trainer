@@ -24,7 +24,10 @@ export class EducationComponent {
 
   requestNewExercise(subjectId: number | null) {
     this.educationService.selfAssignNewExercise(subjectId).subscribe(
-      value => this.assignments.unshift(value)
+      value => {
+        this.assignments.unshift(value);
+        this.assignments = this.assignments;
+      }
     );
   }
 }

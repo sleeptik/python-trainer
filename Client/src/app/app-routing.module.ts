@@ -10,18 +10,20 @@ import {WelcomeComponent} from "./components/welcome/welcome.component";
 
 const routes: Routes = [
   {
-    path: "trainer/education/exercises/:exerciseId",
-    component: AssignmentComponent,
-    resolve: {exercise: exerciseResolver}
-  },
-  {
-    path: "trainer/education",
-    component: EducationComponent,
-    resolve: {assignments: myAssignmentsResolver, subjects: mySubjectsResolver}
-  },
-  {
     path: "trainer",
     component: HomeComponent,
+    children: [
+      {
+        path: "education/exercises/:exerciseId",
+        component: AssignmentComponent,
+        resolve: {exercise: exerciseResolver}
+      },
+      {
+        path: "education",
+        component: EducationComponent,
+        resolve: {assignments: myAssignmentsResolver, subjects: mySubjectsResolver}
+      },
+    ]
   },
   {
     path: "",
