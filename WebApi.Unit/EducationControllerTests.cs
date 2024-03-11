@@ -68,7 +68,7 @@ public class EducationControllerTests
             ControllerContext = MockControllerContextFactory.CreateControllerContextWithUserIdClaim()
         };
 
-        var result = await controller.AddSelfAssignment(selfAssignmentRequest.SubjectId);
+        var result = await controller.AddSelfAssignment(new StudentSelfAssignmentDto(selfAssignmentRequest.SubjectId));
 
         result.Should().BeOfType<OkObjectResult>();
     }
@@ -88,7 +88,7 @@ public class EducationControllerTests
             ControllerContext = MockControllerContextFactory.CreateControllerContextWithUserIdClaim()
         };
 
-        var result = await controller.GetAssignmentDetails(1);
+        var result = await controller.GetAssignmentDetails(new GetAssignmentDetailsDto(getAssignmentRequest.ExerciseId));
 
         result.Should().BeOfType<OkObjectResult>();
     }
@@ -108,8 +108,8 @@ public class EducationControllerTests
             ControllerContext = MockControllerContextFactory.CreateControllerContextWithUserIdClaim()
         };
 
-        await controller.Invoking(educationController => educationController.GetAssignmentDetails(0)).Should()
-            .ThrowAsync<InvalidOperationException>();
+        await controller.Invoking(educationController => educationController.GetAssignmentDetails(new GetAssignmentDetailsDto(getAssignmentRequest.ExerciseId)))
+            .Should().ThrowAsync<InvalidOperationException>();
     }
 
     [Fact]
