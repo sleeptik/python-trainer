@@ -17,11 +17,11 @@ public class EducationControllerTests
     [Fact]
     public async Task GetStudentAssignmentList_StudentExists_ReturnsList()
     {
-        var getAssignmentsRequest = new GetStudentAssignmentListRequest(1);
+        var request = new GetStudentAssignmentListRequest(1);
 
         var mediator = Substitute.For<IMediator>();
-        mediator.Send(getAssignmentsRequest).Returns(
-            Task.FromResult(null as IList<Assignment>)
+        mediator.Send(request).Returns(
+            Task.FromResult<IList<Assignment>>(new List<Assignment>())
         );
 
         var controller = new EducationController(mediator)
@@ -37,10 +37,10 @@ public class EducationControllerTests
     [Fact]
     public async Task GetStudentAssignmentList_StudentDoesntExist_ThrowsException()
     {
-        var getAssignmentsRequest = new GetStudentAssignmentListRequest(1);
+        var request = new GetStudentAssignmentListRequest(1);
 
         var mediator = Substitute.For<IMediator>();
-        mediator.Send(getAssignmentsRequest).Returns(
+        mediator.Send(request).Returns(
             Task.FromException<IList<Assignment>>(new InvalidOperationException())
         );
 
@@ -56,10 +56,10 @@ public class EducationControllerTests
     [Fact]
     public async Task StudentSelfAssignment_HasExercisesAvailable_ReturnsAssignment()
     {
-        var selfAssignmentRequest = new StudentSelfAssignmentRequest(1, 1);
+        var request = new StudentSelfAssignmentRequest(1, 1);
 
         var mediator = Substitute.For<IMediator>();
-        mediator.Send(selfAssignmentRequest).Returns(
+        mediator.Send(request).Returns(
             Task.FromResult(new Exercise())
         );
 
@@ -68,7 +68,7 @@ public class EducationControllerTests
             ControllerContext = MockControllerContextFactory.CreateControllerContextWithUserIdClaim()
         };
 
-        var result = await controller.AddSelfAssignment(new StudentSelfAssignmentDto(selfAssignmentRequest.SubjectId));
+        var result = await controller.AddSelfAssignment(new StudentSelfAssignmentDto(request.SubjectId));
 
         result.Should().BeOfType<OkObjectResult>();
     }
@@ -76,10 +76,10 @@ public class EducationControllerTests
     [Fact]
     public async Task GetAssignmentDetails_ValidData_ReturnsAssignment()
     {
-        var getAssignmentRequest = new GetAssignmentDetailsRequest(1, 1);
+        var request = new GetAssignmentDetailsRequest(1, 1);
 
         var mediator = Substitute.For<IMediator>();
-        mediator.Send(getAssignmentRequest).Returns(
+        mediator.Send(request).Returns(
             Task.FromResult(Assignment.Create(1, 1))
         );
 
@@ -89,7 +89,7 @@ public class EducationControllerTests
         };
 
         var result =
-            await controller.GetAssignmentDetails(new GetAssignmentDetailsDto(getAssignmentRequest.ExerciseId));
+            await controller.GetAssignmentDetails(new GetAssignmentDetailsDto(request.ExerciseId));
 
         result.Should().BeOfType<OkObjectResult>();
     }
@@ -97,10 +97,10 @@ public class EducationControllerTests
     [Fact]
     public async Task GetAssignmentDetails_InvalidExerciseId_ThrowsExceptions()
     {
-        var getAssignmentRequest = new GetAssignmentDetailsRequest(1, 0);
+        var request = new GetAssignmentDetailsRequest(1, 0);
 
         var mediator = Substitute.For<IMediator>();
-        mediator.Send(getAssignmentRequest).Returns(
+        mediator.Send(request).Returns(
             Task.FromException<Assignment>(new InvalidOperationException())
         );
 
@@ -110,7 +110,7 @@ public class EducationControllerTests
         };
 
         await controller.Invoking(educationController =>
-                educationController.GetAssignmentDetails(new GetAssignmentDetailsDto(getAssignmentRequest.ExerciseId)))
+                educationController.GetAssignmentDetails(new GetAssignmentDetailsDto(request.ExerciseId)))
             .Should().ThrowAsync<InvalidOperationException>();
     }
 
@@ -138,10 +138,10 @@ public class EducationControllerTests
     [Fact]
     public async Task GetStudentSubjectList_ValidData_ReturnsList()
     {
-        var getSubjectsRequest = new GetStudentSubjectListRequest(1);
+        var request = new GetStudentSubjectListRequest(1);
 
         var mediator = Substitute.For<IMediator>();
-        mediator.Send(getSubjectsRequest).Returns(
+        mediator.Send(request).Returns(
             new List<Subject> { Subject.Create("Test") }
         );
 
