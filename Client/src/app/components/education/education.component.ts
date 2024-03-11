@@ -23,7 +23,7 @@ export class EducationComponent {
     this.subjects = data["subjects"];
   }
 
-  requestNewExercise(subjectId: number | null) {
+  requestNewExercise(subjectId: number) {
     this.educationService.selfAssignNewExercise(subjectId).subscribe(
       value => {
         let currentAssignments = this.assignments.value;

@@ -21,8 +21,8 @@ export class EducationService {
     return this.httpClient.get<Assignment>(`api/education/${exerciseId}`);
   }
 
-  selfAssignNewExercise(subjectId: number | null = null) {
-    const request: SelfAssignmentRequest = {subjectId: subjectId, studentId: 1};
+  selfAssignNewExercise(subjectId: number) {
+    const request: SelfAssignmentRequest = {subjectId: subjectId};
     return this.httpClient.post<Assignment>("api/education", request);
   }
 

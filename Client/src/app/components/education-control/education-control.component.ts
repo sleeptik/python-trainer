@@ -11,10 +11,8 @@ interface Subject {
   templateUrl: './education-control.component.html'
 })
 export class EducationControlComponent implements OnInit {
-
-
   @Input({required: true}) subjects!: Array<Subject>;
-  @Output() readonly request = new EventEmitter<number | null>();
+  @Output() readonly request = new EventEmitter<number>();
 
   selected!: FormControl<Subject>;
 
