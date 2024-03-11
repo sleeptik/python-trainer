@@ -88,7 +88,8 @@ public class EducationControllerTests
             ControllerContext = MockControllerContextFactory.CreateControllerContextWithUserIdClaim()
         };
 
-        var result = await controller.GetAssignmentDetails(new GetAssignmentDetailsDto(getAssignmentRequest.ExerciseId));
+        var result =
+            await controller.GetAssignmentDetails(new GetAssignmentDetailsDto(getAssignmentRequest.ExerciseId));
 
         result.Should().BeOfType<OkObjectResult>();
     }
@@ -108,17 +109,18 @@ public class EducationControllerTests
             ControllerContext = MockControllerContextFactory.CreateControllerContextWithUserIdClaim()
         };
 
-        await controller.Invoking(educationController => educationController.GetAssignmentDetails(new GetAssignmentDetailsDto(getAssignmentRequest.ExerciseId)))
+        await controller.Invoking(educationController =>
+                educationController.GetAssignmentDetails(new GetAssignmentDetailsDto(getAssignmentRequest.ExerciseId)))
             .Should().ThrowAsync<InvalidOperationException>();
     }
 
     [Fact]
     public async Task SetAssignmentSolution_ValidData_ReturnsInfo()
     {
-        var setAssignmentSolutionRequest = new SetAssignmentSolutionRequest(1, 1, "Решение");
+        var request = new SetAssignmentSolutionRequest(1, 1, "Решение");
 
         var mediator = Substitute.For<IMediator>();
-        mediator.Send(setAssignmentSolutionRequest).Returns(
+        mediator.Send(request).Returns(
             Task.FromResult(new VerificationResult(true, null, null))
         );
 
@@ -127,7 +129,8 @@ public class EducationControllerTests
             ControllerContext = MockControllerContextFactory.CreateControllerContextWithUserIdClaim()
         };
 
-        var result = await controller.SetAssignmentSolution(setAssignmentSolutionRequest);
+        var result =
+            await controller.SetAssignmentSolution(new SetAssignmentSolutionDto(request.ExerciseId, request.Solution));
 
         result.Should().BeOfType<OkObjectResult>();
     }

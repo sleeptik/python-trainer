@@ -37,11 +37,11 @@ public sealed class EducationController(IMediator mediator) : ApiController
     }
 
     [HttpPatch("")]
-    public async Task<IActionResult> SetAssignmentSolution(SetAssignmentSolutionRequest request)
+    public async Task<IActionResult> SetAssignmentSolution(SetAssignmentSolutionDto dto)
     {
-        var result = await mediator.Send(request);
+        var result = await mediator.Send(new SetAssignmentSolutionRequest(StudentId, dto.ExerciseId, dto.Solution));
 
-        var notification = new AssignmentSolutionVerifiedNotification(request.StudentId, request.ExerciseId);
+        var notification = new AssignmentSolutionVerifiedNotification(StudentId, dto.ExerciseId);
         await mediator.Publish(notification);
 
         return result is not null ? Ok(result) : StatusCode(501);
