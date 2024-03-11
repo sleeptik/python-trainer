@@ -1,12 +1,12 @@
 <div>
-  <app-education-history-bar [assignments]="assignments"/>
+  <app-education-history-bar [assignments]="(assignments | async)!"/>
 </div>
 
 <div class="row mt-2">
 
   <div class="col-8">
     <div>
-      <app-education-exercises [assignments]="assignments"/>
+      <app-education-exercises [assignments]="(assignments | async)!"/>
     </div>
   </div>
 

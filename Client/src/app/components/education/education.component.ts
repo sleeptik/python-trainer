@@ -4,13 +4,14 @@ import {EducationService} from "../../services/education.service";
 import {Assignment} from "../../models/assignment";
 import {Subject} from "../../models/subject";
 import {ActivatedRoute} from "@angular/router";
+import {BehaviorSubject} from "rxjs";
 
 @Component({
   selector: 'app-education',
   templateUrl: './education.component.html'
 })
 export class EducationComponent {
-  assignments: Assignment[] = [];
+  assignments: BehaviorSubject<Assignment[]>;
   subjects: Subject[] = [];
 
   constructor(
@@ -18,15 +19,16 @@ export class EducationComponent {
     private readonly educationService: EducationService
   ) {
     const data = this.activatedRoute.snapshot.data;
-    this.assignments = data["assignments"];
+    this.assignments = new BehaviorSubject<Assignment[]>(data["assignments"]);
     this.subjects = data["subjects"];
   }
 
   requestNewExercise(subjectId: number | null) {
     this.educationService.selfAssignNewExercise(subjectId).subscribe(
       value => {
-        this.assignments.unshift(value);
-        this.assignments = this.assignments;
+        let currentAssignments = this.assignments.value;
+        let newAssignments = [value].concat(currentAssignments);
+        this.assignments.next(newAssignments);
       }
     );
   }
