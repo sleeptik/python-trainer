@@ -18,7 +18,7 @@ export class EducationService {
   }
 
   getAssignment(exerciseId: number) {
-    return this.httpClient.get<Assignment>(`api/education/${exerciseId}`);
+    return this.httpClient.get<Assignment>(`api/education/exercises/${exerciseId}`);
   }
 
   selfAssignNewExercise(subjectId: number) {
