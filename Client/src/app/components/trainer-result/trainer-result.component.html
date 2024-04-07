@@ -1,15 +1,13 @@
-<div>
-  <div class="accordion" cdkAccordion>
-    <div class="accordion-item" cdkAccordionItem #accordionItem="cdkAccordionItem">
-      <div class="accordion-header">
-        <button class="accordion-button" [class.collapsed]="!accordionItem.expanded" (click)="accordionItem.toggle()">
-          asdad
-        </button>
-      </div>
-      <div class="accordion-collapse">
-        <div class="accordion-body" [class.d-none]="!accordionItem.expanded">
-          dsadsd
-        </div>
+<div [hidden]="!result" cdkAccordion class="accordion">
+  <div #accordionItem="cdkAccordionItem" cdkAccordionItem class="accordion-item">
+    <div class="accordion-header">
+      <button (click)="accordionItem.toggle()" [class.collapsed]="!accordionItem.expanded" class="accordion-button">
+        Проверка решения
+      </button>
+    </div>
+    <div class="accordion-collapse">
+      <div [class.d-none]="!accordionItem.expanded" class="accordion-body">
+        dsadsd
       </div>
     </div>
   </div>
