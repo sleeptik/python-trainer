@@ -17,10 +17,6 @@ import {EducationRatingComponent} from './components/education-rating/education-
 import {EducationHistoryBarComponent} from './components/education-history-bar/education-history-bar.component';
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {CommonModule} from "@angular/common";
-import {AssignmentComponent} from "./components/assignment/assignment.component";
-import {AssignmentDetailsComponent} from "./components/assignment-details/assignment-details.component";
-import {AssignmentSolutionComponent} from "./components/assignment-solution/assignment-solution.component";
-import {AssignmentResultComponent} from "./components/assignment-result/assignment-result.component";
 import {WelcomeComponent} from './components/welcome/welcome.component';
 import {TrainerLayoutComponent} from './components/trainer-layout/trainer-layout.component';
 import {TrainerInformationComponent} from './components/trainer-information/trainer-information.component';
@@ -41,10 +37,6 @@ import {TrainerResultComponent} from './components/trainer-result/trainer-result
     EducationControlComponent,
     EducationRatingComponent,
     EducationHistoryBarComponent,
-    AssignmentComponent,
-    AssignmentDetailsComponent,
-    AssignmentSolutionComponent,
-    AssignmentResultComponent,
     VerifierComponent,
     WelcomeComponent,
     TrainerLayoutComponent,
