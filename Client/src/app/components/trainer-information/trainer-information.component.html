@@ -1,0 +1,18 @@
+<h5>Задание</h5>
+
+<div class="mb-3">
+  <span class="badge rounded-pill text-bg-dark text-uppercase me-1">
+    <i class="bi bi-bar-chart-fill"></i> {{ exercise.rank.name }}
+  </span>
+
+  @for (subject of exercise.subjects; track subject.id) {
+    <span class="badge rounded-pill text-bg-dark text-uppercase">
+      <i class="bi bi-tag-fill"></i> {{ subject.name }}
+    </span>
+  }
+
+</div>
+
+<p>
+  {{ exercise.contents }}
+</p>

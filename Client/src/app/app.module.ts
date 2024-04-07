@@ -22,6 +22,14 @@ import {AssignmentDetailsComponent} from "./components/assignment-details/assign
 import {AssignmentSolutionComponent} from "./components/assignment-solution/assignment-solution.component";
 import {AssignmentResultComponent} from "./components/assignment-result/assignment-result.component";
 import {WelcomeComponent} from './components/welcome/welcome.component';
+import {TrainerLayoutComponent} from './components/trainer-layout/trainer-layout.component';
+import {TrainerInformationComponent} from './components/trainer-information/trainer-information.component';
+import {TrainerEditorComponent} from './components/trainer-editor/trainer-editor.component';
+import {TrainerComponent} from './components/trainer/trainer.component';
+import {MonacoEditorModule} from "ngx-monaco-editor-v2";
+import {TrainerMenuComponent} from './components/trainer-menu/trainer-menu.component';
+import {CdkAccordionModule} from "@angular/cdk/accordion";
+import {TrainerResultComponent} from './components/trainer-result/trainer-result.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +47,12 @@ import {WelcomeComponent} from './components/welcome/welcome.component';
     AssignmentResultComponent,
     VerifierComponent,
     WelcomeComponent,
+    TrainerLayoutComponent,
+    TrainerInformationComponent,
+    TrainerEditorComponent,
+    TrainerComponent,
+    TrainerMenuComponent,
+    TrainerResultComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,6 +64,8 @@ import {WelcomeComponent} from './components/welcome/welcome.component';
     ReactiveFormsModule,
     MatTableModule,
     MatPaginatorModule,
+    MonacoEditorModule.forRoot(),
+    CdkAccordionModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

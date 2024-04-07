@@ -1,0 +1,19 @@
+<div class="d-flex flex-column min-vh-100">
+  <div class="col-auto bg-body-tertiary border mb-3 py-2 text-center">
+    <app-trainer-menu/>
+  </div>
+
+  <div class="col container-fluid row row-cols-2 align-items-stretch mb-3">
+    <div>
+      <app-trainer-information [exercise]="assignment.exercise"/>
+    </div>
+    <div class="d-flex flex-column">
+      <div class="col mb-3">
+        <app-trainer-editor/>
+      </div>
+      <div class="col-auto">
+        <app-trainer-result/>
+      </div>
+    </div>
+  </div>
+</div>

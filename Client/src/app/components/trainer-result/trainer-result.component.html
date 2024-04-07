@@ -1,0 +1,16 @@
+<div>
+  <div class="accordion" cdkAccordion>
+    <div class="accordion-item" cdkAccordionItem #accordionItem="cdkAccordionItem">
+      <div class="accordion-header">
+        <button class="accordion-button" [class.collapsed]="!accordionItem.expanded" (click)="accordionItem.toggle()">
+          asdad
+        </button>
+      </div>
+      <div class="accordion-collapse">
+        <div class="accordion-body" [class.d-none]="!accordionItem.expanded">
+          dsadsd
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
