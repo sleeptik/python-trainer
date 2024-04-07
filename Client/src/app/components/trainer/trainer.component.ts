@@ -4,8 +4,7 @@ import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-trainer',
-  templateUrl: './trainer.component.html',
-  styleUrl: './trainer.component.css'
+  templateUrl: './trainer.component.html'
 })
 export class TrainerComponent {
   readonly assignment!: Assignment;

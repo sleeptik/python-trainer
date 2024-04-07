@@ -26,6 +26,7 @@ import {MonacoEditorModule} from "ngx-monaco-editor-v2";
 import {TrainerMenuComponent} from './components/trainer-menu/trainer-menu.component';
 import {CdkAccordionModule} from "@angular/cdk/accordion";
 import {TrainerResultComponent} from './components/trainer-result/trainer-result.component';
+import {TrainerOutputComponent} from './components/trainer-output/trainer-output.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import {TrainerResultComponent} from './components/trainer-result/trainer-result
     TrainerComponent,
     TrainerMenuComponent,
     TrainerResultComponent,
+    TrainerOutputComponent,
   ],
   imports: [
     BrowserModule,
