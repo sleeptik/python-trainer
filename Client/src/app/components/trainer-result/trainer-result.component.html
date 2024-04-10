@@ -1,13 +1,13 @@
-<div [hidden]="!result" cdkAccordion class="accordion">
+<div [hidden]="result" cdkAccordion class="accordion">
   <div #accordionItem="cdkAccordionItem" cdkAccordionItem class="accordion-item">
     <div class="accordion-header">
       <button (click)="accordionItem.toggle()" [class.collapsed]="!accordionItem.expanded" class="accordion-button">
         Проверка решения
       </button>
     </div>
-    <div class="accordion-collapse">
-      <div [class.d-none]="!accordionItem.expanded" class="accordion-body">
-
+    <div class="accordion-collapse collapse" [class.show]="accordionItem.expanded">
+      <div class="accordion-body">
+        Результат
       </div>
     </div>
   </div>

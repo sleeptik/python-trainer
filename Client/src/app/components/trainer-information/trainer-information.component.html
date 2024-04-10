@@ -6,7 +6,7 @@
   </span>
 
   @for (subject of exercise.subjects; track subject.id) {
-    <span class="badge rounded-pill text-bg-dark text-uppercase">
+    <span class="badge rounded-pill text-bg-dark text-uppercase" [class.me-1]="!$last">
       <i class="bi bi-tag-fill"></i> {{ subject.name }}
     </span>
   }

@@ -1,0 +1,19 @@
+﻿/* width */
+.xterm-viewport ::-webkit-scrollbar {
+  width: 120px;
+}
+
+/* Track */
+.xterm-viewport ::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+.xterm-viewport ::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+.xterm-viewport ::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

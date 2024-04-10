@@ -2,21 +2,24 @@ import {Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from '@angul
 import {ITheme, Terminal} from '@xterm/xterm';
 
 const theme: ITheme = {
-  background: "#ffffff",
-  black: "#000000",
+  background: "#f2f2f2",
+  foreground: "#000000"
 };
 
 @Component({
   selector: 'app-trainer-output',
-  templateUrl: './trainer-output.component.html'
+  templateUrl: './trainer-output.component.html',
+  styleUrl: './trainer-output.component.css'
 })
 export class TrainerOutputComponent implements OnInit, OnDestroy {
   @ViewChild("terminal", {static: true}) readonly terminalElementRef!: ElementRef;
-  readonly terminal = new Terminal({disableStdin: true, rows: 8, theme: theme});
+  readonly terminal = new Terminal({disableStdin: true, rows: 12, theme: theme});
 
-  @Input() set content(data: string) {
+  @Input({required: true}) set content(data: string[]) {
     this.terminal.clear();
-    this.terminal.input(data, false);
+
+    if (data && data.length)
+      data.forEach(value => this.terminal.writeln(value));
   }
 
   ngOnInit(): void {
