@@ -1,5 +1,10 @@
 import {Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {Terminal} from '@xterm/xterm';
+import {ITheme, Terminal} from '@xterm/xterm';
+
+const theme: ITheme = {
+  background: "#ffffff",
+  black: "#000000",
+};
 
 @Component({
   selector: 'app-trainer-output',
@@ -7,7 +12,7 @@ import {Terminal} from '@xterm/xterm';
 })
 export class TrainerOutputComponent implements OnInit, OnDestroy {
   @ViewChild("terminal", {static: true}) readonly terminalElementRef!: ElementRef;
-  readonly terminal = new Terminal({disableStdin: true});
+  readonly terminal = new Terminal({disableStdin: true, rows: 8, theme: theme});
 
   @Input() set content(data: string) {
     this.terminal.clear();

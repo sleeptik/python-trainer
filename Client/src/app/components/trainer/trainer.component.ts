@@ -8,8 +8,22 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class TrainerComponent {
   readonly assignment!: Assignment;
+  outputContent: string = "";
 
-  constructor(activatedRoute: ActivatedRoute) {
+  constructor(
+    activatedRoute: ActivatedRoute,
+  ) {
     this.assignment = activatedRoute.snapshot.data["assignment"];
+  }
+
+  async executeCode() {
+  }
+
+  verifySolution() {
+
+  }
+
+  clearOutput() {
+    this.outputContent = "";
   }
 }

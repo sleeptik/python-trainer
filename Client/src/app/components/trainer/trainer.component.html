@@ -1,6 +1,6 @@
 <div class="d-flex flex-column min-vh-100">
   <div class="col-auto bg-body-tertiary border mb-3 py-2 text-center">
-    <app-trainer-menu/>
+    <app-trainer-menu (execute)="executeCode()" (verify)="verifySolution()" (clear)="clearOutput()"/>
   </div>
   <div class="col container-fluid row row-cols-2 align-items-stretch mb-3">
     <div class="d-flex flex-column justify-content-between">
@@ -16,7 +16,7 @@
         <app-trainer-editor/>
       </div>
       <div class="col-auto">
-        <app-trainer-output/>
+        <app-trainer-output [content]="outputContent"/>
       </div>
     </div>
   </div>
