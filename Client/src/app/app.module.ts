@@ -3,19 +3,12 @@ import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {AppComponent} from './app.component';
-import {EducationComponent} from './components/education/education.component';
 import {AppRoutingModule} from "./app-routing.module";
 import {VerifierComponent} from './components/verifier/verifier.component';
 import {HomeComponent} from './components/home/home.component';
 import {NavMenuComponent} from './components/nav-menu/nav-menu.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatTableModule} from "@angular/material/table";
-import {EducationExercisesComponent} from "./components/education-exercises/education-exercises.component";
-import {EducationControlComponent} from "./components/education-control/education-control.component";
-import {EducationRatingComponent} from './components/education-rating/education-rating.component';
-import {EducationHistoryBarComponent} from './components/education-history-bar/education-history-bar.component';
-import {MatPaginatorModule} from "@angular/material/paginator";
 import {CommonModule} from "@angular/common";
 import {WelcomeComponent} from './components/welcome/welcome.component';
 import {TrainerLayoutComponent} from './components/trainer-layout/trainer-layout.component';
@@ -27,17 +20,16 @@ import {TrainerMenuComponent} from './components/trainer-menu/trainer-menu.compo
 import {CdkAccordionModule} from "@angular/cdk/accordion";
 import {TrainerResultComponent} from './components/trainer-result/trainer-result.component';
 import {TrainerOutputComponent} from './components/trainer-output/trainer-output.component';
+import {AssignmentsComponent} from './components/assignments/assignments.component';
+import {AssignmentsTableComponent} from './components/assignments-table/assignments-table.component';
+import {CdkTableModule} from "@angular/cdk/table";
+import { AssignmentsMenuComponent } from './components/assignments-menu/assignments-menu.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     NavMenuComponent,
-    EducationComponent,
-    EducationExercisesComponent,
-    EducationControlComponent,
-    EducationRatingComponent,
-    EducationHistoryBarComponent,
     VerifierComponent,
     WelcomeComponent,
     TrainerLayoutComponent,
@@ -47,6 +39,9 @@ import {TrainerOutputComponent} from './components/trainer-output/trainer-output
     TrainerMenuComponent,
     TrainerResultComponent,
     TrainerOutputComponent,
+    AssignmentsComponent,
+    AssignmentsTableComponent,
+    AssignmentsMenuComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,10 +51,9 @@ import {TrainerOutputComponent} from './components/trainer-output/trainer-output
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    MatTableModule,
-    MatPaginatorModule,
     MonacoEditorModule.forRoot(),
     CdkAccordionModule,
+    CdkTableModule
   ],
   providers: [],
   bootstrap: [AppComponent]
