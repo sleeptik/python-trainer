@@ -32,12 +32,28 @@
                 "glob": "**/*",
                 "input": "node_modules/monaco-editor",
                 "output": "/assets/monaco/"
+              },
+              {
+                "glob": "pyodide.{js,mjs,asm}*",
+                "input": "node_modules/pyodide",
+                "output": "/"
+              },
+              {
+                "glob": "python_stdlib.zip",
+                "input": "node_modules/pyodide",
+                "output": "/"
+              },
+              {
+                "glob": "repodata.json",
+                "input": "node_modules/pyodide",
+                "output": "/"
               }
             ],
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "webWorkerTsConfig": "tsconfig.worker.json"
           },
           "configurations": {
             "production": {
@@ -103,7 +119,8 @@
               "src/styles.css"
             ],
             "scripts": [],
-            "karmaConfig": "karma.conf.js"
+            "karmaConfig": "karma.conf.js",
+            "webWorkerTsConfig": "tsconfig.worker.json"
           }
         }
       }
