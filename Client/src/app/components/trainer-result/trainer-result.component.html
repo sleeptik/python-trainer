@@ -1,13 +1,18 @@
 <div [hidden]="result" cdkAccordion class="accordion">
   <div #accordionItem="cdkAccordionItem" cdkAccordionItem class="accordion-item">
     <div class="accordion-header">
-      <button (click)="accordionItem.toggle()" [class.collapsed]="!accordionItem.expanded" class="accordion-button">
+      <button (click)="accordionItem.toggle()" [class.collapsed]="!accordionItem.expanded" class="accordion-button bg-danger-subtle">
         Проверка решения
       </button>
     </div>
     <div class="accordion-collapse collapse" [class.show]="accordionItem.expanded">
       <div class="accordion-body">
-        Результат
+        <h6>Обнаружены ошибки в процессе проверки</h6>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">Отсутствует подсчет произведения введеных чисел.</li>
+          <li class="list-group-item">Используется неправильная переменная для начального значения произведения.</li>
+          <li class="list-group-item">Отсутствует вывод результата.</li>
+        </ul>
       </div>
     </div>
   </div>
