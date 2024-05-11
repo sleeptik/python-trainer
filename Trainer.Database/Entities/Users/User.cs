@@ -2,7 +2,7 @@
 
 // ReSharper disable UnusedAutoPropertyAccessor.Local
 
-namespace Domain.Users;
+namespace Trainer.Database.Entities.Users;
 
 public sealed class User
 {

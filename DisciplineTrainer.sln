@@ -6,7 +6,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "WebApi\WebApi.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{0D48CD2B-9307-4C4B-BB42-C8F3EA3A7E8E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{5D145B3B-592D-48BF-8AFF-73117194D2B4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trainer.Database", "Trainer.Database\Trainer.Database.csproj", "{5D145B3B-592D-48BF-8AFF-73117194D2B4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.esproj", "{0B49D356-3EF3-4849-B7E2-14E5BEC8C564}"
 EndProject

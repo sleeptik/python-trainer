@@ -1,6 +1,6 @@
 ﻿// ReSharper disable UnusedAutoPropertyAccessor.Local
 
-namespace Domain.Trainer;
+namespace Trainer.Database.Entities.Exercises;
 
 public sealed class Subject
 {
