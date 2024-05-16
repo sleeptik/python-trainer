@@ -11,6 +11,8 @@ public sealed class Assignment
     {
     }
 
+    public int Id { get; private set; }
+
     public int StudentId { get; private set; }
     public Student Student { get; private set; } = null!;
 

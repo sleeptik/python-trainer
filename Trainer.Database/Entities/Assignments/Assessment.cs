@@ -1,11 +1,13 @@
-﻿namespace Trainer.Database.Entities.Assignments;
+﻿// ReSharper disable UnusedAutoPropertyAccessor.Local
+
+namespace Trainer.Database.Entities.Assignments;
 
 public sealed class Assessment
 {
-    public float Readability { get; }
-    public float Complexity { get; }
-    public float Creativity { get; }
-    public float Efficiency { get; }
-    public float Structure { get; }
-    public float Reasoning { get; }
+    public float Readability { get; private set; }
+    public float Complexity { get; private set; }
+    public float Creativity { get; private set; }
+    public float Efficiency { get; private set; }
+    public float Structure { get; private set; }
+    public float Reasoning { get; private set; }
 }

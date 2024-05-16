@@ -1,15 +1,18 @@
-﻿namespace Trainer.Database.Entities.Assignments;
+﻿// ReSharper disable UnusedAutoPropertyAccessor.Local
+
+namespace Trainer.Database.Entities.Assignments;
 
 public sealed class Solution
 {
-    public int Id { get; }
+    public int Id { get; private set; }
 
-    public int AssignmentId { get; }
+    public int AssignmentId { get; private set; }
+    public Assignment Assignment { get; private set; }
 
     public string Code { get; private set; } = null!;
 
-    public DateTime SubmittedAt { get; }
-    public DateTime? VerifiedAt { get; }
+    public DateTime SubmittedAt { get; private set; }
+    public DateTime? VerifiedAt { get; private set; }
 
-    public Review? Review { get; }
+    public Review? Review { get; private set; }
 }
