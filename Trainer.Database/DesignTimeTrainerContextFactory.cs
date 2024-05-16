@@ -11,7 +11,7 @@ public sealed class DesignTimeTrainerContextFactory : IDesignTimeDbContextFactor
         var options = new DbContextOptionsBuilder<TrainerContext>()
             .UseNpgsql(args[0])
             .Options;
-        
+
         // Server=localhost;Port=5432;Database=trainer;UserId=postgres;Password=postgres;
         return new TrainerContext(options);
     }
