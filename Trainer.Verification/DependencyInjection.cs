@@ -1,15 +1,12 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.DependencyInjection;
 using OpenAI.Extensions;
 using Trainer.Verification.ChatBot;
 
-// ReSharper disable once CheckNamespace
-namespace Microsoft.Extensions.DependencyInjection;
+namespace Trainer.Verification;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddInfrastructureServices(
-        this IServiceCollection services, IConfiguration configuration
-    )
+    public static IServiceCollection AddVerificationServices(this IServiceCollection services)
     {
         services.AddOpenAIService();
         services.AddTransient<SolutionVerifyingService>();
