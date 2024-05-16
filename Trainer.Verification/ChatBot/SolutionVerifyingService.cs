@@ -2,9 +2,9 @@
 using OpenAI.Interfaces;
 using OpenAI.ObjectModels;
 using OpenAI.ObjectModels.RequestModels;
-using Trainer.Verification.ChatBot.Functions;
 using Trainer.Verification.ChatBot.Messages;
 using Trainer.Verification.ChatBot.ResultModels;
+using Trainer.Verification.ChatBot.Tools;
 
 namespace Trainer.Verification.ChatBot;
 
@@ -17,6 +17,8 @@ public class SolutionVerifyingService(IOpenAIService completionService)
 
     public async Task<VerificationResult> VerifyAsync(int assignmentId, CancellationToken cancellationToken)
     {
+        var tool = VerificationToolFactory.Create();
+
         var request = new ChatCompletionCreateRequest
         {
             Messages = new List<ChatMessage>
@@ -24,7 +26,11 @@ public class SolutionVerifyingService(IOpenAIService completionService)
                 InstructionMessageFactory.Create(1), // TODO
                 RequestMessageFactory.Create(1) // TODO 
             },
-            Functions = new List<FunctionDefinition> { VerificationFunctionFactory.Create() }
+            Tools = new List<ToolDefinition>
+            {
+                tool.Tool
+            },
+            ToolChoice = tool.Choice
         };
 
         var response = await completionService.ChatCompletion.CreateCompletion(request, GptModel, cancellationToken);
