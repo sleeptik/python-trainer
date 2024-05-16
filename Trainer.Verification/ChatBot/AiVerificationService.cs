@@ -5,7 +5,7 @@ using OpenAI.ObjectModels.RequestModels;
 using Trainer.Verification.ChatBot.Messages;
 using Trainer.Verification.ChatBot.ResultModels;
 using Trainer.Verification.ChatBot.Tools;
-using Trainer.Verification.Data;
+using Trainer.Verification.InputData;
 
 namespace Trainer.Verification.ChatBot;
 

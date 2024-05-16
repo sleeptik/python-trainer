@@ -1,5 +1,5 @@
 ﻿using Trainer.Verification.ChatBot;
-using Trainer.Verification.Data;
+using Trainer.Verification.InputData;
 using Trainer.Verification.Python;
 
 namespace Trainer.Verification;
