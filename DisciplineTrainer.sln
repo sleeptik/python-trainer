@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{98D03D48-3054-4C08-8389-A8B19B8F7A68}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "WebApi\WebApi.csproj", "{4C5EDBFC-C8E5-4044-8CCD-E9E5137CF14F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trainer.WebApi", "Trainer.WebApi\Trainer.WebApi.csproj", "{4C5EDBFC-C8E5-4044-8CCD-E9E5137CF14F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trainer.Verification", "Trainer.Verification\Trainer.Verification.csproj", "{0D48CD2B-9307-4C4B-BB42-C8F3EA3A7E8E}"
 EndProject

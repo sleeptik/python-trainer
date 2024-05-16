@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using WebApi.Features.Authentication;
-using WebApi.Features.Authentication.LogIn;
+using Trainer.WebApi.Features.Authentication;
+using Trainer.WebApi.Features.Authentication.LogIn;
 
 namespace WebApi.Unit;
 

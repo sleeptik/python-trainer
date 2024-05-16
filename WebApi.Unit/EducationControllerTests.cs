@@ -3,12 +3,12 @@ using Infrastructure.ChatBot;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
-using WebApi.Features.Education;
-using WebApi.Features.Education.GetAssignmentDetails;
-using WebApi.Features.Education.GetStudentAssignmentList;
-using WebApi.Features.Education.GetStudentSubjectList;
-using WebApi.Features.Education.SetAssignmentSolution;
-using WebApi.Features.Education.StudentSelfAssignment;
+using Trainer.WebApi.Features.Education;
+using Trainer.WebApi.Features.Education.GetAssignmentDetails;
+using Trainer.WebApi.Features.Education.GetStudentAssignmentList;
+using Trainer.WebApi.Features.Education.GetStudentSubjectList;
+using Trainer.WebApi.Features.Education.SetAssignmentSolution;
+using Trainer.WebApi.Features.Education.StudentSelfAssignment;
 
 namespace WebApi.Unit;
 

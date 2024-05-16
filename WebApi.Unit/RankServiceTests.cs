@@ -2,7 +2,7 @@ using Domain.Trainer;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using WebApi.Services;
+using Trainer.WebApi.Services;
 
 namespace WebApi.Unit;
 
