@@ -10,11 +10,7 @@ public sealed class User : IdentityUser<int>
     private User()
     {
     }
-
-    public int Id { get; private set; }
-    public string Email { get; private set; } = null!;
-    public string Password { get; private set; } = null!;
-
+    
     public void SetEmail(string email)
     {
         if (!MailAddress.TryCreate(email, out _))
@@ -25,8 +21,8 @@ public sealed class User : IdentityUser<int>
 
     public void SetPassword(string password)
     {
-        ArgumentException.ThrowIfNullOrEmpty(password);
-        Password = password;
+        // ArgumentException.ThrowIfNullOrEmpty(password);
+        // PasswordHash = password;
     }
 
     public static User Create(string email, string password)
