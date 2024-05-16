@@ -4,9 +4,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-builder.Services.AddAutoMapper(typeof(Program).Assembly);
-builder.Services.AddMediatR(configuration => configuration.RegisterServicesFromAssemblyContaining<Program>());
-
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddApplicationServices();
 
