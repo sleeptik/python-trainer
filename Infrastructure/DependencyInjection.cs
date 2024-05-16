@@ -1,6 +1,4 @@
-﻿using Infrastructure;
-using Infrastructure.ChatBot;
-using Microsoft.EntityFrameworkCore;
+﻿using Infrastructure.ChatBot;
 using Microsoft.Extensions.Configuration;
 using OpenAI.Extensions;
 
@@ -13,9 +11,6 @@ public static class DependencyInjection
         this IServiceCollection services, IConfiguration configuration
     )
     {
-        var connectionString = configuration.GetConnectionString("Default");
-        services.AddDbContext<ApplicationDbContext>(builder => builder.UseNpgsql(connectionString));
-
         services.AddOpenAIService();
         services.AddTransient<SolutionVerifyingService>();
 
