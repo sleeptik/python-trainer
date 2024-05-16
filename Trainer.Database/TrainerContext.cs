@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Trainer.Database.Entities.Assignments;
+using Trainer.Database.Entities.Auth;
 using Trainer.Database.Entities.Exercises;
 using Trainer.Database.Entities.Students;
-using Trainer.Database.Entities.Users;
 
 namespace Trainer.Database;
 

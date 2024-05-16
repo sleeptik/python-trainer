@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Trainer.Database.Entities.Auth;
 using Trainer.Database.Entities.Students;
-using Trainer.Database.Entities.Users;
 
 namespace Trainer.Database.Configurations;
 
