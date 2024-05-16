@@ -8,7 +8,7 @@ using OpenAI.ObjectModels.RequestModels;
 
 namespace Infrastructure.ChatBot;
 
-public class SolutionVerifyingService(ApplicationDbContext context, IOpenAIService completionService)
+public class SolutionVerifyingService(IOpenAIService completionService)
 {
     private static readonly string GptModel = Models.Gpt_3_5_Turbo_1106;
 
@@ -21,8 +21,8 @@ public class SolutionVerifyingService(ApplicationDbContext context, IOpenAIServi
         {
             Messages = new List<ChatMessage>
             {
-                InstructionMessageFactory.Create(context, 1), // TODO
-                RequestMessageFactory.Create(context, 1) // TODO 
+                InstructionMessageFactory.Create(1), // TODO
+                RequestMessageFactory.Create(1) // TODO 
             },
             Functions = new List<FunctionDefinition> { VerificationFunctionFactory.Create() }
         };

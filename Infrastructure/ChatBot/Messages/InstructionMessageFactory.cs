@@ -5,7 +5,7 @@ namespace Infrastructure.ChatBot.Messages;
 
 public static class InstructionMessageFactory
 {
-    public static ChatMessage Create(ApplicationDbContext dbContext, int exerciseId)
+    public static ChatMessage Create(int exerciseId)
     {
         var message = new StringBuilder()
             .Append("Ты автоматизированная система для проверки кода студентов на языке Python. ")

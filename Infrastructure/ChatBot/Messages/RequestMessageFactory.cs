@@ -5,7 +5,7 @@ namespace Infrastructure.ChatBot.Messages;
 
 public static class RequestMessageFactory
 {
-    public static ChatMessage Create(ApplicationDbContext dbContext, int assignmentId)
+    public static ChatMessage Create(int assignmentId)
     {
         var message = new StringBuilder()
             .AppendLine("### Задача")
