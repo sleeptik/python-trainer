@@ -1,10 +1,11 @@
 ﻿using System.Net.Mail;
+using Microsoft.AspNetCore.Identity;
 
 // ReSharper disable UnusedAutoPropertyAccessor.Local
 
-namespace Domain.Users;
+namespace Trainer.Database.Entities.Auth;
 
-public sealed class User
+public sealed class User : IdentityUser<int>
 {
     private User()
     {

@@ -1,13 +1,17 @@
-﻿using Domain.Users;
+﻿using Trainer.Database.Entities.Assignments;
+using Trainer.Database.Entities.Auth;
+using Trainer.Database.Entities.Exercises;
 
-namespace Domain.Trainer;
+// ReSharper disable FieldCanBeMadeReadOnly.Local
+
+namespace Trainer.Database.Entities.Students;
 
 public sealed class Student
 {
-    // ReSharper disable once FieldCanBeMadeReadOnly.Local
     private IList<Assignment> _assignments = new List<Assignment>();
+
     private float _score;
-    private IList<Subject> _subjectsToStudy = new List<Subject>();
+    private IList<Subject> _subjects = new List<Subject>();
 
     private Student()
     {
@@ -26,7 +30,7 @@ public sealed class Student
     }
 
     public IReadOnlyList<Assignment> Assignments => _assignments.AsReadOnly();
-    public IReadOnlyList<Subject> SubjectsToStudy => _subjectsToStudy.AsReadOnly();
+    public IReadOnlyList<Subject> Subjects => _subjects.AsReadOnly();
 
     public static Student Create(int userId, IEnumerable<Rank> ranks, IEnumerable<Subject> subjects)
     {
@@ -42,7 +46,7 @@ public sealed class Student
         {
             UserId = userId,
             CurrentRankId = minRankId,
-            _subjectsToStudy = enumeratedSubjects
+            _subjects = enumeratedSubjects
         };
     }
 }
