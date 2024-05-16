@@ -2,14 +2,14 @@
 using OpenAI.Interfaces;
 using OpenAI.ObjectModels;
 using OpenAI.ObjectModels.RequestModels;
-using Trainer.Verification.ChatBot.Data;
 using Trainer.Verification.ChatBot.Messages;
 using Trainer.Verification.ChatBot.ResultModels;
 using Trainer.Verification.ChatBot.Tools;
+using Trainer.Verification.Data;
 
 namespace Trainer.Verification.ChatBot;
 
-public class SolutionVerifyingService(IOpenAIService completionService)
+public class AiVerificationService(IOpenAIService completionService)
 {
     private static readonly string GptModel = Models.Gpt_3_5_Turbo_1106;
 
