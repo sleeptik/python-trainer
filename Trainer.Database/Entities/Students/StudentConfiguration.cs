@@ -1,9 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Trainer.Database.Entities.Auth;
-using Trainer.Database.Entities.Students;
 
-namespace Trainer.Database.Configurations;
+namespace Trainer.Database.Entities.Students;
 
 public sealed class StudentConfiguration : IEntityTypeConfiguration<Student>
 {

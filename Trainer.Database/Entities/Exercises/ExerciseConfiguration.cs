@@ -1,8 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Trainer.Database.Entities.Exercises;
 
-namespace Trainer.Database.Configurations;
+namespace Trainer.Database.Entities.Exercises;
 
 public class ExerciseConfiguration : IEntityTypeConfiguration<Exercise>
 {
