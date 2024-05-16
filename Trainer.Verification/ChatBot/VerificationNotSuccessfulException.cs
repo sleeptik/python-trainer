@@ -1,6 +1,6 @@
 ﻿using OpenAI.ObjectModels.ResponseModels;
 
-namespace Infrastructure.ChatBot;
+namespace Trainer.Verification.ChatBot;
 
 public class VerificationNotSuccessfulException : Exception
 {

@@ -1,12 +1,12 @@
 ﻿using System.Text.Json;
-using Infrastructure.ChatBot.Functions;
-using Infrastructure.ChatBot.Messages;
-using Infrastructure.ChatBot.ResultModels;
 using OpenAI.Interfaces;
 using OpenAI.ObjectModels;
 using OpenAI.ObjectModels.RequestModels;
+using Trainer.Verification.ChatBot.Functions;
+using Trainer.Verification.ChatBot.Messages;
+using Trainer.Verification.ChatBot.ResultModels;
 
-namespace Infrastructure.ChatBot;
+namespace Trainer.Verification.ChatBot;
 
 public class SolutionVerifyingService(IOpenAIService completionService)
 {

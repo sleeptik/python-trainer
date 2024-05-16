@@ -1,6 +1,6 @@
-﻿using Infrastructure.ChatBot;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using OpenAI.Extensions;
+using Trainer.Verification.ChatBot;
 
 // ReSharper disable once CheckNamespace
 namespace Microsoft.Extensions.DependencyInjection;

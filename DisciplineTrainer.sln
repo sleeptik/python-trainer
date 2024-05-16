@@ -4,7 +4,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{98D03D48-305
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "WebApi\WebApi.csproj", "{4C5EDBFC-C8E5-4044-8CCD-E9E5137CF14F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{0D48CD2B-9307-4C4B-BB42-C8F3EA3A7E8E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trainer.Verification", "Trainer.Verification\Trainer.Verification.csproj", "{0D48CD2B-9307-4C4B-BB42-C8F3EA3A7E8E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trainer.Database", "Trainer.Database\Trainer.Database.csproj", "{5D145B3B-592D-48BF-8AFF-73117194D2B4}"
 EndProject

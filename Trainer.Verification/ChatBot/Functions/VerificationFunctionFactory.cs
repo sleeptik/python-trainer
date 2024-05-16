@@ -1,9 +1,9 @@
-﻿using Infrastructure.ChatBot.ResultModels;
-using OpenAI.Builders;
+﻿using OpenAI.Builders;
 using OpenAI.ObjectModels.RequestModels;
 using OpenAI.ObjectModels.SharedModels;
+using Trainer.Verification.ChatBot.ResultModels;
 
-namespace Infrastructure.ChatBot.Functions;
+namespace Trainer.Verification.ChatBot.Functions;
 
 public static class VerificationFunctionFactory
 {

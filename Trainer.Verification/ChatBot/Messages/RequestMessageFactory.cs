@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using OpenAI.ObjectModels.RequestModels;
 
-namespace Infrastructure.ChatBot.Messages;
+namespace Trainer.Verification.ChatBot.Messages;
 
 public static class RequestMessageFactory
 {

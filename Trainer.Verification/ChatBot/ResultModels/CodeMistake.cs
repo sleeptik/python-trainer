@@ -1,5 +1,5 @@
 ﻿// ReSharper disable ClassNeverInstantiated.Global
 
-namespace Infrastructure.ChatBot.ResultModels;
+namespace Trainer.Verification.ChatBot.ResultModels;
 
 public sealed record CodeMistake(string Mistake, string? FixSuggestion);
