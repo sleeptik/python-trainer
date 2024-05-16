@@ -1,10 +1,11 @@
-using Microsoft.Extensions.DependencyInjection.Extensions;
+using Trainer.Database.DependencyInjection;
+using Trainer.WebApi.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-builder.Services.AddInfrastructureServices(builder.Configuration);
+builder.Services.AddTrainerContext(builder.Configuration);
 builder.Services.AddApplicationServices();
 
 builder.Services.AddEndpointsApiExplorer();

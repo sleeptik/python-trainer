@@ -1,7 +1,4 @@
-﻿
-
-// ReSharper disable once CheckNamespace
-namespace Microsoft.Extensions.DependencyInjection.Extensions;
+﻿namespace Trainer.WebApi.DependencyInjection;
 
 public static class DependencyInjection
 {

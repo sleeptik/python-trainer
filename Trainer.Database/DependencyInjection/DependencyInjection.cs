@@ -2,11 +2,11 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Trainer.Database;
+namespace Trainer.Database.DependencyInjection;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddInfrastructureServices(
+    public static IServiceCollection AddTrainerContext(
         this IServiceCollection services, IConfiguration configuration
     )
     {

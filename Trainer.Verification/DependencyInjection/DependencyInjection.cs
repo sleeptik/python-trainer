@@ -2,7 +2,7 @@
 using OpenAI.Extensions;
 using Trainer.Verification.ChatBot;
 
-namespace Trainer.Verification;
+namespace Trainer.Verification.DependencyInjection;
 
 public static class DependencyInjection
 {
