@@ -1,9 +1,9 @@
-﻿using Domain.Trainer;
-using Domain.Users;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Trainer.Database.Entities.Students;
+using Trainer.Database.Entities.Users;
 
-namespace Infrastructure.Configurations;
+namespace Trainer.Database.Configurations;
 
 public sealed class StudentConfiguration : IEntityTypeConfiguration<Student>
 {
@@ -12,6 +12,6 @@ public sealed class StudentConfiguration : IEntityTypeConfiguration<Student>
         builder.HasKey(student => student.UserId);
         builder.HasOne<Rank>(student => student.CurrentRank).WithMany();
         builder.HasOne<User>(student => student.User).WithOne();
-        builder.HasMany(student => student.SubjectsToStudy).WithMany();
+        builder.HasMany(student => student.Subjects).WithMany();
     }
 }

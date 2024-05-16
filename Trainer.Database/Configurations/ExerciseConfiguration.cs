@@ -1,8 +1,8 @@
-﻿using Domain.Trainer;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Trainer.Database.Entities.Exercises;
 
-namespace Infrastructure.Configurations;
+namespace Trainer.Database.Configurations;
 
 public class ExerciseConfiguration : IEntityTypeConfiguration<Exercise>
 {
