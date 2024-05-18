@@ -7,6 +7,7 @@ using Trainer.Database.DependencyInjection;
 using Trainer.Database.Entities.Auth;
 using Trainer.WebApi.Controllers.Auth.Yandex.DependencyInjection;
 using Trainer.WebApi.DependencyInjection;
+using Trainer.WebApi.Jobs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +25,7 @@ builder.Services
     {
         var connectionString = builder.Configuration.GetConnectionString("Quartz")!;
         configurator.UsePersistentStore(options => options.UsePostgres(connectionString));
+        configurator.ScheduleTrainerJobs();
     })
     .AddQuartzHostedService(options => { options.WaitForJobsToComplete = true; });
 

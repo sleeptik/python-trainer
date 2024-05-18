@@ -15,4 +15,12 @@ public sealed class Solution
     public DateTime? VerifiedAt { get; private set; }
 
     public Review? Review { get; private set; }
+
+    public void SetReview(Review review)
+    {
+        if (Review is not null)
+            throw new InvalidOperationException();
+
+        Review = review;
+    }
 }
