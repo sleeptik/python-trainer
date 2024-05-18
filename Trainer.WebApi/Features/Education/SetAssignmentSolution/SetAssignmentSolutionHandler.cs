@@ -1,11 +1,10 @@
-﻿using Infrastructure;
-using Infrastructure.ChatBot;
-using MediatR;
+﻿using Trainer.Database;
+using Trainer.Verification.ChatBot;
+using Trainer.Verification.ChatBot.ResultModels;
 
 namespace Trainer.WebApi.Features.Education.SetAssignmentSolution;
 
-public class SetAssignmentSolutionHandler(ApplicationDbContext context, SolutionVerifyingService verifyingService)
-    : IRequestHandler<SetAssignmentSolutionRequest, VerificationResult>
+public class SetAssignmentSolutionHelper(TrainerContext context, AiVerificationService verifyingService)
 {
     public async Task<VerificationResult> Handle(SetAssignmentSolutionRequest request,
         CancellationToken cancellationToken)

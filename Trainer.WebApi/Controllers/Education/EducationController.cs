@@ -1,27 +1,31 @@
 ﻿using System.Security.Claims;
-using MediatR;
+using System.Threading;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Trainer.WebApi.Common;
 using Trainer.WebApi.Controllers.Education.DTO;
-using Trainer.WebApi.Features.Education.GetAssignmentDetails;
-using Trainer.WebApi.Features.Education.GetStudentAssignmentList;
-using Trainer.WebApi.Features.Education.GetStudentSubjectList;
 using Trainer.WebApi.Features.Education.SetAssignmentSolution;
 using Trainer.WebApi.Features.Education.StudentSelfAssignment;
 
 namespace Trainer.WebApi.Features.Education;
 
 [Route("api/education")]
-public sealed class EducationController(IMediator mediator) : ApiController
+public sealed class EducationController() : ApiController
 {
     private int StudentId => int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "1");
 
     [HttpGet("")]
     public async Task<IActionResult> GetStudentAssignmentList()
     {
-        var exercises = await mediator.Send(new GetStudentAssignmentListRequest(StudentId));
-        return Ok(exercises);
+        var assignments = await TrainerContext.Assignments.AsNoTracking()
+            .Include(assignment => assignment.Exercise)
+            .ThenInclude(exercise => exercise.Subjects)
+            .Include(assignment => assignment.Exercise)
+            .ThenInclude(exercise => exercise.Rank)
+            .Where(assignment => assignment.StudentId == StudentId)
+            .ToListAsync();
+
+        return Ok(assignments);
     }
 
     [HttpGet("exercises/{exerciseId:int}")]
@@ -43,7 +47,7 @@ public sealed class EducationController(IMediator mediator) : ApiController
     [HttpPost("")]
     public async Task<IActionResult> AddSelfAssignment(StudentSelfAssignmentDto dto)
     {
-        var newAssignment = await mediator.Send(new StudentSelfAssignmentRequest(StudentId, dto.SubjectId));
+        var newAssignment = new StudentSelfAssignmentHelper(TrainerContext).SelfAssignment(new StudentSelfAssignmentRequest(StudentId, dto.SubjectId));
         return Ok(newAssignment);
     }
 
@@ -61,7 +65,11 @@ public sealed class EducationController(IMediator mediator) : ApiController
     [HttpGet("subjects")]
     public async Task<IActionResult> GetStudentSubjectList()
     {
-        var subjects = await mediator.Send(new GetStudentSubjectListRequest(StudentId));
+        var subjects = await TrainerContext.Students.AsNoTracking()
+            .Include(student => student.Subjects)
+            .Where(student => student.UserId==StudentId)
+            .SelectMany(student => student.Subjects)
+            .ToListAsync();
         return Ok(subjects);
     }
 }

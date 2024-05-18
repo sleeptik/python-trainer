@@ -1,17 +1,15 @@
-﻿using Domain.Trainer;
-using Infrastructure;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Trainer.Database;
+using Trainer.Database.Entities.Assignments;
+using Trainer.Database.Entities.Exercises;
 
 namespace Trainer.WebApi.Features.Education.StudentSelfAssignment;
 
-public class StudentSelfAssignmentHandler(ApplicationDbContext context)
-    : IRequestHandler<StudentSelfAssignmentRequest, Assignment>
+public class StudentSelfAssignmentHelper(TrainerContext context)
 {
-    public async Task<Assignment> Handle(StudentSelfAssignmentRequest request,
-        CancellationToken cancellationToken)
+    public async Task<Assignment> SelfAssignment(StudentSelfAssignmentRequest request)
     {
-        var history = await GetStudentFinishedAssignments(request.StudentId, cancellationToken);
+        var history = await GetStudentFinishedAssignments(request.StudentId);
         var subjectToStudy = GetSubjectsToStudy(request.StudentId);
         var newExercise = new Exercise();
 
@@ -31,51 +29,41 @@ public class StudentSelfAssignmentHandler(ApplicationDbContext context)
         }
 
         subjectExercises = subjectExercises
-            .Where(exercise => !history.Any(his => his.ExerciseId == exercise.Id && his.IsPassed is true))
+            .Where(exercise => !history.Any(his => his.ExerciseId == exercise.Id))
             .ToList()
             .OrderBy(_ => Random.Shared.Next())
             .ToList();
         
-        List<string>? teor;
-        if (userRank.Score < 4)
-        {
-            teor = new List<string> { "Theory" };
-            newExercise = subjectExercises
+        newExercise = subjectExercises
                 .First(exercise => exercise.RankId == userRank.CurrentRankId);
-        }
-        else
-        {
-            newExercise = subjectExercises
-                .First(exercise => exercise.RankId == userRank.CurrentRankId);
-        }
 
         var assignment = Assignment.Create(request.StudentId, newExercise.Id);
-        await context.Assignments.AddAsync(assignment, cancellationToken);
-        await context.SaveChangesAsync(cancellationToken);
+        await context.Assignments.AddAsync(assignment);
+        await context.SaveChangesAsync();
         
-        await context.Entry(assignment).Reference(assignment1=> assignment1.Exercise).LoadAsync(cancellationToken);
+        await context.Entry(assignment).Reference(assignment1=> assignment1.Exercise).LoadAsync();
 
         return assignment;
     }
 
     private async Task<IList<Assignment>> GetStudentFinishedAssignments(
-        int studentId, CancellationToken cancellationToken
+        int studentId
     )
     {
         return await context.Assignments.AsNoTracking()
             .Include(assignment => assignment.Exercise)
             .ThenInclude(exercise => exercise.Subjects)
             .Where(assignment => assignment.StudentId == studentId)
-            .OrderBy(assignment => assignment.FinishedAt)
-            .ToListAsync(cancellationToken);
+            .OrderBy(assignment => assignment.Solutions.Last().SubmittedAt)
+            .ToListAsync();
     }
 
     private IList<Subject> GetSubjectsToStudy(int studentId)
     {
         return context.Students.AsNoTracking()
-            .Include(student => student.SubjectsToStudy)
+            .Include(student => student.Subjects)
             .First(student => student.UserId == studentId)
-            .SubjectsToStudy
+            .Subjects
             .ToList();
     }
 }
