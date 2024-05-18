@@ -1,7 +1,9 @@
 ﻿using System.Security.Claims;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Trainer.WebApi.Common;
+using Trainer.WebApi.Controllers.Education.DTO;
 using Trainer.WebApi.Features.Education.GetAssignmentDetails;
 using Trainer.WebApi.Features.Education.GetStudentAssignmentList;
 using Trainer.WebApi.Features.Education.GetStudentSubjectList;
@@ -23,9 +25,18 @@ public sealed class EducationController(IMediator mediator) : ApiController
     }
 
     [HttpGet("exercises/{exerciseId:int}")]
-    public async Task<IActionResult> GetAssignmentDetails(int exerciseId)
+    public async Task<IActionResult> GetAssignmentDetails(GetAssignmentDetailsRequest detailsRequest)
     {
-        var assignment = await mediator.Send(new GetAssignmentDetailsRequest(StudentId, exerciseId));
+        var assignment = await TrainerContext.Assignments.AsNoTracking()
+            .Include(assignment => assignment.Exercise)
+            .ThenInclude(exercise => exercise.Rank)
+            .Include(assignment => assignment.Exercise)
+            .ThenInclude(exercise => exercise.Subjects)
+            .SingleAsync(
+                assignment => assignment.StudentId == detailsRequest.StudentId
+                              && assignment.ExerciseId == detailsRequest.ExerciseId
+            );
+
         return Ok(assignment);
     }
 
