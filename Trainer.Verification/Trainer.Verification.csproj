@@ -9,6 +9,7 @@
 
     <ItemGroup>
         <PackageReference Include="Betalgo.OpenAI" Version="8.1.1"/>
+        <PackageReference Include="IronPython" Version="3.4.1"/>
     </ItemGroup>
 
 </Project>
