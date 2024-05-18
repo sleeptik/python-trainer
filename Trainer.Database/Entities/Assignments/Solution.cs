@@ -15,4 +15,13 @@ public sealed class Solution
     public DateTime? VerifiedAt { get; private set; }
 
     public Review? Review { get; private set; }
+
+    public static Solution Create(string code)
+    {
+        return new Solution
+        {
+            Code = code,
+            SubmittedAt = DateTime.UtcNow
+        };
+    }
 }

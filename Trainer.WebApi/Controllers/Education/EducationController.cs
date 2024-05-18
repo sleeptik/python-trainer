@@ -47,17 +47,17 @@ public sealed class EducationController() : ApiController
     [HttpPost("")]
     public async Task<IActionResult> AddSelfAssignment(StudentSelfAssignmentDto dto)
     {
-        var newAssignment = new StudentSelfAssignmentHelper(TrainerContext).SelfAssignment(new StudentSelfAssignmentRequest(StudentId, dto.SubjectId));
+        var newAssignment = await new StudentSelfAssignmentHelper(TrainerContext).SelfAssignment(new StudentSelfAssignmentRequest(StudentId, dto.SubjectId));
         return Ok(newAssignment);
     }
 
     [HttpPatch("")]
     public async Task<IActionResult> SetAssignmentSolution(SetAssignmentSolutionDto dto)
     {
-        var result = await mediator.Send(new SetAssignmentSolutionRequest(StudentId, dto.ExerciseId, dto.Solution));
+        var result = await new SetAssignmentSolutionHelper(TrainerContext).Helper(new SetAssignmentSolutionRequest(StudentId, dto.ExerciseId, dto.Solution));
 
-        var notification = new AssignmentSolutionVerifiedNotification(StudentId, dto.ExerciseId);
-        await mediator.Publish(notification);
+        // var notification = new AssignmentSolutionVerifiedNotification(StudentId, dto.ExerciseId);
+        // await mediator.Publish(notification);
 
         return Ok(result);
     }
