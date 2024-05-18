@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using Trainer.Database;
 using Trainer.Database.DependencyInjection;
 using Trainer.Database.Entities.Auth;
@@ -9,6 +10,13 @@ using Trainer.WebApi.DependencyInjection;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+
+var logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .WriteTo.Console()
+    .CreateLogger();
+
+builder.Services.AddSerilog(logger);
 
 builder.Services.AddTrainerContext(builder.Configuration);
 builder.Services.AddApplicationServices();
