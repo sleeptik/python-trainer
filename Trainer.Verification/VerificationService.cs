@@ -1,4 +1,5 @@
 ﻿using Trainer.Verification.ChatBot;
+using Trainer.Verification.ChatBot.ResultModels;
 using Trainer.Verification.InputData;
 using Trainer.Verification.Python;
 
@@ -9,17 +10,19 @@ public class VerificationService(
     AiVerificationService aiVerificationService
 )
 {
-    public async void VerifyAsync(
+    public async Task<VerificationResult> VerifyAsync(
         VerificationInstructionsSet instructionsSet, CancellationToken cancellationToken = default
     )
     {
-        var compilationResult = await compilingService.VerifyAsync(instructionsSet.Solution, cancellationToken);
+        var compilationResult = await compilingService.CompileAsync(instructionsSet.Solution, cancellationToken);
 
         if (!compilationResult.CanCompile)
-            return; // TODO придумать что тут можно сделать
+            return new VerificationResult(
+                compilationResult.CanCompile,
+                new List<CodeMistake> { new(compilationResult.CompilationError!, null) }
+            );
 
         var verificationResult = await aiVerificationService.VerifyAsync(instructionsSet, cancellationToken);
-
-        // TODO Додумать что вернуть
+        return verificationResult;
     }
 }

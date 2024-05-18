@@ -1,35 +1,25 @@
-﻿using Trainer.Verification.Python.ResultModels;
+﻿using Microsoft.Scripting;
+using Microsoft.Scripting.Hosting;
+using Trainer.Verification.Python.ResultModels;
 
 namespace Trainer.Verification.Python;
 
 public class SourceCodeCompilingService
 {
-    public async Task<CompilationResult> VerifyAsync(string code, CancellationToken cancellationToken = default)
+    private readonly ScriptEngine _engine = IronPython.Hosting.Python.CreateEngine();
+
+    public Task<CompilationResult> CompileAsync(string code, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var source = _engine.CreateScriptSourceFromString(code);
 
-        // Запустить процесс компиляции
-        var fileInfo = await Compile(code, cancellationToken);
-
-        // Дождаться конца компиляции
-        // Подготовить `CompilationResult` с выставленными полями
-        var result = new CompilationResult(true, "");
-
-        // удалить созданный при компиляции файл 
-        Clear(fileInfo);
-
-        return result;
-    }
-
-    private async Task<FileInfo?> Compile(string code, CancellationToken cancellationToken)
-    {
-        // Скомпилировать файл и если он был успешно скомпилирован переда
-        return new FileInfo("");
-    }
-
-    private async void Clear(FileInfo fileInfo)
-    {
-        if (fileInfo.Exists)
-            fileInfo.Delete();
+        try
+        {
+            source.Compile();
+            return Task.FromResult(new CompilationResult(true, null));
+        }
+        catch (SyntaxErrorException e)
+        {
+            return Task.FromResult(new CompilationResult(false, e.Message));
+        }
     }
 }
