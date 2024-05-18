@@ -5,6 +5,7 @@ using Serilog;
 using Trainer.Database;
 using Trainer.Database.DependencyInjection;
 using Trainer.Database.Entities.Auth;
+using Trainer.Verification.DependencyInjection;
 using Trainer.WebApi.Controllers.Auth.Yandex.DependencyInjection;
 using Trainer.WebApi.DependencyInjection;
 using Trainer.WebApi.Jobs;
@@ -34,8 +35,9 @@ builder.Services
     .AddQuartzHostedService(options => { options.WaitForJobsToComplete = true; });
 
 builder.Services.AddTrainerContext(builder.Configuration);
-builder.Services.AddApplicationServices();
 builder.Services.AddYandexServices(builder.Configuration);
+builder.Services.AddVerificationServices();
+builder.Services.AddApplicationServices();
 
 builder.Services.AddIdentity<User, Role>()
     .AddEntityFrameworkStores<TrainerContext>();
