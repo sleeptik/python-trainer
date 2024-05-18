@@ -5,17 +5,20 @@ using OpenAI.ObjectModels.RequestModels;
 using Trainer.Verification.ChatBot.Messages;
 using Trainer.Verification.ChatBot.ResultModels;
 using Trainer.Verification.ChatBot.Tools;
+using Trainer.Verification.InputData;
 
 namespace Trainer.Verification.ChatBot;
 
-public class SolutionVerifyingService(IOpenAIService completionService)
+public class AiVerificationService(IOpenAIService completionService)
 {
     private static readonly string GptModel = Models.Gpt_3_5_Turbo_1106;
 
     private static readonly JsonSerializerOptions JsonSerializerOptions =
         new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 
-    public async Task<VerificationResult> VerifyAsync(int assignmentId, CancellationToken cancellationToken)
+    public async Task<VerificationResult> VerifyAsync(
+        VerificationInstructionsSet instructions, CancellationToken cancellationToken
+    )
     {
         var tool = VerificationToolFactory.Create();
 
@@ -23,8 +26,8 @@ public class SolutionVerifyingService(IOpenAIService completionService)
         {
             Messages = new List<ChatMessage>
             {
-                InstructionMessageFactory.Create(1), // TODO
-                RequestMessageFactory.Create(1) // TODO 
+                InstructionMessageFactory.Create(instructions.CustomInstructions),
+                RequestMessageFactory.Create(instructions.Task, instructions.Solution)
             },
             Tools = new List<ToolDefinition>
             {

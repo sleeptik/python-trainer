@@ -5,14 +5,14 @@ namespace Trainer.Verification.ChatBot.Messages;
 
 public static class RequestMessageFactory
 {
-    public static ChatMessage Create(int assignmentId)
+    public static ChatMessage Create(string task, string code)
     {
         var message = new StringBuilder()
             .AppendLine("### Задача")
-            .AppendLine("")
+            .AppendLine($"{task}")
             .AppendLine("### Код задачи")
             .AppendLine("```py")
-            .AppendLine("")
+            .AppendLine($"{code}")
             .AppendLine("```")
             .ToString();
 
