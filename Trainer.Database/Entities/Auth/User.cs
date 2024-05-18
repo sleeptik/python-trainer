@@ -25,12 +25,13 @@ public sealed class User : IdentityUser<int>
         // PasswordHash = password;
     }
 
-    public static User Create(string email, string password)
+    public static User Create(string email, string name)
     {
-        var user = new User();
-
-        user.SetEmail(email);
-        user.SetPassword(password);
+        var user = new User
+        {
+            Email = email,
+            UserName = name
+        };
 
         return user;
     }
