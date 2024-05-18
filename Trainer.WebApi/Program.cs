@@ -24,7 +24,11 @@ builder.Services
     .AddQuartz(configurator =>
     {
         var connectionString = builder.Configuration.GetConnectionString("Quartz")!;
-        configurator.UsePersistentStore(options => options.UsePostgres(connectionString));
+        configurator.UsePersistentStore(options =>
+        {
+            options.UsePostgres(connectionString);
+            options.UseNewtonsoftJsonSerializer();
+        });
         configurator.ScheduleTrainerJobs();
     })
     .AddQuartzHostedService(options => { options.WaitForJobsToComplete = true; });
