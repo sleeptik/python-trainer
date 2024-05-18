@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using Quartz;
 using Serilog;
 using Trainer.Database;
 using Trainer.Database.DependencyInjection;
@@ -17,6 +18,14 @@ var logger = new LoggerConfiguration()
     .CreateLogger();
 
 builder.Services.AddSerilog(logger);
+
+builder.Services
+    .AddQuartz(configurator =>
+    {
+        var connectionString = builder.Configuration.GetConnectionString("Quartz")!;
+        configurator.UsePersistentStore(options => options.UsePostgres(connectionString));
+    })
+    .AddQuartzHostedService(options => { options.WaitForJobsToComplete = true; });
 
 builder.Services.AddTrainerContext(builder.Configuration);
 builder.Services.AddApplicationServices();
