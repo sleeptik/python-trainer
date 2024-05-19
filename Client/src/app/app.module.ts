@@ -23,7 +23,8 @@ import {TrainerOutputComponent} from './components/trainer-output/trainer-output
 import {AssignmentsComponent} from './components/assignments/assignments.component';
 import {AssignmentsTableComponent} from './components/assignments-table/assignments-table.component';
 import {CdkTableModule} from "@angular/cdk/table";
-import { AssignmentsMenuComponent } from './components/assignments-menu/assignments-menu.component';
+import {AssignmentsMenuComponent} from './components/assignments-menu/assignments-menu.component';
+import {DummyRedirectComponent} from './components/dummy-redirect/dummy-redirect.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { AssignmentsMenuComponent } from './components/assignments-menu/assignme
     AssignmentsComponent,
     AssignmentsTableComponent,
     AssignmentsMenuComponent,
+    DummyRedirectComponent,
   ],
   imports: [
     BrowserModule,
