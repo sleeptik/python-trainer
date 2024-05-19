@@ -7,3 +7,4 @@ export const mySubjectsResolver: ResolveFn<Subject[]> = (route, state) => {
   const educationService = inject(EducationService);
   return educationService.getMySubjects();
 };
+

@@ -7,3 +7,4 @@ export const myAssignmentsResolver: ResolveFn<Assignment[]> = (route, state) => 
   const educationService = inject(EducationService);
   return educationService.getMyAssignments();
 };
+
