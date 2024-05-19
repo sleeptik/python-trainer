@@ -4,7 +4,6 @@ import {BrowserModule} from '@angular/platform-browser';
 
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from "./app-routing.module";
-import {VerifierComponent} from './components/verifier/verifier.component';
 import {HomeComponent} from './components/home/home.component';
 import {NavMenuComponent} from './components/nav-menu/nav-menu.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
@@ -31,7 +30,6 @@ import {DummyRedirectComponent} from './components/dummy-redirect/dummy-redirect
     AppComponent,
     HomeComponent,
     NavMenuComponent,
-    VerifierComponent,
     WelcomeComponent,
     TrainerLayoutComponent,
     TrainerInformationComponent,
