@@ -31,4 +31,10 @@ public sealed class Assignment
             ExerciseId = exerciseId
         };
     }
+
+    public void AddSolution(Solution solution)
+    {
+        Solutions.Add(solution);
+    }
+
 }

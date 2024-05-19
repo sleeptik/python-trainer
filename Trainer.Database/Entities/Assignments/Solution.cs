@@ -23,4 +23,13 @@ public sealed class Solution
 
         Review = review;
     }
+
+    public static Solution Create(string code)
+    {
+        return new Solution
+        {
+            Code = code,
+            SubmittedAt = DateTime.UtcNow
+        };
+    }
 }
