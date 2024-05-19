@@ -71,6 +71,6 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseEndpoints(routeBuilder => routeBuilder.MapControllers());
+app.MapControllers();
 
 app.Run();
