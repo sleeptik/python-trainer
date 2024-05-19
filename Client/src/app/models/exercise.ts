@@ -2,7 +2,7 @@
 
 export interface Exercise {
   id: number;
-  contents: string;
+  details: string;
 
   rank: { id: number, name: string };
   subjects: Subject[];

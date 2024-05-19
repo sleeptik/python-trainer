@@ -1,5 +1,5 @@
 ﻿export interface SetAssignmentSolutionRequest {
-  exerciseId: number;
   studentId: number;
+  exerciseId: number;
   solution: string;
 }

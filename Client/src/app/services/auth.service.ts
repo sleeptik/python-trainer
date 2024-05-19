@@ -25,4 +25,8 @@ export class AuthService {
       map(value => value.ok)
     );
   }
+
+  logout(){
+    return this.httpClient.post<unknown>("api/auth/logout",null) //TODO HUETA
+  }
 }

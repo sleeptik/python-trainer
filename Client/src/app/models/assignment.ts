@@ -1,14 +1,14 @@
 ﻿import {Exercise} from "./exercise";
+import { Solution } from "./solution";
 
 export interface Assignment {
+  id: number;
   studentId: number;
 
   exerciseId: number;
   exercise: Exercise;
 
-  solution: string | null;
-  isPassed: boolean | null;
+  solutions: Solution[];
 
   assignedAt: Date;
-  finishedAt: Date | null;
 }

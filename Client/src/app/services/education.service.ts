@@ -28,7 +28,7 @@ export class EducationService {
 
   setAssignmentSolution(exerciseId: number, solution: string) {
     const request: SetAssignmentSolutionRequest = {exerciseId: exerciseId, studentId: 1, solution: solution};
-    return this.httpClient.patch<never>("api/education", request);
+    return this.httpClient.patch<unknown>("api/education", request);
   }
 
   getMySubjects() {
