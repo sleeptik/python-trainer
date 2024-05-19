@@ -10,9 +10,9 @@
         </div>
 
         <div class="mt-3 text-center">
-          <button class="btn btn-dark" routerLink="trainer/education">
+          <a [href]="authLink" class="btn btn-dark" [class.disabled]="authLink === null">
             Войти в систему
-          </button>
+          </a>
         </div>
       </div>
 
