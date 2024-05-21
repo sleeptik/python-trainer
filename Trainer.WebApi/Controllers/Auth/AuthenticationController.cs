@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Trainer.Database.Entities.Auth;
@@ -16,18 +17,20 @@ public sealed class AuthenticationController(
     YandexCodeRequestUrlFactory yandexCodeRequestUrlFactory
 ) : ApiController
 {
+    private int? CurrentUserId => Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+
     [HttpGet("yandex-redirect")]
     public IActionResult RedirectToAuthPage()
     {
         return Ok(yandexCodeRequestUrlFactory.Create());
     }
-    
+
     [HttpPost("yandex-login")]
     public async Task<IActionResult> LogIn(int code)
     {
         var info = await userInfoRetriever.GetUserInfoAsync(code);
         var user = await GetOrCreateUserByEmailAsync(info);
-        
+
         await signInManager.SignInAsync(user, true);
 
         return NoContent();
@@ -36,13 +39,29 @@ public sealed class AuthenticationController(
     [HttpPost("logout")]
     public async Task<IActionResult> LogOut()
     {
+        if (!User.Identity?.IsAuthenticated ?? false)
+            return Unauthorized();
+
         await signInManager.SignOutAsync();
         return NoContent();
     }
 
+    [HttpGet("me")]
+    public async Task<IActionResult> GetCurrentUser()
+    {
+        if (CurrentUserId == 0)
+            return Unauthorized();
+
+        var data = await TrainerContext.Users.AsNoTracking()
+            .Select(user => new { user.Id, user.Email, user.UserName })
+            .SingleAsync(arg => arg.Id == CurrentUserId);
+
+        return Ok(new SimpleUserInfoDto(data.Id, data.UserName, data.Email));
+    }
+
     private async Task<User> GetOrCreateUserByEmailAsync(UserInfo userInfo)
     {
-        var user =  await TrainerContext.Users.SingleOrDefaultAsync(user => user.Email == userInfo.DefaultEmail);
+        var user = await TrainerContext.Users.SingleOrDefaultAsync(user => user.Email == userInfo.DefaultEmail);
 
         if (user is not null)
             return user;

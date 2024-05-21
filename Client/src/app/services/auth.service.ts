@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {map, of, tap} from "rxjs";
+import {catchError, map, of, tap} from "rxjs";
+import {SimpleUserInfo} from "../models/simple-user-info";
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,13 @@ export class AuthService {
   private yandexRedirectLink: string | null = null;
 
   constructor(private readonly httpClient: HttpClient) {
+  }
+
+  getCurrentUser() {
+    // TODO remake with interceptors, possibly.
+    return this.httpClient.get<SimpleUserInfo>("api/auth/me").pipe(
+      catchError(err => of(null)),
+    );
   }
 
   getYandexRedirectLink() {
