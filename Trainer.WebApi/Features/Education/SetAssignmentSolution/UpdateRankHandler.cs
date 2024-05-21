@@ -1,12 +1,10 @@
-﻿using Infrastructure;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Trainer.Database;
 using Trainer.WebApi.Services;
 
 namespace Trainer.WebApi.Features.Education.SetAssignmentSolution;
 
-public class UpdateRankHandler(ApplicationDbContext context, RankService rankService)
-    : INotificationHandler<AssignmentSolutionVerifiedNotification>
+public class UpdateRankHandler(TrainerContext context, RankService rankService)
 {
     public async Task Handle(AssignmentSolutionVerifiedNotification notification, CancellationToken cancellationToken)
     {
@@ -40,7 +38,7 @@ public class UpdateRankHandler(ApplicationDbContext context, RankService rankSer
             );
 
         // IsPassed should be already set at this moment
-        return assignment.IsPassed!.Value ? 1.0f : -0.9f;
+        return assignment.Solutions.First().Review!.IsCorrect ? 1.0f : -0.9f;
     }
 
     private async Task<float> GetPastResultsCoefficient(AssignmentSolutionVerifiedNotification notification,
@@ -48,12 +46,14 @@ public class UpdateRankHandler(ApplicationDbContext context, RankService rankSer
     {
         var change = await context.Assignments.AsNoTracking()
             .Where(assignment => assignment.StudentId == notification.StudentId)
-            .Where(assignment => assignment.FinishedAt != null)
-            .OrderByDescending(assignment => assignment.FinishedAt)
+            .Where(assignment => assignment.Solutions.Count != 0)
+            .Where(assignment => assignment.Solutions.First().Review!=null)
+            .OrderByDescending(assignment => assignment.Solutions.First().VerifiedAt)
             .Skip(1)
             .Take(4)
-            .Select(assignment => assignment.IsPassed)
+            .Select(assignment => assignment.Solutions.First().Review)
             .Where(b => b != null)
+            .Select(review => review.IsCorrect)
             .Cast<bool>()
             .Select(b => b ? 0.025f : -0.025f)
             .SumAsync(cancellationToken);
