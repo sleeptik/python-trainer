@@ -26,7 +26,9 @@ export class AuthService {
     );
   }
 
-  logout(){
-    return this.httpClient.post<unknown>("api/auth/logout",null) //TODO HUETA
+  logout() {
+    return this.httpClient.post<unknown>("api/auth/logout", null, {observe: "response"}).pipe(
+      map(value => value.ok)
+    );
   }
 }
