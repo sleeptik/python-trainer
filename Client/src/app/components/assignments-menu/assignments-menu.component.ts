@@ -15,14 +15,19 @@ export class AssignmentsMenuComponent {
   }
 
   get totalFinished(): number {
-    return this.assignments.reduce(
-      (previousValue, currentValue) => previousValue + (currentValue.finishedAt ? 1 : 0), 0
-    );
+    return 0;
+
+    // return this.assignments.reduce(
+    //   (previousValue, currentValue) => previousValue + (currentValue.finishedAt ? 1 : 0), 0
+    // );
   }
 
   get totalSuccessfullyCompleted(): number {
-    return this.assignments.reduce(
-      (previousValue, currentValue) => previousValue + (currentValue.isPassed === true ? 1 : 0), 0
-    );
+    return 0;
+
+
+    // return this.assignments.reduce(
+    //   (previousValue, currentValue) => previousValue + (currentValue.isPassed === true ? 1 : 0), 0
+    // );
   }
 }
