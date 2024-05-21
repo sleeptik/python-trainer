@@ -10,8 +10,18 @@
         </div>
 
         <div class="mt-3 text-center">
-          <a [href]="authLink" class="btn btn-dark" [class.disabled]="authLink === null">
+          <a *ngIf="!isLoading && currentUser$.value" routerLink="assignments" class="btn btn-dark">
+            Перейти к тренажеру
+          </a>
+
+          <a *ngIf="!isLoading && !currentUser$.value" [href]="authLink" class="btn btn-dark"
+             [class.disabled]="authLink === null">
             Войти в систему
+          </a>
+
+          <a *ngIf="isLoading" class="btn btn-dark disabled">
+            Загрузка информации о пользователе
+            <div class="spinner-border spinner-border-sm" role="status"></div>
           </a>
         </div>
       </div>
