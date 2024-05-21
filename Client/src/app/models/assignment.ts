@@ -1,5 +1,5 @@
 ﻿import {Exercise} from "./exercise";
-import { Solution } from "./solution";
+import {Solution} from "./solution";
 
 export interface Assignment {
   id: number;
