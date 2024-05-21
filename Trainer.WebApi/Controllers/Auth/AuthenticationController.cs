@@ -19,7 +19,7 @@ public sealed class AuthenticationController(
     [HttpGet("yandex-redirect")]
     public IActionResult RedirectToAuthPage()
     {
-        return Redirect(yandexCodeRequestUrlFactory.Create());
+        return Ok(yandexCodeRequestUrlFactory.Create());
     }
     
     [HttpPost("yandex-login")]
