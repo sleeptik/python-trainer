@@ -1,9 +1,9 @@
-﻿using Infrastructure;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Trainer.Database;
 
 namespace Trainer.WebApi.Services;
 
-public sealed class RankService(ApplicationDbContext context)
+public sealed class RankService(TrainerContext context)
 {
     public float HighestUpperBound => context.Ranks.Select(rank => rank.UpperBound).Max();
     public float LowestLowerBound => context.Ranks.Select(rank => rank.LowerBound).Min();
