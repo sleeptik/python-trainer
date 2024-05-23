@@ -19,7 +19,7 @@ export class AssignmentsComponent {
   }
 
   assignRandomSubjectExercise() {
-    const subjectId = Math.random() * (this.subjects.length - 1);
+    const subjectId = Math.round(Math.random() * (this.subjects.length - 1));
     this.educationService.selfAssignNewExercise(subjectId).subscribe();
   }
 
