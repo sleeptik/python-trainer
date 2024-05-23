@@ -4,7 +4,9 @@
       <app-assignments-table [assignments]="assignments"/>
     </div>
     <div class="col-3">
-      <app-assignments-menu [assignments]="assignments" [subjects]="subjects"/>
+      <app-assignments-menu (randomClicked)="assignRandomSubjectExercise()"
+                            (selectedClicked)="assignSelectedSubjectExercise($event.id)"
+                            [assignments]="assignments" [subjects]="subjects"/>
     </div>
   </div>
 </div>
