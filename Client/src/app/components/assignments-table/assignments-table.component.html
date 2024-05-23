@@ -53,7 +53,7 @@
   <ng-container cdkColumnDef="actions">
     <th *cdkHeaderCellDef cdk-header-cell>Действия</th>
     <td *cdkCellDef="let assignment" cdk-cell>
-      <button class="btn btn-sm btn-dark">
+      <button [routerLink]="[assignment.id, 'trainer']" class="btn btn-sm btn-dark">
         <i class="bi bi-box-arrow-up-right"></i>
         К заданию
       </button>
