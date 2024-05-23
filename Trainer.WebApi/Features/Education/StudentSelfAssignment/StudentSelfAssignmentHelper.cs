@@ -50,12 +50,14 @@ public class StudentSelfAssignmentHelper(TrainerContext context)
         int studentId
     )
     {
-        return await context.Assignments.AsNoTracking()
-            .Include(assignment => assignment.Exercise)
-            .ThenInclude(exercise => exercise.Subjects)
-            .Where(assignment => assignment.StudentId == studentId)
-            .OrderBy(assignment => assignment.Solutions.Last().SubmittedAt)
+        return await context.Solutions.AsNoTracking()
+            .Include(solution => solution.Assignment)
+            .Where(solution => solution.Assignment.StudentId == studentId)
+            .Where(solution => solution.Review != null)
+            .Select(solution => solution.Assignment)
+            .Distinct()
             .ToListAsync();
+
     }
 
     private IList<Subject> GetSubjectsToStudy(int studentId)
