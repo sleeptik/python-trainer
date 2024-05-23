@@ -21,11 +21,19 @@
 
   <h6>Назначить новое задание</h6>
   <div class="btn-group btn-group-sm w-100 mb-2">
-    <button class="btn btn-sm me-1 btn-dark">Выбранной темы</button>
-    <button class="btn btn-sm btn-dark">Случайной темы</button>
+    <button (click)="selectedClicked.emit(selectForm.value!)"
+            [disabled]="!subjects || subjects.length === 0 &&  !selectForm.value"
+            class="btn btn-sm me-1 btn-dark">
+      Выбранной темы
+    </button>
+    <button (click)="randomClicked.emit()"
+            [disabled]="!subjects || subjects.length === 0"
+            class="btn btn-sm btn-dark">
+      Случайной темы
+    </button>
   </div>
 
-  <select class="form-select form-select-sm">
+  <select [formControl]="selectForm" class="form-select form-select-sm">
     @for (subject of subjects; track subject.id) {
       <option [value]="subject">{{ subject.name }}</option>
     }
