@@ -16,7 +16,7 @@ export const yandexLoginRedirectGuard: CanActivateFn = (route, state) => {
   const code = parseInt(codeString!);
 
   return authService.login(code).pipe(
-    switchMap(value => router.navigateByUrl(value ? "/trainer" : "/")
+    switchMap(value => router.navigateByUrl(value ? "/assignments" : "/")
     )
   );
 };
