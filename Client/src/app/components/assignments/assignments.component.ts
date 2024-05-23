@@ -20,10 +20,10 @@ export class AssignmentsComponent {
 
   assignRandomSubjectExercise() {
     const subjectId = Math.random() * (this.subjects.length - 1);
-    this.educationService.selfAssignNewExercise(subjectId);
+    this.educationService.selfAssignNewExercise(subjectId).subscribe();
   }
 
   assignSelectedSubjectExercise(subjectId: number) {
-    this.educationService.selfAssignNewExercise(subjectId);
+    this.educationService.selfAssignNewExercise(subjectId).subscribe();
   }
 }
