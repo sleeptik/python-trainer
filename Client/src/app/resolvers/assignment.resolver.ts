@@ -5,6 +5,7 @@ import {EducationService} from "../services/education.service";
 
 export const assignmentResolver: ResolveFn<Assignment> = (route, state) => {
   const educationService = inject(EducationService);
-  return educationService.getAssignment(40);
+  const assignmentId = parseInt(route.paramMap.get("assignmentId")!);
+  return educationService.getAssignment(assignmentId);
 };
 
