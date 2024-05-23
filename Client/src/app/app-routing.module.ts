@@ -8,13 +8,19 @@ import {myAssignmentsResolver} from "./resolvers/my-assignments.resolver";
 import {subjectsResolver} from "./resolvers/subjects.resolver";
 import {DummyRedirectComponent} from "./components/dummy-redirect/dummy-redirect.component";
 import {yandexLoginRedirectGuard} from "./guards/yandex-login-redirect.guard";
+import {authorizedGuard} from "./guards/authorized.guard";
 
 
 const routes: Routes = [
   {
-    path: "assignments", component: AssignmentsComponent,
-    resolve: {assignments: myAssignmentsResolver, subjects: subjectsResolver},
+    path: "assignments",
+    canActivateChild: [authorizedGuard],
     children: [
+      {
+        path: "",
+        component: AssignmentsComponent,
+        resolve: {assignments: myAssignmentsResolver, subjects: subjectsResolver},
+      },
       {
         path: ":assignmentId/trainer",
         component: TrainerComponent,
@@ -35,7 +41,7 @@ const routes: Routes = [
 ] as const;
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {enableTracing: true})],
   exports: [RouterModule]
 })
 export class AppRoutingModule {
