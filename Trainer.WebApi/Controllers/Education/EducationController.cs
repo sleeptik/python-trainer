@@ -28,8 +28,8 @@ public sealed class EducationController() : ApiController
         return Ok(assignments);
     }
 
-    [HttpGet("exercises/{exerciseId:int}")]
-    public async Task<IActionResult> GetAssignmentDetails(GetAssignmentDetailsRequest detailsRequest)
+    [HttpGet("assignments/{assignmentId:int}")]
+    public async Task<IActionResult> GetAssignmentDetails(int assignmentId)
     {
         var assignment = await TrainerContext.Assignments.AsNoTracking()
             .Include(assignment => assignment.Exercise)
@@ -37,8 +37,7 @@ public sealed class EducationController() : ApiController
             .Include(assignment => assignment.Exercise)
             .ThenInclude(exercise => exercise.Subjects)
             .SingleAsync(
-                assignment => assignment.StudentId == detailsRequest.StudentId
-                              && assignment.ExerciseId == detailsRequest.ExerciseId
+                assignment => assignment.Id==assignmentId
             );
 
         return Ok(assignment);
