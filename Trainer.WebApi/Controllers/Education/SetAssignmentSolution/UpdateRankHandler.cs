@@ -2,7 +2,7 @@
 using Trainer.Database;
 using Trainer.WebApi.Services;
 
-namespace Trainer.WebApi.Features.Education.SetAssignmentSolution;
+namespace Trainer.WebApi.Controllers.Education.SetAssignmentSolution;
 
 public class UpdateRankHandler(TrainerContext context, RankService rankService)
 {
