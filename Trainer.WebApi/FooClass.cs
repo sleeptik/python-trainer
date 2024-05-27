@@ -2,10 +2,11 @@
 using Trainer.Database.Entities.Assignments;
 using Trainer.Verification;
 using Trainer.Verification.InputData;
+using Trainer.WebApi.Features.Education.SetAssignmentSolution;
 
-namespace Trainer.WebApi.Features.Education.SetAssignmentSolution;
+namespace Trainer.WebApi;
 
-public class SetAssignmentSolutionHelper(TrainerContext context, VerificationService verifyingService)
+public class FooClass(TrainerContext context, VerificationService verifyingService)
 {
     public async Task<Solution> Helper(SetAssignmentSolutionRequest request)
     {
