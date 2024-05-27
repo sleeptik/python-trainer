@@ -3,7 +3,7 @@ using Trainer.Database;
 using Trainer.Database.Entities.Assignments;
 using Trainer.Database.Entities.Exercises;
 
-namespace Trainer.WebApi.Features.Education.StudentSelfAssignment;
+namespace Trainer.WebApi.Controllers.Education.StudentSelfAssignment;
 
 public class StudentSelfAssignmentHelper(TrainerContext context)
 {

@@ -3,8 +3,8 @@ import {RouterModule, Routes} from '@angular/router';
 import {TrainerComponent} from "./components/trainer/trainer.component";
 import {AssignmentsComponent} from "./components/assignments/assignments.component";
 import {WelcomeComponent} from "./components/welcome/welcome.component";
-import {assignmentResolver} from "./resolvers/assignment.resolver";
-import {myAssignmentsResolver} from "./resolvers/my-assignments.resolver";
+import {assignmentDetailsResolver} from "./resolvers/assignment-details.resolver";
+import {studentAssignmentsResolver} from "./resolvers/student-assignments.resolver";
 import {subjectsResolver} from "./resolvers/subjects.resolver";
 import {DummyRedirectComponent} from "./components/dummy-redirect/dummy-redirect.component";
 import {yandexLoginRedirectGuard} from "./guards/yandex-login-redirect.guard";
@@ -19,12 +19,12 @@ const routes: Routes = [
       {
         path: "",
         component: AssignmentsComponent,
-        resolve: {assignments: myAssignmentsResolver, subjects: subjectsResolver},
+        resolve: {assignments: studentAssignmentsResolver, subjects: subjectsResolver},
       },
       {
         path: ":assignmentId/trainer",
         component: TrainerComponent,
-        resolve: {assignment: assignmentResolver}
+        resolve: {assignment: assignmentDetailsResolver}
       },
     ]
   },
