@@ -15,8 +15,8 @@ public class AssessmentService(IOpenAIService completionService)
     private static readonly JsonSerializerOptions JsonSerializerOptions =
         new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 
-    public async Task<AssessmentResult> VerifyAsync(
-        string task, string solution, CancellationToken cancellationToken
+    public async Task<AssessmentResult> AssessAsync(
+        string task, string solution, CancellationToken cancellationToken = default
     )
     {
         var tool = AssessmentToolFactory.Create();
