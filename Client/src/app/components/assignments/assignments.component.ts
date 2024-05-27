@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {Assignment} from "../../models/assignment";
 import {ActivatedRoute} from "@angular/router";
 import {Subject} from "../../models/subject";
-import {EducationService} from "../../services/education.service";
+import {AssignmentsService} from "../../services/assignments.service";
 
 @Component({
   selector: 'app-assignments',
@@ -13,7 +13,7 @@ export class AssignmentsComponent {
   subjects: Subject[];
 
   constructor(activatedRoute: ActivatedRoute,
-              private readonly educationService: EducationService) {
+              private readonly educationService: AssignmentsService) {
     this.assignments = activatedRoute.snapshot.data["assignments"];
     this.subjects = activatedRoute.snapshot.data["subjects"];
   }
@@ -21,10 +21,10 @@ export class AssignmentsComponent {
   assignRandomSubjectExercise() {
     const index = Math.round(Math.random() * (this.subjects.length - 1));
     const subjectId = this.subjects[index].id;
-    this.educationService.selfAssignNewExercise(subjectId).subscribe();
+    this.educationService.assignYourself(subjectId).subscribe();
   }
 
   assignSelectedSubjectExercise(subjectId: number) {
-    this.educationService.selfAssignNewExercise(subjectId).subscribe();
+    this.educationService.assignYourself(subjectId).subscribe();
   }
 }
