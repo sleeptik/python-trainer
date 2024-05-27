@@ -11,4 +11,13 @@ public sealed class Suggestion
 
     public string Mistake { get; private set; } = null!;
     public string Advice { get; private set; } = null!;
+
+    public static Suggestion Create(string mistake, string? advice)
+    {
+        return new Suggestion
+        {
+            Mistake = mistake,
+            Advice = advice
+        };
+    }
 }
