@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Polly;
+using Polly.Retry;
 using Quartz;
 using Trainer.Database;
 using Trainer.Database.Entities.Assignments;
@@ -12,64 +14,67 @@ public sealed class VerifySolutionsJob(
     VerificationService verificationService
 ) : IJob
 {
-    private const int VerifiedAtOnceCount = 3;
+    private const int VerifiedAtOnceCount = 10;
+    private const int ResiliencyRetryAttempts = 3;
 
-    private List<Solution> _unverifiedSolutions = [];
-    private Dictionary<Solution, Func<Task>> _processableSolutions = [];
-
+    private static readonly TimeSpan ResilienceDelay = TimeSpan.FromSeconds(15);
 
     public async Task Execute(IJobExecutionContext context)
     {
-        _unverifiedSolutions = await trainerContext.Solutions
-            .Include(solution => solution.Assignment)
-            .ThenInclude(assignment => assignment.Exercise)
-            .Where(solution => solution.Review == null)
-            .OrderBy(solution => solution.SubmittedAt)
-            .ToListAsync();
-
-        while (_unverifiedSolutions.Count > 0)
-        {
-            TakeNewSolutionsToVerification();
-
-            var verificationTasks = _processableSolutions.Select(pair => pair.Value.Invoke()).ToList();
-
-            try
+        var resiliencePipeline = new ResiliencePipelineBuilder()
+            .AddRetry(new RetryStrategyOptions
             {
-                await Task.WhenAll(verificationTasks);
-            }
-            catch
-            {
-                break;
-            }
-            finally
-            {
-                await trainerContext.SaveChangesAsync();
-            }
-        }
+                MaxRetryAttempts = ResiliencyRetryAttempts,
+                Delay = ResilienceDelay
+            })
+            .Build();
+
+        await resiliencePipeline.ExecuteAsync(Foo);
     }
 
-    private void TakeNewSolutionsToVerification()
+    private async ValueTask Foo(CancellationToken cancellationToken)
     {
-        var toVerification = _unverifiedSolutions.Take(VerifiedAtOnceCount).ToList();
-        _unverifiedSolutions = _unverifiedSolutions.Skip(VerifiedAtOnceCount).ToList();
+        var unverifiedSolutions = await trainerContext.Solutions
+            .Include(solution => solution.Assignment)
+            .ThenInclude(assignment => assignment.Exercise)
+            .ThenInclude(exercise => exercise.Subjects)
+            .Where(solution => solution.Review == null)
+            .Take(VerifiedAtOnceCount)
+            .OrderBy(solution => solution.SubmittedAt)
+            .ToListAsync(cancellationToken);
 
-        _processableSolutions = toVerification.ToDictionary(
-            solution => solution,
-            solution =>
+        var prompts = await trainerContext.Prompts.AsNoTracking()
+            .ToListAsync(cancellationToken);
+
+        var processableTasks = unverifiedSolutions
+            .Select(async solution =>
             {
-                return new Func<Task>(VerifyAsync);
+                var customInstructions = prompts
+                    .Where(prompt => solution.Assignment.Exercise.Subjects
+                        .Any(exerciseSubject => exerciseSubject.Id == prompt.SubjectId)
+                    )
+                    .Select(prompt => prompt.Content)
+                    .ToList();
 
-                async Task VerifyAsync()
-                {
-                    var result = await verificationService.VerifyAsync(
-                        new VerificationInstructionsSet(solution.Assignment.Exercise.Details, solution.Code)
-                    );
+                var instructionsSet = new VerificationInstructionsSet(
+                    solution.Assignment.Exercise.Details, solution.Code, customInstructions
+                );
 
-                    Review review = result.IsCorrect ? new ValidatedReview() : new FaultyReview();
+                var result = await verificationService.VerifyAsync(instructionsSet, cancellationToken);
 
-                    solution.SetReview(review);
-                }
-            }
-        );
+                Review review = result.IsCorrect ? new ValidatedReview() : new FaultyReview();
+
+                solution.SetReview(review);
+            })
+            .ToList();
+
+        try
+        {
+            await Task.WhenAll(processableTasks);
+        }
+        finally
+        {
+            await trainerContext.SaveChangesAsync(cancellationToken);
+        }
     }
 }
