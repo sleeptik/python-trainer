@@ -29,10 +29,10 @@ public sealed class VerifySolutionsJob(
             })
             .Build();
 
-        await resiliencePipeline.ExecuteAsync(Foo);
+        await resiliencePipeline.ExecuteAsync(VerifySolutionAsync);
     }
 
-    private async ValueTask Foo(CancellationToken cancellationToken)
+    private async ValueTask VerifySolutionAsync(CancellationToken cancellationToken)
     {
         var unverifiedSolutions = await trainerContext.Solutions
             .Include(solution => solution.Assignment)
