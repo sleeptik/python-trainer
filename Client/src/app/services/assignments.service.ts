@@ -22,12 +22,12 @@ export class AssignmentsService {
 
   assignYourself(subjectId: number) {
     const request: SelfAssignmentRequest = {subjectId: subjectId};
-    return this.httpClient.post<Assignment>("api/education/assignments", request);
+    return this.httpClient.post<unknown>("api/education/assignments", request);
   }
 
   setAssignmentSolution(assignmentId: number, solution: string) {
     const request: SetAssignmentSolutionRequest = {solution: solution};
-    return this.httpClient.patch<unknown>(`api/education/assignments/${assignmentId}/solutions`, request);
+    return this.httpClient.post<unknown>(`api/education/assignments/${assignmentId}/solutions`, request);
   }
 }
 
