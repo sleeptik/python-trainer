@@ -10,11 +10,7 @@ public sealed class InstantVerificationService(VerificationService verificationS
     {
         var result = await verificationService.VerifyAsync(instructionsSet);
 
-        var review = result.IsCorrect
-            ? new ValidatedReview()
-            : FaultyReview.Create(result.Mistakes
-                .Select(mistake => Suggestion.Create(mistake.Mistake, mistake.FixSuggestion))
-                .ToList());
+        var review = ReviewFactory.Create(result);
 
         return review;
     }

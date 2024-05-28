@@ -3,9 +3,9 @@ using Polly;
 using Polly.Retry;
 using Quartz;
 using Trainer.Database;
-using Trainer.Database.Entities.Assignments;
 using Trainer.Verification;
 using Trainer.Verification.InputData;
+using Trainer.WebApi.Services;
 
 namespace Trainer.WebApi.Jobs;
 
@@ -62,7 +62,8 @@ public sealed class VerifySolutionsJob(
 
                 var result = await verificationService.VerifyAsync(instructionsSet, cancellationToken);
 
-                Review review = result.IsCorrect ? new ValidatedReview() : new FaultyReview();
+                var review = ReviewFactory.Create(result);
+                await trainerContext.Reviews.AddAsync(review, cancellationToken);
 
                 solution.SetReview(review);
             })
