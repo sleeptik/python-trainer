@@ -5,7 +5,7 @@ namespace Trainer.Verification.ChatBot.Messages;
 
 public static class InstructionMessageFactory
 {
-    public static ChatMessage Create(string? customInstructions)
+    public static ChatMessage Create(IList<string> customInstructions)
     {
         var message = new StringBuilder()
             .Append("Ты автоматизированная система для проверки кода студентов на языке Python. ")
@@ -17,9 +17,11 @@ public static class InstructionMessageFactory
             .AppendLine("Отвечай \"Верно\" или \"Неверно\".")
             .AppendLine();
 
-        if (customInstructions is not null)
-            message.AppendLine(customInstructions)
+        foreach (var instruction in customInstructions)
+        {
+            message.AppendLine(instruction)
                 .AppendLine();
+        }
 
         message.Append("Если задача решена \"Неверно\", то следует описать допущенные студентом ошибки ")
             .AppendLine("и, по возможности, указать, как их можно исправить. ")
