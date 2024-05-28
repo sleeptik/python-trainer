@@ -12,10 +12,7 @@ namespace Trainer.Verification.ChatBot;
 public class AiVerificationService(IOpenAIService completionService)
 {
     private static readonly string GptModel = Models.Gpt_3_5_Turbo_1106;
-
-    private static readonly JsonSerializerOptions JsonSerializerOptions =
-        new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
-
+    
     public async Task<VerificationResult> VerifyAsync(
         VerificationInstructionsSet instructions, CancellationToken cancellationToken
     )
@@ -40,8 +37,8 @@ public class AiVerificationService(IOpenAIService completionService)
 
         VerificationNotSuccessfulException.ThrowIfNotSuccessful(response);
 
-        var json = response.Choices.First().Message.FunctionCall?.Arguments!;
-        var verificationObject = JsonSerializer.Deserialize<VerificationResult>(json, JsonSerializerOptions)!;
+        var json = response.Choices.First().Message.ToolCalls?.First().FunctionCall?.Arguments!;
+        var verificationObject = JsonSerializer.Deserialize<VerificationResult>(json)!;
 
         return verificationObject;
     }

@@ -12,9 +12,6 @@ public class AssessmentService(IOpenAIService completionService)
 {
     private static readonly string GptModel = Models.Gpt_3_5_Turbo_1106;
     
-    private static readonly JsonSerializerOptions JsonSerializerOptions =
-        new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
-
     public async Task<AssessmentResult> AssessAsync(
         string task, string solution, CancellationToken cancellationToken = default
     )
@@ -39,8 +36,8 @@ public class AssessmentService(IOpenAIService completionService)
 
         VerificationNotSuccessfulException.ThrowIfNotSuccessful(response);
 
-        var json = response.Choices.First().Message.FunctionCall?.Arguments!;
-        var verificationObject = JsonSerializer.Deserialize<AssessmentResult>(json, JsonSerializerOptions)!;
+        var json = response.Choices.First().Message.ToolCalls?.First().FunctionCall?.Arguments!;
+        var verificationObject = JsonSerializer.Deserialize<AssessmentResult>(json)!;
 
         return verificationObject;
     }
