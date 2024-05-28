@@ -70,12 +70,12 @@ public sealed class AuthenticationController(
         user = Database.Entities.Auth.User.Create(userInfo.DefaultEmail, userInfo.RealName);
         await signInManager.UserManager.CreateAsync(user);
         await TrainerContext.Users.AddAsync(user);
+        await TrainerContext.SaveChangesAsync();
 
         var ranks = await TrainerContext.Ranks.ToListAsync();
         var subjects = await TrainerContext.Subjects.ToListAsync();
         var student = Student.Create(user.Id, ranks, subjects);
         await TrainerContext.Students.AddAsync(student);
-        
         await TrainerContext.SaveChangesAsync();
 
         return user;
