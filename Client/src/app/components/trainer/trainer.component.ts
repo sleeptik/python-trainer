@@ -3,6 +3,7 @@ import {Assignment} from "../../models/assignment";
 import {ActivatedRoute} from "@angular/router";
 import {PythonService} from "../../services/python.service";
 import {first} from "rxjs";
+import {AssignmentsService} from "../../services/assignments.service";
 
 @Component({
   selector: 'app-trainer',
@@ -16,7 +17,8 @@ export class TrainerComponent {
 
   constructor(
     activatedRoute: ActivatedRoute,
-    private readonly pythonService: PythonService
+    private readonly pythonService: PythonService,
+    private readonly assignmentsService: AssignmentsService
   ) {
     this.assignment = activatedRoute.snapshot.data["assignment"];
   }
@@ -30,7 +32,7 @@ export class TrainerComponent {
   }
 
   verifySolution() {
-
+    this.assignmentsService.setAssignmentSolution(this.assignment.id, this.solution).subscribe()
   }
 
   clearOutput() {
