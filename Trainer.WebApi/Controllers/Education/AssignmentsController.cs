@@ -59,6 +59,7 @@ public sealed class AssignmentsController(InstantVerificationService instantVeri
     {
         var assignment = await TrainerContext.Assignments
             .Include(assignment1 => assignment1.Exercise)
+            .ThenInclude(exercise => exercise.Subjects)
             .SingleAsync(assignment1 => assignment1.Id == assignmentId);
 
         var solution = Solution.Create(dto.Solution);
@@ -68,8 +69,10 @@ public sealed class AssignmentsController(InstantVerificationService instantVeri
 
         try
         {
+            var subjectIds = solution.Assignment.Exercise.Subjects.Select(subject => subject.Id).ToList();
+            
             var customInstructions = TrainerContext.Prompts
-                .Where(prompt => solution.Assignment.Exercise.Subjects.Any(subject => subject.Id == prompt.SubjectId))
+                .Where(prompt => subjectIds.Any(id => id == prompt.SubjectId))
                 .Select(prompt => prompt.Content)
                 .ToList();
 
