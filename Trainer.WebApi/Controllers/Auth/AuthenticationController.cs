@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Trainer.Database.Entities.Auth;
+using Trainer.Database.Entities.Students;
 using Trainer.WebApi.Common;
 using Trainer.WebApi.Controllers.Auth.Yandex;
 using Trainer.WebApi.Controllers.Auth.Yandex.DTO;
@@ -69,6 +70,12 @@ public sealed class AuthenticationController(
         user = Database.Entities.Auth.User.Create(userInfo.DefaultEmail, userInfo.RealName);
         await signInManager.UserManager.CreateAsync(user);
         await TrainerContext.Users.AddAsync(user);
+
+        var ranks = await TrainerContext.Ranks.ToListAsync();
+        var subjects = await TrainerContext.Subjects.ToListAsync();
+        var student = Student.Create(user.Id, ranks, subjects);
+        await TrainerContext.Students.AddAsync(student);
+        
         await TrainerContext.SaveChangesAsync();
 
         return user;
