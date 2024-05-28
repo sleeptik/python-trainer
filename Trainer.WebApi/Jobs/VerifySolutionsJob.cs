@@ -29,12 +29,16 @@ public sealed class VerifySolutionsJob(
             })
             .Build();
 
-        await resiliencePipeline.ExecuteAsync(VerifySolutionAsync);
+        var state = new State(trainerContext,verificationService);
+        
+        await resiliencePipeline.ExecuteAsync(
+            async (ctx, token) => await VerifySolutionAsync(ctx, token), state
+        );
     }
 
-    private async ValueTask VerifySolutionAsync(CancellationToken cancellationToken)
+    private static async ValueTask VerifySolutionAsync(State ctx, CancellationToken cancellationToken)
     {
-        var unverifiedSolutions = await trainerContext.Solutions
+        var unverifiedSolutions = await ctx.Context.Solutions
             .Include(solution => solution.Assignment)
             .ThenInclude(assignment => assignment.Exercise)
             .ThenInclude(exercise => exercise.Subjects)
@@ -43,7 +47,7 @@ public sealed class VerifySolutionsJob(
             .OrderBy(solution => solution.SubmittedAt)
             .ToListAsync(cancellationToken);
 
-        var prompts = await trainerContext.Prompts.AsNoTracking()
+        var prompts = await ctx.Context.Prompts.AsNoTracking()
             .ToListAsync(cancellationToken);
 
         var processableTasks = unverifiedSolutions
@@ -60,10 +64,10 @@ public sealed class VerifySolutionsJob(
                     solution.Assignment.Exercise.Details, solution.Code, customInstructions
                 );
 
-                var result = await verificationService.VerifyAsync(instructionsSet, cancellationToken);
+                var result = await ctx.Service.VerifyAsync(instructionsSet, cancellationToken);
 
                 var review = ReviewFactory.Create(result);
-                await trainerContext.Reviews.AddAsync(review, cancellationToken);
+                await ctx.Context.Reviews.AddAsync(review, cancellationToken);
 
                 solution.SetReview(review);
             })
@@ -75,7 +79,13 @@ public sealed class VerifySolutionsJob(
         }
         finally
         {
-            await trainerContext.SaveChangesAsync(cancellationToken);
+            await ctx.Context.SaveChangesAsync(cancellationToken);
         }
+    }
+
+    private class State(TrainerContext context,VerificationService service)
+    {
+        public TrainerContext Context { get; } = context;
+        public VerificationService Service { get; } = service;
     }
 }

@@ -9,13 +9,19 @@ public static class TrainerJobSchedulingExtensions
     )
     {
         var verifySolutionsJobKey = new JobKey("VerifySolutionsJob");
-        configurator.AddJob<VerifySolutionsJob>(conf => conf.WithIdentity(verifySolutionsJobKey));
-        configurator.AddTrigger(conf =>
-            conf.ForJob(verifySolutionsJobKey)
+        var verifySolutionsTriggerKey = new TriggerKey("VerifySolutionsTrigger");
+
+        configurator.ScheduleJob<VerifySolutionsJob>(
+            triggerConfigurator => triggerConfigurator
+                .WithIdentity(verifySolutionsTriggerKey)
+                .ForJob(verifySolutionsJobKey)
                 .WithSimpleSchedule(builder => builder
                     .WithIntervalInMinutes(5)
                     .RepeatForever()
-                ).StartAt(DateTimeOffset.Now.AddMinutes(1))
+                )
+                .StartAt(DateTimeOffset.Now.AddMinutes(1)),
+            jobConfigurator => jobConfigurator
+                .WithIdentity(verifySolutionsJobKey)
         );
 
         return configurator;
