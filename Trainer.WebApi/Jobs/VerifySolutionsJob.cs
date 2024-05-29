@@ -3,6 +3,7 @@ using Polly;
 using Polly.Retry;
 using Quartz;
 using Trainer.Database;
+using Trainer.Database.Entities.Assignments;
 using Trainer.Verification;
 using Trainer.Verification.InputData;
 using Trainer.WebApi.Services;
@@ -67,7 +68,11 @@ public sealed class VerifySolutionsJob(
                 var result = await ctx.Service.VerifyAsync(instructionsSet, cancellationToken);
 
                 var review = ReviewFactory.Create(result);
-                await ctx.Context.Reviews.AddAsync(review, cancellationToken);
+                
+                if (review is FaultyReview faultyReview)
+                    ctx.Context.Suggestions.AttachRange(faultyReview.Suggestions);
+                
+                ctx.Context.Reviews.Attach(review);
 
                 solution.SetReview(review);
             })
@@ -80,6 +85,7 @@ public sealed class VerifySolutionsJob(
         finally
         {
             await ctx.Context.SaveChangesAsync(cancellationToken);
+            ctx.Context.ChangeTracker.Clear();
         }
     }
 
