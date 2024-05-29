@@ -22,6 +22,7 @@ public sealed class Solution
             throw new InvalidOperationException();
 
         Review = review;
+        VerifiedAt = DateTime.UtcNow;
     }
 
     public static Solution Create(string code)
