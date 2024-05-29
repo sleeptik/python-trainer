@@ -39,6 +39,9 @@ public sealed class VerifySolutionsJob(
 
     private static async ValueTask VerifySolutionAsync(State ctx, CancellationToken cancellationToken)
     {
+        if (!ctx.Context.Solutions.Any(solution => solution.Review == null))
+            return;
+        
         var unverifiedSolutions = await ctx.Context.Solutions
             .Include(solution => solution.Assignment)
             .ThenInclude(assignment => assignment.Exercise)
