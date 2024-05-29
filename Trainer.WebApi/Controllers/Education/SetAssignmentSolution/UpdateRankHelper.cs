@@ -6,14 +6,14 @@ namespace Trainer.WebApi.Controllers.Education.SetAssignmentSolution;
 
 public class UpdateRankHelper(TrainerContext context, RankService rankService)
 {
-    public async Task UpdateRank(int studentId,int exercieId, CancellationToken cancellationToken=default)
+    public async Task UpdateRank(int studentId,int exerciseId, CancellationToken cancellationToken=default)
     {
         var student = (await context.Students.FindAsync(studentId));
 
         var change = 1.0f;
         var coefficient = 1.0f;
 
-        coefficient *= await GetCurrentResultCoefficient(studentId,exercieId, cancellationToken);
+        coefficient *= await GetCurrentResultCoefficient(studentId,exerciseId, cancellationToken);
         coefficient *= await GetPastResultsCoefficient(studentId, cancellationToken);
         if (coefficient > 0) coefficient *= await GetStudentHighScoreCoefficient(studentId, cancellationToken);
 
@@ -31,6 +31,8 @@ public class UpdateRankHelper(TrainerContext context, RankService rankService)
         CancellationToken cancellationToken)
     {
         var assignment = await context.Assignments.AsNoTracking()
+            .Include(assignment => assignment.Solutions)
+            .ThenInclude(solution => solution.Review)
             .FirstAsync(assignment =>
                     assignment.StudentId == studentId
                     && assignment.ExerciseId == exerciseId,
@@ -44,19 +46,23 @@ public class UpdateRankHelper(TrainerContext context, RankService rankService)
     private async Task<float> GetPastResultsCoefficient(int studentId,
         CancellationToken cancellationToken)
     {
-        var change = await   context.Solutions.AsNoTracking()
+        var solutions= await context.Solutions.AsNoTracking()
+            .Include(solution => solution.Assignment)
+            .Include(solution => solution.Review)
             .Where(solution => solution.Assignment.StudentId == studentId)
             .Where(solution => solution.Review != null)
-            .OrderBy(solution => solution.SubmittedAt)
             .GroupBy(solution => solution.AssignmentId)
             .Select(grouping => grouping.First())
+            .ToListAsync(cancellationToken);
+        var change = solutions    
+            .OrderByDescending(solution => solution.SubmittedAt)
             .Skip(1)
             .Take(4)
             .Select(solution => solution.Review)
             .Select(review => review.IsCorrect)
             .Cast<bool>()
             .Select(b => b ? 0.025f : -0.025f)
-            .SumAsync(cancellationToken);
+            .Sum();
 
         return Math.Clamp(1f + change, 0.9f, 1.1f);
     }
