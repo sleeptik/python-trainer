@@ -4,18 +4,18 @@ using Trainer.WebApi.Services;
 
 namespace Trainer.WebApi.Controllers.Education.SetAssignmentSolution;
 
-public class UpdateRankHandler(TrainerContext context, RankService rankService)
+public class UpdateRankHelper(TrainerContext context, RankService rankService)
 {
-    public async Task Handle(AssignmentSolutionVerifiedNotification notification, CancellationToken cancellationToken)
+    public async Task UpdateRank(int studentId,int exercieId, CancellationToken cancellationToken=default)
     {
-        var student = (await context.Students.FindAsync(notification.StudentId))!;
+        var student = (await context.Students.FindAsync(studentId));
 
         var change = 1.0f;
         var coefficient = 1.0f;
 
-        coefficient *= await GetCurrentResultCoefficient(notification, cancellationToken);
-        coefficient *= await GetPastResultsCoefficient(notification, cancellationToken);
-        if (coefficient > 0) coefficient *= await GetStudentHighScoreCoefficient(notification, cancellationToken);
+        coefficient *= await GetCurrentResultCoefficient(studentId,exercieId, cancellationToken);
+        coefficient *= await GetPastResultsCoefficient(studentId, cancellationToken);
+        if (coefficient > 0) coefficient *= await GetStudentHighScoreCoefficient(studentId, cancellationToken);
 
         change *= coefficient;
         student.Score += change;
@@ -27,13 +27,13 @@ public class UpdateRankHandler(TrainerContext context, RankService rankService)
         await context.SaveChangesAsync(cancellationToken);
     }
 
-    private async Task<float> GetCurrentResultCoefficient(AssignmentSolutionVerifiedNotification notification,
+    private async Task<float> GetCurrentResultCoefficient(int studentId,int exerciseId,
         CancellationToken cancellationToken)
     {
         var assignment = await context.Assignments.AsNoTracking()
             .FirstAsync(assignment =>
-                    assignment.StudentId == notification.StudentId
-                    && assignment.ExerciseId == notification.ExerciseId,
+                    assignment.StudentId == studentId
+                    && assignment.ExerciseId == exerciseId,
                 cancellationToken
             );
 
@@ -41,11 +41,11 @@ public class UpdateRankHandler(TrainerContext context, RankService rankService)
         return assignment.Solutions.First().Review!.IsCorrect ? 1.0f : -0.9f;
     }
 
-    private async Task<float> GetPastResultsCoefficient(AssignmentSolutionVerifiedNotification notification,
+    private async Task<float> GetPastResultsCoefficient(int studentId,
         CancellationToken cancellationToken)
     {
         var change = await   context.Solutions.AsNoTracking()
-            .Where(solution => solution.Assignment.StudentId == notification.StudentId)
+            .Where(solution => solution.Assignment.StudentId == studentId)
             .Where(solution => solution.Review != null)
             .OrderBy(solution => solution.SubmittedAt)
             .GroupBy(solution => solution.AssignmentId)
@@ -61,11 +61,11 @@ public class UpdateRankHandler(TrainerContext context, RankService rankService)
         return Math.Clamp(1f + change, 0.9f, 1.1f);
     }
 
-    private async Task<float> GetStudentHighScoreCoefficient(AssignmentSolutionVerifiedNotification notification,
+    private async Task<float> GetStudentHighScoreCoefficient(int studentId,
         CancellationToken cancellationToken)
     {
         var score = (await context.Students.FindAsync(
-                new object[] { notification.StudentId }, cancellationToken)
+                new object[] { studentId }, cancellationToken)
             )!.Score;
 
         var minScore = rankService.LowestLowerBound;

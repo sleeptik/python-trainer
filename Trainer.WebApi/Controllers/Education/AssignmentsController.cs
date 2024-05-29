@@ -5,13 +5,14 @@ using Trainer.Database.Entities.Assignments;
 using Trainer.Verification.InputData;
 using Trainer.WebApi.Common;
 using Trainer.WebApi.Controllers.Education.DTO;
+using Trainer.WebApi.Controllers.Education.SetAssignmentSolution;
 using Trainer.WebApi.Controllers.Education.StudentSelfAssignment;
 using Trainer.WebApi.Services;
 
 namespace Trainer.WebApi.Controllers.Education;
 
 [Route("api/education/assignments")]
-public sealed class AssignmentsController(InstantVerificationService instantVerificationService) : ApiController
+public sealed class AssignmentsController(InstantVerificationService instantVerificationService, RankService rankService) : ApiController
 {
     private int StudentId => int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "1");
 
@@ -89,6 +90,8 @@ public sealed class AssignmentsController(InstantVerificationService instantVeri
             solution.SetReview(review);
 
             await TrainerContext.SaveChangesAsync();
+
+            await new UpdateRankHelper(TrainerContext, rankService).UpdateRank(StudentId, assignment.ExerciseId);
         }
         catch
         {
