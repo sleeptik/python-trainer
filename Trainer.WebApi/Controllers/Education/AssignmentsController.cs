@@ -81,6 +81,11 @@ public sealed class AssignmentsController(InstantVerificationService instantVeri
             );
 
             var review = await instantVerificationService.VerifyOnceOrThrowAsync(instructions);
+            if (review is FaultyReview faultyReview)
+                TrainerContext.Suggestions.AttachRange(faultyReview.Suggestions);
+                
+            TrainerContext.Reviews.Attach(review);
+            
             solution.SetReview(review);
 
             await TrainerContext.SaveChangesAsync();
