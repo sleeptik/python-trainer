@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Assignment} from "../models/assignment";
 import {SelfAssignmentRequest} from "../models/self-assignment-request";
 import {SetAssignmentSolutionRequest} from "../models/set-assignment-solution-request";
+import {AssignmentDetailsDto} from "../models/assignment-details-dto";
 
 
 @Injectable({
@@ -17,7 +18,7 @@ export class AssignmentsService {
   }
 
   getAssignmentDetails(assignmentId: number) {
-    return this.httpClient.get<Assignment>(`api/education/assignments/${assignmentId}`);
+    return this.httpClient.get<AssignmentDetailsDto>(`api/education/assignments/${assignmentId}`);
   }
 
   assignYourself(subjectId: number) {

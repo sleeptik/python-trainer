@@ -33,13 +33,32 @@ public sealed class AssignmentsController(InstantVerificationService instantVeri
     public async Task<IActionResult> GetAssignmentDetails(int assignmentId)
     {
         var assignment = await TrainerContext.Assignments.AsNoTracking()
-            .Include(assignment => assignment.Exercise)
-            .ThenInclude(exercise => exercise.Rank)
-            .Include(assignment => assignment.Exercise)
-            .ThenInclude(exercise => exercise.Subjects)
-            .SingleAsync(assignment => assignment.Id == assignmentId);
+                .Include(assignment => assignment.Exercise)
+                .ThenInclude(exercise => exercise.Rank)
+                .Include(assignment => assignment.Exercise)
+                .ThenInclude(exercise => exercise.Subjects)
+                .Include(
+                    assignment => assignment.Solutions
+                        .OrderByDescending(solution => solution.VerifiedAt)
+                        .Take(1)
+                )
+                .ThenInclude(solution => solution.Review)
+                .ThenInclude(review => ((FaultyReview)review!).Suggestions)
+                .Select(assignment => new
+                    {
+                        assignment.Id,
+                        assignment.Exercise,
+                        Solution = assignment.Solutions.FirstOrDefault(),
+                        Suggestions = assignment.Solutions
+                            .SelectMany(solution => ((FaultyReview)solution.Review!).Suggestions)
+                            .ToList(),
+                    }
+                )
+                .SingleAsync(assignment => assignment.Id == assignmentId);
 
-        return Ok(assignment);
+        return Ok(
+            new AssignmentDetailsDto(assignment.Id, assignment.Exercise, assignment.Solution, assignment.Suggestions)
+        );
     }
 
     [HttpPost("")]
@@ -70,7 +89,7 @@ public sealed class AssignmentsController(InstantVerificationService instantVeri
         try
         {
             var subjectIds = solution.Assignment.Exercise.Subjects.Select(subject => subject.Id).ToList();
-            
+
             var customInstructions = TrainerContext.Prompts
                 .Where(prompt => subjectIds.Any(id => id == prompt.SubjectId))
                 .Select(prompt => prompt.Content)
@@ -83,9 +102,9 @@ public sealed class AssignmentsController(InstantVerificationService instantVeri
             var review = await instantVerificationService.VerifyOnceOrThrowAsync(instructions);
             if (review is FaultyReview faultyReview)
                 TrainerContext.Suggestions.AttachRange(faultyReview.Suggestions);
-                
+
             TrainerContext.Reviews.Attach(review);
-            
+
             solution.SetReview(review);
 
             await TrainerContext.SaveChangesAsync();

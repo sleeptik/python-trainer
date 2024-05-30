@@ -11,7 +11,11 @@ public static class DependencyInjection
     )
     {
         var connectionString = configuration.GetConnectionString("Default");
-        services.AddDbContext<TrainerContext>(builder => builder.UseNpgsql(connectionString));
+        services.AddDbContext<TrainerContext>(builder => builder
+            .UseNpgsql(connectionString)
+            .EnableDetailedErrors()
+            .EnableSensitiveDataLogging()
+        );
         return services;
     }
 }

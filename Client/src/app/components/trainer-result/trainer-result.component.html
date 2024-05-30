@@ -1,4 +1,4 @@
-<div [hidden]="result" cdkAccordion class="accordion">
+<div *ngIf="result" cdkAccordion class="accordion">
   <div #accordionItem="cdkAccordionItem" cdkAccordionItem class="accordion-item">
     <div class="accordion-header">
       <button (click)="accordionItem.toggle()" [class.collapsed]="!accordionItem.expanded" class="accordion-button bg-danger-subtle">
@@ -9,9 +9,14 @@
       <div class="accordion-body">
         <h6>Обнаружены ошибки в процессе проверки</h6>
         <ul class="list-group list-group-flush">
-          <li class="list-group-item">Отсутствует подсчет произведения введеных чисел.</li>
-          <li class="list-group-item">Используется неправильная переменная для начального значения произведения.</li>
-          <li class="list-group-item">Отсутствует вывод результата.</li>
+          @for (suggestion of result; track suggestion.id){
+            <li class="list-group-item">
+              <div>
+                <h6>{{ suggestion.mistake }}</h6>
+                <p class="ms-3" *ngIf="suggestion.advice">{{ suggestion.advice }}</p>
+              </div>
+            </li>
+          }
         </ul>
       </div>
     </div>

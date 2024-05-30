@@ -4,13 +4,14 @@ import {ActivatedRoute} from "@angular/router";
 import {PythonService} from "../../services/python.service";
 import {first} from "rxjs";
 import {AssignmentsService} from "../../services/assignments.service";
+import {AssignmentDetailsDto} from "../../models/assignment-details-dto";
 
 @Component({
   selector: 'app-trainer',
   templateUrl: './trainer.component.html'
 })
 export class TrainerComponent {
-  readonly assignment!: Assignment;
+  readonly assignment!: AssignmentDetailsDto;
   solution: string = "";
   output: string[] = [];
 
@@ -21,6 +22,11 @@ export class TrainerComponent {
     private readonly assignmentsService: AssignmentsService
   ) {
     this.assignment = activatedRoute.snapshot.data["assignment"];
+    this.solution = this.assignment.solution?.code ?? "";
+  }
+
+  get suggestions() {
+    return this.assignment.suggestions;
   }
 
   executeSolution() {
