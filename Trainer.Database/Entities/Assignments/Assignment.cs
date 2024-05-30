@@ -28,7 +28,8 @@ public sealed class Assignment
         return new Assignment
         {
             StudentId = studentId,
-            ExerciseId = exerciseId
+            ExerciseId = exerciseId,
+            AssignedAt = DateTime.UtcNow
         };
     }
 
