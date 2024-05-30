@@ -30,8 +30,8 @@ public sealed class VerifySolutionsJob(
             })
             .Build();
 
-        var state = new State(trainerContext,verificationService);
-        
+        var state = new State(trainerContext, verificationService);
+
         await resiliencePipeline.ExecuteAsync(
             async (ctx, token) => await VerifySolutionAsync(ctx, token), state
         );
@@ -41,7 +41,7 @@ public sealed class VerifySolutionsJob(
     {
         if (!ctx.Context.Solutions.Any(solution => solution.Review == null))
             return;
-        
+
         var unverifiedSolutions = await ctx.Context.Solutions
             .Include(solution => solution.Assignment)
             .ThenInclude(assignment => assignment.Exercise)
@@ -71,11 +71,23 @@ public sealed class VerifySolutionsJob(
                 var result = await ctx.Service.VerifyAsync(instructionsSet, cancellationToken);
 
                 var review = ReviewFactory.Create(result);
-                
+
+                AssignmentStatus assignmentStatus;
                 if (review is FaultyReview faultyReview)
+                {
                     ctx.Context.Suggestions.AttachRange(faultyReview.Suggestions);
-                
-                ctx.Context.Reviews.Attach(review);
+                    assignmentStatus = await ctx.Context.AssignmentStatuses
+                        .Where(status => status.Name == AssignmentStatus.Failed).FirstAsync(cancellationToken);
+                    solution.Assignment.SetStatus(assignmentStatus.Id);
+                }
+                else
+                {
+                    assignmentStatus = await ctx.Context.AssignmentStatuses
+                        .Where(status => status.Name == AssignmentStatus.Verified).FirstAsync(cancellationToken);
+                    solution.Assignment.SetStatus(assignmentStatus.Id);
+                }
+
+                    ctx.Context.Reviews.Attach(review);
 
                 solution.SetReview(review);
             })
@@ -92,7 +104,7 @@ public sealed class VerifySolutionsJob(
         }
     }
 
-    private class State(TrainerContext context,VerificationService service)
+    private class State(TrainerContext context, VerificationService service)
     {
         public TrainerContext Context { get; } = context;
         public VerificationService Service { get; } = service;

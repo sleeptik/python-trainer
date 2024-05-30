@@ -37,7 +37,9 @@ public class StudentSelfAssignmentHelper(TrainerContext context)
         newExercise = subjectExercises
                 .First(exercise => exercise.RankId == userRank.CurrentRankId);
 
-        var assignment = Assignment.Create(request.StudentId, newExercise.Id);
+        var assignmentStatus = await context.AssignmentStatuses
+            .Where(status => status.Name == AssignmentStatus.New).FirstAsync();
+        var assignment = Assignment.Create(request.StudentId, newExercise.Id,assignmentStatus.Id);
         await context.Assignments.AddAsync(assignment);
         await context.SaveChangesAsync();
         

@@ -20,17 +20,26 @@ public sealed class Assignment
     public Exercise Exercise { get; private set; } = null!;
 
     public DateTime AssignedAt { get; private set; }
+    
+    public int AssignmentStatusId { get; private set; }
+    public AssignmentStatus AssignmentStatus { get; private set; } = null!;
 
     public IList<Solution> Solutions { get; private set; } = new List<Solution>();
 
-    public static Assignment Create(int studentId, int exerciseId)
+    public static Assignment Create(int studentId, int exerciseId, int assignmentStatusId)
     {
         return new Assignment
         {
             StudentId = studentId,
             ExerciseId = exerciseId,
+            AssignmentStatusId = assignmentStatusId,
             AssignedAt = DateTime.UtcNow
         };
+    }
+
+    public void SetStatus(int assignmentStatusId)
+    {
+        AssignmentStatusId = assignmentStatusId;
     }
 
     public void AddSolution(Solution solution)

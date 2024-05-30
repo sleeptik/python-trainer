@@ -24,6 +24,7 @@ public sealed class AssignmentsController(InstantVerificationService instantVeri
             .ThenInclude(exercise => exercise.Subjects)
             .Include(assignment => assignment.Exercise)
             .ThenInclude(exercise => exercise.Rank)
+            .Include(assignment => assignment.AssignmentStatus)
             .Where(assignment => assignment.StudentId == StudentId)
             .ToListAsync();
 
@@ -83,7 +84,10 @@ public sealed class AssignmentsController(InstantVerificationService instantVeri
             .SingleAsync(assignment1 => assignment1.Id == assignmentId);
 
         var solution = Solution.Create(dto.Solution);
+        var assignmentStatus = await TrainerContext.AssignmentStatuses
+            .Where(status => status.Name == AssignmentStatus.Finished).FirstAsync();
         assignment.AddSolution(solution);
+        assignment.SetStatus(assignmentStatus.Id);
 
         await TrainerContext.SaveChangesAsync();
 
@@ -102,7 +106,19 @@ public sealed class AssignmentsController(InstantVerificationService instantVeri
 
             var review = await instantVerificationService.VerifyOnceOrThrowAsync(instructions);
             if (review is FaultyReview faultyReview)
+            {
                 TrainerContext.Suggestions.AttachRange(faultyReview.Suggestions);
+                assignmentStatus = await TrainerContext.AssignmentStatuses
+                    .Where(status => status.Name == AssignmentStatus.Failed).FirstAsync();
+                solution.Assignment.SetStatus(assignmentStatus.Id);
+            }
+            else
+            {
+                assignmentStatus = await TrainerContext.AssignmentStatuses
+                    .Where(status => status.Name == AssignmentStatus.Verified).FirstAsync();
+                solution.Assignment.SetStatus(assignmentStatus.Id);
+            }
+                
 
             TrainerContext.Reviews.Attach(review);
 

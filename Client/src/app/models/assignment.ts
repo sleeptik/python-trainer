@@ -1,5 +1,6 @@
 ﻿import {Exercise} from "./exercise";
 import {Solution} from "./solution";
+import {AssignmentStatus} from "./assignment-status";
 
 export interface Assignment {
   id: number;
@@ -7,6 +8,9 @@ export interface Assignment {
 
   exerciseId: number;
   exercise: Exercise;
+
+  assignmentStatusId: number;
+  assignmentStatus: AssignmentStatus;
 
   solutions: Solution[];
 

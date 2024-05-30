@@ -2,7 +2,7 @@
   <ng-container cdkColumnDef="date">
     <th *cdkHeaderCellDef cdk-header-cell>Время назначения</th>
     <td *cdkCellDef="let assignment" cdk-cell>
-<!--      {{ assignment.assignedAt | date : "HH:mm dd.MM.yy" }}-->
+      <!--      {{ assignment.assignedAt | date : "HH:mm dd.MM.yy" }}-->
       {{ assignment.assignedAt | date : "dd.MM.yy HH:mm" }}
     </td>
   </ng-container>
@@ -12,7 +12,7 @@
     <td *cdkCellDef="let assignment" cdk-cell>
       <!-- TODO fix slice with text truncate and table-layout auto -->
       <div class="text-truncate col-10">
-        {{ assignment.exercise.contents | slice : 0 : 64   }}
+        {{ assignment.exercise.details | slice : 0 : 64   }}
       </div>
     </td>
   </ng-container>
@@ -20,31 +20,30 @@
   <ng-container cdkColumnDef="status">
     <th *cdkHeaderCellDef cdk-header-cell>Статус</th>
     <td *cdkCellDef="let assignment" cdk-cell>
-      @if (!assignment.finishedAt) {
+      @switch (assignment.assignmentStatus.name) {
+        @case('New'){
         <span class="badge text-bg-primary">
-          <i class="bi bi-plus-circle"></i>
-          Новое
-        </span>
-      } @else {
-        @switch (assignment.isPassed) {
-          @case (true) {
-            <span class="badge text-bg-success">
-              <i class="bi bi-check-circle"></i>
-              Решено верно
-            </span>
-          }
-          @case (false) {
-            <span class="badge text-bg-danger">
-              <i class="bi bi-dash-circle"></i>
-              Решено неверно
-            </span>
-          }
-          @default {
-            <span class="badge text-bg-secondary">
-              <i class="bi bi-question-circle"></i>
-              Не проверено
-            </span>
-          }
+            <i class="bi bi-plus-circle"></i>
+            Новое
+          </span>
+        }
+        @case('Verified'){
+        <span class="badge text-bg-success">
+                <i class="bi bi-check-circle"></i>
+                Решено верно
+              </span>
+        }
+        @case('Failed'){
+        <span class="badge text-bg-danger">
+                <i class="bi bi-dash-circle"></i>
+                Решено неверно
+              </span>
+        }
+        @default{
+        <span class="badge text-bg-secondary">
+                <i class="bi bi-question-circle"></i>
+                Не проверено
+              </span>
         }
       }
     </td>

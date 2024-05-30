@@ -12,6 +12,8 @@ public sealed class TrainerContext(DbContextOptions options) : IdentityDbContext
 {
     public DbSet<Assignment> Assignments => Set<Assignment>();
 
+    public DbSet<AssignmentStatus> AssignmentStatuses => Set<AssignmentStatus>();
+
     public DbSet<Solution> Solutions => Set<Solution>();
 
     public DbSet<Review> Reviews => Set<Review>();
