@@ -25,6 +25,10 @@ export class TrainerComponent {
     this.solution = this.assignment.solution?.code ?? "";
   }
 
+  get isInterpreterLoaded() {
+    return this.pythonService.isLoaded$();
+  }
+
   get suggestions() {
     return this.assignment.suggestions;
   }

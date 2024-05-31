@@ -1,34 +1,38 @@
-<div class="d-flex flex-column min-vh-100 bg-body-tertiary">
-  <div class="col-auto bg-body-secondary border mb-3 py-2">
-    <div class="container-fluid text-center">
-      <div class="position-relative">
-        <button routerLink="/assignments" class="btn btn-sm btn-dark position-absolute start-0">
-          <i class="bi bi-back"></i> Назад к заданиям
-        </button>
-        <app-trainer-menu (clear)="clearOutput()" (execute)="executeSolution()" (verify)="verifySolution()"/>
+<app-trainer-loading-overlay *ngIf="!(isInterpreterLoaded | async); else loaded"/>
+
+<ng-template #loaded>
+  <div class="d-flex flex-column min-vh-100 bg-body-tertiary">
+    <div class="col-auto bg-body-secondary border mb-3 py-2">
+      <div class="container-fluid text-center">
+        <div class="position-relative">
+          <button routerLink="/assignments" class="btn btn-sm btn-dark position-absolute start-0">
+            <i class="bi bi-back"></i> Назад к заданиям
+          </button>
+          <app-trainer-menu (clear)="clearOutput()" (execute)="executeSolution()" (verify)="verifySolution()"/>
+        </div>
+      </div>
+    </div>
+    <div class="col container-fluid d-flex align-items-stretch mb-3">
+      <div class="col me-2">
+        <div class="h-100 d-flex flex-column justify-content-between bg-body rounded p-3 border">
+          <div class="col-auto">
+            <app-trainer-information [exercise]="assignment.exercise"/>
+          </div>
+          <div class="col-auto">
+            <app-trainer-result [result]="suggestions"/>
+          </div>
+        </div>
+      </div>
+      <div class="col ms-2">
+        <div class="h-100 d-flex flex-column bg-body rounded p-3 border">
+          <div class="col mb-3">
+            <app-trainer-editor (codeChange)="setCode($event)"/>
+          </div>
+          <div class="col-auto">
+            <app-trainer-output [content]="output"/>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  <div class="col container-fluid d-flex align-items-stretch mb-3">
-    <div class="col me-2">
-      <div class="h-100 d-flex flex-column justify-content-between bg-body rounded p-3 border">
-        <div class="col-auto">
-          <app-trainer-information [exercise]="assignment.exercise"/>
-        </div>
-        <div class="col-auto">
-          <app-trainer-result [result]="suggestions"/>
-        </div>
-      </div>
-    </div>
-    <div class="col ms-2">
-      <div class="h-100 d-flex flex-column bg-body rounded p-3 border">
-        <div class="col mb-3">
-          <app-trainer-editor (codeChange)="setCode($event)"/>
-        </div>
-        <div class="col-auto">
-          <app-trainer-output [content]="output"/>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+</ng-template>

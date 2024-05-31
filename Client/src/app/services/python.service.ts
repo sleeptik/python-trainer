@@ -1,15 +1,25 @@
 import {Injectable} from '@angular/core';
-import {from, map} from "rxjs";
+import {BehaviorSubject, from, map, tap} from "rxjs";
 import {loadPyodide, PyodideInterface} from "pyodide";
 
 @Injectable({
   providedIn: 'root'
 })
 export class PythonService {
+  private loading: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private pyodide!: PyodideInterface;
 
   constructor() {
-    from(loadPyodide({indexURL:"/assets/pyodide"})).subscribe(value => this.pyodide = value);
+    setTimeout(() => {
+      from(loadPyodide({indexURL: "/assets/pyodide"})).pipe(
+        tap(value => this.pyodide = value),
+        tap(_ => this.loading.next(true))
+      ).subscribe();
+    }, 0);
+  }
+
+  isLoaded$() {
+    return this.loading.asObservable();
   }
 
   executeCode(code: string) {
