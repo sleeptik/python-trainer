@@ -1,6 +1,5 @@
-import {Component, EventEmitter, Output} from '@angular/core';
-import {FormBuilder, FormControl} from "@angular/forms";
-import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {Component, Input} from '@angular/core';
+import {FormControl} from "@angular/forms";
 
 @Component({
   selector: 'app-trainer-editor',
@@ -8,9 +7,7 @@ import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
   styleUrl: './trainer-editor.component.css'
 })
 export class TrainerEditorComponent {
-  @Output() readonly codeChange: EventEmitter<string> = new EventEmitter<string>();
-
-  readonly codeControl: FormControl<string>;
+  @Input({required: true}) codeControl!: FormControl<string>;
   readonly options = {
     automaticLayout: true,
     language: 'python',
@@ -18,9 +15,4 @@ export class TrainerEditorComponent {
     minimap: {enabled: false},
     theme: 'vs'
   } as const;
-
-  constructor(formBuilder: FormBuilder) {
-    this.codeControl = formBuilder.control("", {nonNullable: true});
-    this.codeControl.valueChanges.pipe(takeUntilDestroyed()).subscribe(value => this.codeChange.emit(value));
-  }
 }

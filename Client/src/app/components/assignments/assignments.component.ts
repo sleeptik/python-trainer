@@ -3,6 +3,7 @@ import {Assignment} from "../../models/assignment";
 import {ActivatedRoute} from "@angular/router";
 import {Subject} from "../../models/subject";
 import {AssignmentsService} from "../../services/assignments.service";
+import {pipe, switchMap, tap} from "rxjs";
 
 @Component({
   selector: 'app-assignments',
@@ -13,7 +14,7 @@ export class AssignmentsComponent {
   subjects: Subject[];
 
   constructor(activatedRoute: ActivatedRoute,
-              private readonly educationService: AssignmentsService) {
+              private readonly assignmentsService: AssignmentsService) {
     this.assignments = activatedRoute.snapshot.data["assignments"];
     this.subjects = activatedRoute.snapshot.data["subjects"];
   }
@@ -21,10 +22,17 @@ export class AssignmentsComponent {
   assignRandomSubjectExercise() {
     const index = Math.round(Math.random() * (this.subjects.length - 1));
     const subjectId = this.subjects[index].id;
-    this.educationService.assignYourself(subjectId).subscribe();
+    this.assignmentsService.assignYourself(subjectId).pipe(this.refresh()).subscribe();
   }
 
   assignSelectedSubjectExercise(subjectId: number) {
-    this.educationService.assignYourself(subjectId).subscribe();
+    this.assignmentsService.assignYourself(subjectId).pipe(this.refresh()).subscribe();
+  }
+
+  private refresh() {
+    return pipe(
+      switchMap(_ => this.assignmentsService.getStudentAssignments()),
+      tap(value => this.assignments = value)
+    );
   }
 }

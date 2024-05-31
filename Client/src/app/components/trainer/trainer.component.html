@@ -23,7 +23,7 @@
     <div class="col ms-2">
       <div class="h-100 d-flex flex-column bg-body rounded p-3 border">
         <div class="col mb-3">
-          <app-trainer-editor (codeChange)="setCode($event)"/>
+          <app-trainer-editor [codeControl]="codeControl"/>
         </div>
         <div class="col-auto">
           <app-trainer-output [content]="output"/>
