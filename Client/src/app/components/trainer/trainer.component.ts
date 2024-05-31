@@ -1,8 +1,7 @@
 import {Component} from '@angular/core';
-import {Assignment} from "../../models/assignment";
 import {ActivatedRoute} from "@angular/router";
 import {PythonService} from "../../services/python.service";
-import {first, pipe, switchMap, tap} from "rxjs";
+import {pipe, switchMap, tap} from "rxjs";
 import {AssignmentsService} from "../../services/assignments.service";
 import {AssignmentDetailsDto} from "../../models/assignment-details-dto";
 import {FormBuilder, FormControl} from "@angular/forms";
@@ -13,7 +12,7 @@ import {FormBuilder, FormControl} from "@angular/forms";
 })
 export class TrainerComponent {
   assignment!: AssignmentDetailsDto;
-  codeControl: FormControl<string>
+  codeControl: FormControl<string>;
   output: string[] = [];
 
 
@@ -40,7 +39,7 @@ export class TrainerComponent {
   }
 
   verifySolution() {
-    this.assignmentsService.setAssignmentSolution(this.assignment.id, this.codeControl.value).pipe(this.refresh()).subscribe()
+    this.assignmentsService.setAssignmentSolution(this.assignment.id, this.codeControl.value).pipe(this.refresh()).subscribe();
   }
 
   clearOutput() {
