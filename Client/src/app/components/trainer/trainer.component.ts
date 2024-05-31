@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {Assignment} from "../../models/assignment";
 import {ActivatedRoute} from "@angular/router";
 import {PythonService} from "../../services/python.service";
-import {first} from "rxjs";
+import {first, pipe, switchMap, tap} from "rxjs";
 import {AssignmentsService} from "../../services/assignments.service";
 import {AssignmentDetailsDto} from "../../models/assignment-details-dto";
 
@@ -11,7 +11,7 @@ import {AssignmentDetailsDto} from "../../models/assignment-details-dto";
   templateUrl: './trainer.component.html'
 })
 export class TrainerComponent {
-  readonly assignment!: AssignmentDetailsDto;
+  assignment!: AssignmentDetailsDto;
   solution: string = "";
   output: string[] = [];
 
@@ -38,7 +38,7 @@ export class TrainerComponent {
   }
 
   verifySolution() {
-    this.assignmentsService.setAssignmentSolution(this.assignment.id, this.solution).subscribe()
+    this.assignmentsService.setAssignmentSolution(this.assignment.id, this.solution).pipe(this.refresh()).subscribe()
   }
 
   clearOutput() {
@@ -47,5 +47,12 @@ export class TrainerComponent {
 
   setCode(code: string) {
     this.solution = code;
+  }
+
+  private refresh() {
+    return pipe(
+      switchMap(_ => this.assignmentsService.getAssignmentDetails(this.assignment.id)),
+      tap(value => this.assignment = value)
+    );
   }
 }
