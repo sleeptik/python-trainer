@@ -34,26 +34,25 @@
                 "output": "/assets/monaco/"
               },
               {
-                "glob": "pyodide.{js,mjs,asm}*",
+                "glob": "pyodide*",
                 "input": "node_modules/pyodide",
-                "output": "/"
+                "output": "/assets/pyodide"
               },
               {
-                "glob": "python_stdlib.zip",
+                "glob": "python*",
                 "input": "node_modules/pyodide",
-                "output": "/"
+                "output": "/assets/pyodide"
               },
               {
                 "glob": "repodata.json",
                 "input": "node_modules/pyodide",
-                "output": "/"
+                "output": "/assets/pyodide"
               }
             ],
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": [],
-            "webWorkerTsConfig": "tsconfig.worker.json"
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -119,8 +118,7 @@
               "src/styles.css"
             ],
             "scripts": [],
-            "karmaConfig": "karma.conf.js",
-            "webWorkerTsConfig": "tsconfig.worker.json"
+            "karmaConfig": "karma.conf.js"
           }
         }
       }

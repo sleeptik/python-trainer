@@ -24,6 +24,8 @@ import {AssignmentsTableComponent} from './components/assignments-table/assignme
 import {CdkTableModule} from "@angular/cdk/table";
 import {AssignmentsMenuComponent} from './components/assignments-menu/assignments-menu.component';
 import {DummyRedirectComponent} from './components/dummy-redirect/dummy-redirect.component';
+import {TrainerLoadingOverlayComponent} from './components/trainer-loading-overlay/trainer-loading-overlay.component';
+import {MatProgressBar} from "@angular/material/progress-bar";
 
 @NgModule({
   declarations: [
@@ -42,6 +44,7 @@ import {DummyRedirectComponent} from './components/dummy-redirect/dummy-redirect
     AssignmentsTableComponent,
     AssignmentsMenuComponent,
     DummyRedirectComponent,
+    TrainerLoadingOverlayComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,7 +56,8 @@ import {DummyRedirectComponent} from './components/dummy-redirect/dummy-redirect
     ReactiveFormsModule,
     MonacoEditorModule.forRoot(),
     CdkAccordionModule,
-    CdkTableModule
+    CdkTableModule,
+    MatProgressBar
   ],
   providers: [],
   bootstrap: [AppComponent]

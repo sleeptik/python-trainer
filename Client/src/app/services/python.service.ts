@@ -1,23 +1,36 @@
 import {Injectable} from '@angular/core';
-import {Subject} from "rxjs";
+import {BehaviorSubject, from, map, tap} from "rxjs";
+import {loadPyodide, PyodideInterface} from "pyodide";
 
 @Injectable({
   providedIn: 'root'
 })
 export class PythonService {
-  worker: Worker;
-  response: Subject<string[]> = new Subject<string[]>();
+  private loading: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  private pyodide!: PyodideInterface;
 
   constructor() {
-    this.worker = new Worker(new URL("../web-workers/python.worker", import.meta.url));
-    this.worker.onmessage = ({data}) => this.response.next(data);
+    setTimeout(() => {
+      from(loadPyodide({indexURL: "/assets/pyodide"})).pipe(
+        tap(value => this.pyodide = value),
+        tap(_ => this.loading.next(true))
+      ).subscribe();
+    }, 0);
+  }
+
+  isLoaded$() {
+    return this.loading.asObservable();
   }
 
   executeCode(code: string) {
-    this.worker.postMessage(code);
-  }
+    const output: string[] = [];
+    this.pyodide.setStdout({batched: msg => output.push(msg)});
+    this.pyodide.setStderr({batched: msg => output.push(msg)});
 
-  getObservable() {
-    return this.response.asObservable();
+    return from(this.pyodide.runPythonAsync(code)).pipe(
+      map((expressionValue: string | null) => {
+        return expressionValue ? [...output, expressionValue] : output;
+      })
+    );
   }
 }

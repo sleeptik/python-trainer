@@ -27,16 +27,16 @@ export class TrainerComponent {
     this.codeControl = formBuilder.control(this.assignment.solution?.code ?? "", {nonNullable: true});
   }
 
+  get isInterpreterLoaded() {
+    return this.pythonService.isLoaded$();
+  }
+
   get suggestions() {
     return this.assignment.suggestions;
   }
 
   executeSolution() {
-    this.pythonService.getObservable()
-      .pipe(first())
-      .subscribe(value => this.output = value);
-
-    this.pythonService.executeCode(this.codeControl.value);
+    this.pythonService.executeCode(this.codeControl.value).subscribe(value => this.output = value);
   }
 
   verifySolution() {
