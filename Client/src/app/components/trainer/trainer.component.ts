@@ -30,11 +30,7 @@ export class TrainerComponent {
   }
 
   executeSolution() {
-    this.pythonService.getObservable()
-      .pipe(first())
-      .subscribe(value => this.output = value);
-
-    this.pythonService.executeCode(this.solution);
+    this.pythonService.executeCode(this.solution).subscribe(value => this.output = value);
   }
 
   verifySolution() {
