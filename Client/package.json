@@ -28,6 +28,7 @@
     "bootstrap": "^5.3.2",
     "bootstrap-icons": "^1.11.2",
     "jest-editor-support": "*",
+    "mathjax-angular": "^2.2.1",
     "ngx-monaco-editor-v2": "^17.0.1",
     "pyodide": "^0.23.4",
     "run-script-os": "*",

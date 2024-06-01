@@ -26,6 +26,21 @@ import {AssignmentsMenuComponent} from './components/assignments-menu/assignment
 import {DummyRedirectComponent} from './components/dummy-redirect/dummy-redirect.component';
 import {TrainerLoadingOverlayComponent} from './components/trainer-loading-overlay/trainer-loading-overlay.component';
 import {MatProgressBar} from "@angular/material/progress-bar";
+import {MathjaxModule} from "mathjax-angular";
+
+const MathJaxConfig = {
+  "config": {
+    "loader": {
+      "load": ["output/svg", "[tex]/require", "[tex]/ams"]
+    },
+    "tex": {
+      "inlineMath": [["\\(", "\\)"]],
+      "packages": ["base", "require", "ams"]
+    },
+    "svg": {"fontCache": "global"}
+  },
+  "src": "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/startup.js"
+};
 
 @NgModule({
   declarations: [
@@ -55,6 +70,7 @@ import {MatProgressBar} from "@angular/material/progress-bar";
     FormsModule,
     ReactiveFormsModule,
     MonacoEditorModule.forRoot(),
+    MathjaxModule.forRoot(MathJaxConfig),
     CdkAccordionModule,
     CdkTableModule,
     MatProgressBar
