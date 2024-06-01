@@ -13,7 +13,10 @@ public class StudentSelfAssignmentHelper(TrainerContext context)
         var subjectToStudy = GetSubjectsToStudy(request.StudentId);
         var newExercise = new Exercise();
 
-        var userRank = context.Students.AsNoTracking().First();
+        var userRank = context.Students.AsNoTracking()
+            .Where(student => student.UserId==request.StudentId)
+            .Select(student => student.CurrentRankId)
+            .First();
         
         var subjectExercises = context.Exercises.AsNoTracking()
             .Include(exercise => exercise.Rank)
@@ -29,13 +32,13 @@ public class StudentSelfAssignmentHelper(TrainerContext context)
         }
 
         subjectExercises = subjectExercises
-            .Where(exercise => !history.Any(his => his.ExerciseId == exercise.Id))
+            .Where(exercise => history.All(his => his.ExerciseId != exercise.Id))
             .ToList()
             .OrderBy(_ => Random.Shared.Next())
             .ToList();
         
         newExercise = subjectExercises
-                .First(exercise => exercise.RankId == userRank.CurrentRankId);
+                .First(exercise => exercise.RankId == userRank);
 
         var assignmentStatus = await context.AssignmentStatuses
             .Where(status => status.Name == AssignmentStatus.New).FirstAsync();
