@@ -20,8 +20,8 @@ export class AssignmentsComponent {
   }
 
   assignRandomSubjectExercise() {
-    const index = Math.round(Math.random() * (this.subjects.length - 1));
-    const subjectId = this.subjects[index].id;
+    //const index = Math.round(Math.random() * (this.subjects.length - 1));
+    const subjectId = 0;//this.subjects[index].id;
     this.assignmentsService.assignYourself(subjectId).pipe(this.refresh()).subscribe();
   }
 
