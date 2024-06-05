@@ -14,8 +14,7 @@
             Перейти к тренажеру
           </a>
 
-          <a *ngIf="!isLoading && !currentUser$.value" [href]="authLink" class="btn btn-dark"
-             [class.disabled]="authLink === null">
+          <a *ngIf="!isLoading && !currentUser$.value" routerLink="login"  class="btn btn-dark">
             Войти в систему
           </a>
 

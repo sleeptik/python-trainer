@@ -11,8 +11,6 @@ export class WelcomeComponent implements OnInit {
   isLoading = true;
   currentUser$ = new BehaviorSubject<SimpleUserInfo | null>(null);
 
-  authLink: string | null = null;
-
   constructor(private readonly authService: AuthService) {
   }
 
@@ -22,6 +20,6 @@ export class WelcomeComponent implements OnInit {
       this.isLoading = false;
     });
 
-    this.authService.getYandexRedirectLink().subscribe(value => this.authLink = value);
+    // this.authService.getYandexRedirectLink().subscribe(value => this.authLink = value);
   }
 }

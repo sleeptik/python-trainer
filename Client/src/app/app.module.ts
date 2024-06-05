@@ -27,6 +27,7 @@ import {DummyRedirectComponent} from './components/dummy-redirect/dummy-redirect
 import {TrainerLoadingOverlayComponent} from './components/trainer-loading-overlay/trainer-loading-overlay.component';
 import {MatProgressBar} from "@angular/material/progress-bar";
 import {MathjaxModule} from "mathjax-angular";
+import {LoginComponent} from './components/login/login.component';
 
 const MathJaxConfig = {
   "config": {
@@ -60,6 +61,7 @@ const MathJaxConfig = {
     AssignmentsMenuComponent,
     DummyRedirectComponent,
     TrainerLoadingOverlayComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,

@@ -9,6 +9,7 @@ import {subjectsResolver} from "./resolvers/subjects.resolver";
 import {DummyRedirectComponent} from "./components/dummy-redirect/dummy-redirect.component";
 import {yandexLoginRedirectGuard} from "./guards/yandex-login-redirect.guard";
 import {authorizedGuard} from "./guards/authorized.guard";
+import {LoginComponent} from "./components/login/login.component";
 
 
 const routes: Routes = [
@@ -32,6 +33,10 @@ const routes: Routes = [
     path: "yandex-login",
     component: DummyRedirectComponent,
     canActivate: [yandexLoginRedirectGuard]
+  },
+  {
+    path: "login",
+    component: LoginComponent
   },
   {
     path: "",

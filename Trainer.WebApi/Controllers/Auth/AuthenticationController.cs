@@ -37,6 +37,17 @@ public sealed class AuthenticationController(
         return NoContent();
     }
 
+    [HttpPost("simple-login")]
+    public async Task<IActionResult> SimpleLogIn([FromBody]SimpleLoginInfo loginInfo)
+    {
+        var data = new UserInfo("", loginInfo.Email, "testName", loginInfo.Email, loginInfo.Password);
+        var user = await GetOrCreateUserByEmailAsync(data);
+
+        await signInManager.SignInAsync(user, true);
+
+        return NoContent();
+    }
+
     [HttpPost("logout")]
     public async Task<IActionResult> LogOut()
     {
@@ -69,6 +80,10 @@ public sealed class AuthenticationController(
 
         user = Database.Entities.Auth.User.Create(userInfo.DefaultEmail, userInfo.RealName);
         await signInManager.UserManager.CreateAsync(user);
+        
+        if (userInfo.Password != null)
+            await signInManager.UserManager.AddPasswordAsync(user, userInfo.Password);
+        
         await TrainerContext.Users.AddAsync(user);
         await TrainerContext.SaveChangesAsync();
 
@@ -81,3 +96,5 @@ public sealed class AuthenticationController(
         return user;
     }
 }
+
+public record SimpleLoginInfo(string Email, string Password);

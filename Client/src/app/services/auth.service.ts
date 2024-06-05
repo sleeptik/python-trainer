@@ -34,6 +34,11 @@ export class AuthService {
     );
   }
 
+  simpleLogin(email: string, password: string) {
+    const loginDto = {email, password};
+    return this.httpClient.post<unknown>("api/auth/simple-login", loginDto);
+  }
+
   logout() {
     return this.httpClient.post<unknown>("api/auth/logout", null, {observe: "response"}).pipe(
       map(value => value.ok)

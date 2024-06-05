@@ -1,0 +1,36 @@
+<div class="vh-100 d-flex flex-column justify-content-center align-items-center container">
+  <div class="row justify-content-center">
+    <div class="col-4">
+      <div class="card h-100">
+        <div class="card-body">
+          <h6 class="card-title text-center">Авторизация</h6>
+
+          <div class="mb-3">
+            <label class="form-label" for="email">Почта</label>
+            <input [formControl]="loginForm.controls.email" class="form-control form-control-sm" id="email" type="email">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label" for="password">Пароль</label>
+            <input [formControl]="loginForm.controls.password" class="form-control form-control-sm" id="password" type="password">
+          </div>
+
+          <button class="btn btn-sm btn-primary" (click)="login()">Войти</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-5">
+      <div class="card h-100">
+        <div class="card-body">
+          <h6 class="card-title text-center">Примечание</h6>
+          <ul>
+            <li>Регистрация аккаунта осуществляется вводом любого текста для почты и любого пароля длины 4 символа и более</li>
+            <li>В дальнейшем авторизация происходит с использованием почты и пароля указанных при регистрации</li>
+            <li>Смена пароля недоступна</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
