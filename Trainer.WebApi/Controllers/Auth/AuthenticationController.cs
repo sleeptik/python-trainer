@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using System.Transactions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -78,6 +79,8 @@ public sealed class AuthenticationController(
         if (user is not null)
             return user;
 
+        await using var transaction = await TrainerContext.Database.BeginTransactionAsync();
+        
         user = Database.Entities.Auth.User.Create(userInfo.DefaultEmail, userInfo.RealName);
         await signInManager.UserManager.CreateAsync(user);
         
@@ -92,6 +95,8 @@ public sealed class AuthenticationController(
         var student = Student.Create(user.Id, ranks, subjects);
         await TrainerContext.Students.AddAsync(student);
         await TrainerContext.SaveChangesAsync();
+        
+        await transaction.CommitAsync();
 
         return user;
     }
