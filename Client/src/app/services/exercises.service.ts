@@ -9,8 +9,8 @@ export class ExercisesService {
   constructor(private readonly httpClient: HttpClient) {
   }
 
-  getCodeTemplate(exerciseId:number) {
-    return this.httpClient.get<CodeTemplate>(`api/education/exercises/${exerciseId}/code-template`);
+  getCodeTemplates(exerciseId:number) {
+    return this.httpClient.get<CodeTemplate[]>(`api/education/exercises/${exerciseId}/code-template`);
   }
 
 }

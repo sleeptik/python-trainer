@@ -9,13 +9,11 @@ namespace Trainer.WebApi.Controllers.Exercises;
 public sealed class ExercisesController: ApiController
 {
     [HttpGet("{exerciseId:int}/code-template")]
-    public async Task<IActionResult> GetCodeTemplate(int exerciseId)
+    public async Task<IActionResult> GetCodeTemplates(int exerciseId)
     {
         var codeTemplates = await TrainerContext.CodeTemplates.AsNoTracking()
             .Where(template => template.ExerciseId == exerciseId)
             .ToListAsync();
-        var codeTemplate = codeTemplates.OrderBy(_ => Random.Shared.Next())
-            .First();
-        return Ok(codeTemplate);
+        return Ok(codeTemplates);
     }
 }
