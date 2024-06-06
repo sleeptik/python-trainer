@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 @Component({
   selector: 'app-trainer-menu',
@@ -9,4 +9,6 @@ export class TrainerMenuComponent {
   @Output() readonly execute = new EventEmitter<void>();
   @Output() readonly clear = new EventEmitter<void>();
   @Output() readonly verify = new EventEmitter<void>();
+
+  @Input({required: true}) exerciseId!: number;
 }

@@ -1,0 +1,12 @@
+<div *ngIf="canUseTemplates" class="dropdown">
+  <button aria-expanded="false" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" type="button">
+    Код-подсказка
+  </button>
+  <ul class="dropdown-menu">
+    <li *ngFor="let template of templates">
+      <a (click)="loadTemplate(template.id)" class="dropdown-item">
+        {{ template.skippedPartName }}
+      </a>
+    </li>
+  </ul>
+</div>
