@@ -11,6 +11,7 @@
           <app-trainer-menu (clear)="clearOutput()"
                             (execute)="executeSolution()"
                             (verify)="verifySolution()"
+                            (useTemplate)="setCode($event)"
                             [exerciseId]="assignment.exercise.id"/>
         </div>
       </div>

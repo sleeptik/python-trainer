@@ -4,7 +4,7 @@
   </button>
   <ul class="dropdown-menu">
     <li *ngFor="let template of templates">
-      <a (click)="loadTemplate(template.id)" class="dropdown-item">
+      <a (click)="loadTemplate(template)" class="dropdown-item">
         {{ template.skippedPartName }}
       </a>
     </li>

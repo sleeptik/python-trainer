@@ -22,9 +22,7 @@ export class TrainerComponent {
     activatedRoute: ActivatedRoute,
     formBuilder: FormBuilder,
     private readonly pythonService: PythonService,
-    private readonly assignmentsService: AssignmentsService,
-    private readonly studentsService: StudentsService,
-    private readonly exercisesService: ExercisesService
+    private readonly assignmentsService: AssignmentsService
   ) {
     this.assignment = activatedRoute.snapshot.data["assignment"];
     this.codeControl = formBuilder.control(this.assignment.solution?.code ?? "", {nonNullable: true});
@@ -36,6 +34,10 @@ export class TrainerComponent {
 
   get suggestions() {
     return this.assignment.suggestions;
+  }
+
+  setCode(code:string) {
+    this.codeControl.setValue(code)
   }
 
   executeSolution() {
@@ -57,4 +59,6 @@ export class TrainerComponent {
       tap(_ => this.codeControl.setValue(this.assignment.solution?.code ?? ""))
     );
   }
+
+  protected readonly Set = Set;
 }

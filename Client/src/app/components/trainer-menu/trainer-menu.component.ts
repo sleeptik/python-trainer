@@ -9,6 +9,7 @@ export class TrainerMenuComponent {
   @Output() readonly execute = new EventEmitter<void>();
   @Output() readonly clear = new EventEmitter<void>();
   @Output() readonly verify = new EventEmitter<void>();
+  @Output() readonly useTemplate = new EventEmitter<string>();
 
   @Input({required: true}) exerciseId!: number;
 }
