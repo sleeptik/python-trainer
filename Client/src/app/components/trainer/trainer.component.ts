@@ -5,6 +5,8 @@ import {pipe, switchMap, tap} from "rxjs";
 import {AssignmentsService} from "../../services/assignments.service";
 import {AssignmentDetailsDto} from "../../models/assignment-details-dto";
 import {FormBuilder, FormControl} from "@angular/forms";
+import {StudentsService} from "../../services/students.service";
+import {ExercisesService} from "../../services/exercises.service";
 
 @Component({
   selector: 'app-trainer',
@@ -20,7 +22,9 @@ export class TrainerComponent {
     activatedRoute: ActivatedRoute,
     formBuilder: FormBuilder,
     private readonly pythonService: PythonService,
-    private readonly assignmentsService: AssignmentsService
+    private readonly assignmentsService: AssignmentsService,
+    private readonly studentsService: StudentsService,
+    private readonly exercisesService: ExercisesService
   ) {
     this.assignment = activatedRoute.snapshot.data["assignment"];
     this.codeControl = formBuilder.control(this.assignment.solution?.code ?? "", {nonNullable: true});

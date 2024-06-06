@@ -21,6 +21,7 @@ public sealed class TrainerContext(DbContextOptions options) : IdentityDbContext
     public DbSet<Suggestion> Suggestions => Set<Suggestion>();
 
     public DbSet<Exercise> Exercises => Set<Exercise>();
+    public DbSet<CodeTemplate> CodeTemplates => Set<CodeTemplate>();
     public DbSet<Subject> Subjects => Set<Subject>();
 
     public DbSet<Prompt> Prompts => Set<Prompt>();

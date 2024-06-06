@@ -40,13 +40,15 @@ public sealed class Student
         if (enumeratedRanks.Count == 0)
             throw new ArgumentException();
 
-        var minRankId = enumeratedRanks.MinBy(rank => rank.LowerBound).Id;
+        var Rank = enumeratedRanks.OrderBy(rank => rank.LowerBound).Skip(1).First();
+        var Score = (Rank.LowerBound + Rank.UpperBound)/2.0f;
 
         return new Student
         {
             UserId = userId,
-            CurrentRankId = minRankId,
-            _subjects = enumeratedSubjects
+            CurrentRankId = Rank.Id,
+            _subjects = enumeratedSubjects,
+            _score = Score
         };
     }
 }
