@@ -29,7 +29,7 @@ export class AssignmentsMenuComponent implements OnInit {
   }
 
   get totalFinished(): number {
-    return 0;
+    return this.assignments.filter(value => value.assignmentStatus.name!=="New").length
 
     // return this.assignments.reduce(
     //   (previousValue, currentValue) => previousValue + (currentValue.finishedAt ? 1 : 0), 0
@@ -37,7 +37,7 @@ export class AssignmentsMenuComponent implements OnInit {
   }
 
   get totalSuccessfullyCompleted(): number {
-    return 0;
+    return this.assignments.filter(value => value.assignmentStatus.name==="Verified").length
 
 
     // return this.assignments.reduce(
