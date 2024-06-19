@@ -126,7 +126,14 @@ public sealed class AssignmentsController(InstantVerificationService instantVeri
 
             await TrainerContext.SaveChangesAsync();
 
-            await new UpdateRankHelper(TrainerContext, rankService).UpdateRank(StudentId, assignment.ExerciseId);
+            var solutions = await TrainerContext.Solutions
+                .Where(sol => sol.AssignmentId == solution.AssignmentId)
+                .ToListAsync();
+
+            if (solutions.Count == 1)
+            {
+                await new UpdateRankHelper(TrainerContext, rankService).UpdateRank(StudentId, assignment.ExerciseId);
+            }
         }
         catch
         {

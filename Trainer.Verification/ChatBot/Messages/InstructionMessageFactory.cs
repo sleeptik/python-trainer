@@ -27,7 +27,8 @@ public static class InstructionMessageFactory
             .AppendLine("и, по возможности, указать, как их можно исправить. ")
             // ---
             .Append("Предложенные исправления должны быть описаны идеями, а не кодом, ")
-            .AppendLine("чтобы студент сам додумывал как их реализовать.");
+            .AppendLine("чтобы студент сам додумывал как их реализовать.")
+            .AppendLine("Отвечай на русском языке");
 
         return ChatMessage.FromSystem(message.ToString());
     }
