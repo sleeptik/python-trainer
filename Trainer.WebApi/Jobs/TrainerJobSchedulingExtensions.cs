@@ -2,6 +2,9 @@
 
 namespace Trainer.WebApi.Jobs;
 
+/// <summary>
+///     Класс предоставляющий метод для запуска фоновых задач тренажера
+/// </summary>
 public static class TrainerJobSchedulingExtensions
 {
     public static IServiceCollectionQuartzConfigurator ScheduleTrainerJobs(

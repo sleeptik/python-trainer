@@ -9,11 +9,14 @@ using Trainer.Verification.InputData;
 
 namespace Trainer.Verification.ChatBot;
 
+/// <summary>
+///     Класс предоставляющий возможность проверить код студента на правильность решения
+/// </summary>
 public class AiVerificationService(IOpenAIService completionService)
 {
     //Сервис для проверки, вызывающий создание всех необходимых сообщений и содержащий все необходимые настройки для обращения к необходимой модели 
     private static readonly string GptModel = Models.Gpt_3_5_Turbo_1106;
-    
+
     public async Task<VerificationResult> VerifyAsync(
         VerificationInstructionsSet instructions, CancellationToken cancellationToken
     )

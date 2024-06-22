@@ -5,6 +5,10 @@ using Trainer.Verification.ChatBot.ResultModels;
 
 namespace Trainer.Verification.ChatBot.Tools;
 
+/// <summary>
+///     Класс предоставляет статические методы для создания объекта, который определяет поведение нейросети для генерации
+///     ответа в формате JSON.
+/// </summary>
 public static class VerificationToolFactory
 {
     public static VerificationTool Create()
