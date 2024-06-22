@@ -24,10 +24,12 @@ export class AssignmentsMenuComponent implements OnInit {
     setTimeout(() => this.selectForm = this.formBuilder.control(this.subjects[0]));
   }
 
+  //Получения количества всех назначенных заданий
   get total(): number {
     return this.assignments.length;
   }
 
+  //Получение количества решенных назначенныз заданий
   get totalFinished(): number {
     return this.assignments.filter(value => value.assignmentStatus.name!=="New").length
 
@@ -36,6 +38,7 @@ export class AssignmentsMenuComponent implements OnInit {
     // );
   }
 
+  //Получение количества правильно решенных назначенных заданий
   get totalSuccessfullyCompleted(): number {
     return this.assignments.filter(value => value.assignmentStatus.name==="Verified").length
 

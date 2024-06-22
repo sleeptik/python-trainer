@@ -4,6 +4,7 @@ import {AuthService} from "../services/auth.service";
 import {switchMap} from "rxjs";
 
 export const yandexLoginRedirectGuard: CanActivateFn = (route, state) => {
+  //Защита от не авторизированных пользователей, проверяет может ли пользователь перейти на страницу, если нет заставляет авторизироваться
   const router = inject(Router);
   const authService = inject(AuthService);
 
