@@ -1,8 +1,9 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
 import {CodeTemplate} from "../../models/code-template";
 import {StudentsService} from "../../services/students.service";
 import {ExercisesService} from "../../services/exercises.service";
 import {Student} from "../../models/student";
+import {filter, switchMap, tap} from "rxjs";
 
 @Component({
   selector: 'app-trainer-template-loader',
@@ -24,16 +25,12 @@ export class TrainerTemplateLoaderComponent implements OnInit {
 
   ngOnInit(): void {
     // Load short template info
-    this.studentsService.getStudentMe().subscribe(value => {
-      this.student = value;
-      if (value.score<3){
-        this.canUseTemplates = true
-      }
-    })
-    if(!this.canUseTemplates){
-      return
-    }
-    this.exercisesService.getCodeTemplates(this.exerciseId).subscribe(value => this.templates = value)
+    this.studentsService.getStudentMe().pipe(
+      tap(value => this.student = value),
+      filter(value => value.score < 3),
+      tap(_ => this.canUseTemplates = true),
+      switchMap(_ => this.exercisesService.getCodeTemplates(this.exerciseId))
+    ).subscribe(value => this.templates = value);
   }
 
   loadTemplate(template: CodeTemplate) {
