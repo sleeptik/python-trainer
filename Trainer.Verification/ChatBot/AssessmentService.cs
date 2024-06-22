@@ -8,10 +8,13 @@ using Trainer.Verification.ChatBot.Tools;
 
 namespace Trainer.Verification.ChatBot;
 
+/// <summary>
+///     Класс предоставляющий возможность оценить код студента по нескольким критериям
+/// </summary>
 public class AssessmentService(IOpenAIService completionService)
 {
     private static readonly string GptModel = Models.Gpt_3_5_Turbo_1106;
-    
+
     public async Task<AssessmentResult> AssessAsync(
         string task, string solution, CancellationToken cancellationToken = default
     )
