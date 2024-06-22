@@ -8,6 +8,7 @@ namespace Trainer.WebApi.Controllers.Exercises;
 [Route("api/education/exercises")]
 public sealed class ExercisesController: ApiController
 {
+    //Контроллер отвечающий за получение всех кусочков правильного решения, для подсказок самым слабым пользователям
     [HttpGet("{exerciseId:int}/code-template")]
     public async Task<IActionResult> GetCodeTemplates(int exerciseId)
     {

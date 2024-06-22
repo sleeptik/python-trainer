@@ -7,6 +7,7 @@ namespace Trainer.WebApi.Controllers.Subjects;
 [Route("api/subjects")]
 public class SubjectsController : ApiController
 {
+    //Контроллер для получения всех тем
     [HttpGet]
     public async Task<IActionResult> GetSubjects()
     {

@@ -5,17 +5,24 @@ namespace Trainer.Verification.ChatBot.Messages;
 
 public class AssessmentMessageFactory
 {
+    //Класс для создания сообщения к системе для получения критериев решения
     public static ChatMessage Create()
     {
         var message = new StringBuilder()
-            .Append("Evaluate the code solution for exercise on these six criteria from 1 to 10: readability, complexity, creativity, efficiency, structure, logic. Here's what each of the criteria means:")
-            .AppendLine("readability: This criterion evaluates how easy the code is to read and understand. Readability is related to the use of clear and informative variable names (CamelCase, snake_case, etc.) and functions, good code formatting (indentation, spaces, line breaks), and comments that explain what each part of the code does;")
-            .AppendLine("complexity: This criterion is responsible for how difficult the code is written, maybe it was possible to shorten some part of the code, convert some lines into one. (the higher the score, the easier the code is written);")
-            .AppendLine("creativity: This criterion assesses the user's ability to solve a problem using non-standard or inventive approaches. It includes the ability to apply creative solution methods as well as the use of different programming patterns;")
-            .AppendLine("efficiency: This criterion refers to how well and how fast the code executes. This includes using optimal algorithms and data structures to achieve a goal, minimising execution time and resource usage (such as memory or CPU time);")
-            .AppendLine("structure: This criterion evaluates the organisation and structure of the code. It includes the use of modularity and the division of code into logical blocks, compliance with DRY (Don't Repeat Yourself) principles, and the presence of a clear plan or algorithm for solving the problem;")
-            .AppendLine("logic: This criterion evaluates the logical consistency and correctness of algorithms and solutions. It takes into account the correctness of logical operations, exception handling, condition checking and the overall logic of programme execution.");
-
+            .Append(
+                "Оцените кодовое решение для упражнения по этим шести критериям от 1 до 10: удобочитаемость, сложность, креативность, эффективность, структура, логика. Вот что означает каждый из критериев:")
+            .AppendLine(
+                "удобочитаемость: Этот критерий оценивает, насколько прост код для чтения и понимания. Удобочитаемость связана с использованием понятных и информативных имен переменных (camelCase, snake_case и т.д.) и функций, хорошего форматирования кода (отступы, пробелы, переносы строк) и комментариев, объясняющих, что делает каждая часть кода;")
+            .AppendLine(
+                "сложность: этот критерий отвечает за то, насколько сложно написан код, возможно, удалось сократить какую-то часть кода, преобразовать несколько строк в одну. (чем выше оценка, тем проще написан код)")
+            .AppendLine(
+                "креативность: этот критерий оценивает способность пользователя решать проблему, используя нестандартные или изобретательские подходы. Он включает в себя способность применять творческие методы решения, а также использовать различные шаблоны программирования")
+            .AppendLine(
+                "эффективность: этот критерий относится к тому, насколько хорошо и быстро выполняется код. Это включает в себя использование оптимальных алгоритмов и структур данных для достижения цели, минимизацию времени выполнения и использования ресурсов (таких как память или процессорное время)")
+            .AppendLine(
+                "структура: Этот критерий оценивает организацию и структуру кода. Это включает в себя использование модульности и разделение кода на логические блоки, соблюдение СУХИХ (не повторяйтесь) принципов и наличие четкого плана или алгоритма решения задачи;")
+            .AppendLine(
+                "логика: этот критерий оценивает логическую согласованность и корректность алгоритмов и решений. Он учитывает корректность логических операций, обработку исключений, проверку условий и общую логику выполнения программы");
         return ChatMessage.FromSystem(message.ToString());
     }
 }

@@ -10,6 +10,7 @@ public class VerificationService(
     AiVerificationService aiVerificationService
 )
 {
+    //Сервис для верификации решений, сначала проверятеся возможность скомпилировать код, если успешно -> отправляем нейросети на проверку
     public async Task<VerificationResult> VerifyAsync(
         VerificationInstructionsSet instructionsSet, CancellationToken cancellationToken = default
     )

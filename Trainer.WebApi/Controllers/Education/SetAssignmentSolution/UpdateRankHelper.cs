@@ -6,6 +6,9 @@ namespace Trainer.WebApi.Controllers.Education.SetAssignmentSolution;
 
 public class UpdateRankHelper(TrainerContext context, RankService rankService)
 {
+    //Класс помогающий обновить рейтинг пользователя
+    
+    //Метод для расчёта нового рейтинга пользователя
     public async Task UpdateRank(int studentId,int exerciseId, CancellationToken cancellationToken=default)
     {
         var student = (await context.Students.FindAsync(studentId));
@@ -27,6 +30,7 @@ public class UpdateRankHelper(TrainerContext context, RankService rankService)
         await context.SaveChangesAsync(cancellationToken);
     }
 
+    //Метод получения коэффициента текущего результата
     private async Task<float> GetCurrentResultCoefficient(int studentId,int exerciseId,
         CancellationToken cancellationToken)
     {
@@ -39,10 +43,11 @@ public class UpdateRankHelper(TrainerContext context, RankService rankService)
                 cancellationToken
             );
 
-        // IsPassed should be already set at this moment
+        // IsPassed должен быть уже присвоен к этому моменту
         return assignment.Solutions.First().Review!.IsCorrect ? 1.0f : -0.9f;
     }
 
+    //Метод для получения коэффициента успешности прошлых 4 заданий.
     private async Task<float> GetPastResultsCoefficient(int studentId,
         CancellationToken cancellationToken)
     {
@@ -67,6 +72,7 @@ public class UpdateRankHelper(TrainerContext context, RankService rankService)
         return Math.Clamp(1f + change, 0.9f, 1.1f);
     }
 
+    //Метод получения коэффициента завершенности тренажера
     private async Task<float> GetStudentHighScoreCoefficient(int studentId,
         CancellationToken cancellationToken)
     {

@@ -6,6 +6,8 @@ namespace Trainer.Verification.Python;
 
 public class SourceCodeCompilingService
 {
+    //Сервис для проверки возмонжности скопмиплировать код решения студента
+    
     private readonly ScriptEngine _engine = IronPython.Hosting.Python.CreateEngine();
 
     public Task<CompilationResult> CompileAsync(string code, CancellationToken cancellationToken = default)

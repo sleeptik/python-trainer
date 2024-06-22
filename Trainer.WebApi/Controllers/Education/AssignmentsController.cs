@@ -14,8 +14,11 @@ namespace Trainer.WebApi.Controllers.Education;
 [Route("api/education/assignments")]
 public sealed class AssignmentsController(InstantVerificationService instantVerificationService, RankService rankService) : ApiController
 {
+    //Контроллер отвечающий за взаимодействия с назначенными заданиями
+    
     private int StudentId => int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "1");
 
+    //Метод получения всех назначенных заданий для текущего пользователя
     [HttpGet("")]
     public async Task<IActionResult> GetStudentAssignments()
     {
@@ -31,6 +34,7 @@ public sealed class AssignmentsController(InstantVerificationService instantVeri
         return Ok(assignments);
     }
 
+    //Метод для получения деталей конкретнного задания
     [HttpGet("{assignmentId:int}")]
     public async Task<IActionResult> GetAssignmentDetails(int assignmentId)
     {
@@ -63,6 +67,7 @@ public sealed class AssignmentsController(InstantVerificationService instantVeri
         );
     }
 
+    //Метод для назначения нового задания пользователю
     [HttpPost("")]
     public async Task<IActionResult> AssignYourself(StudentSelfAssignmentDto dto)
     {
@@ -74,7 +79,8 @@ public sealed class AssignmentsController(InstantVerificationService instantVeri
 
         return NoContent();
     }
-
+    
+    //Метод добавления нового решения к назначенному заданию, попытка проверить решение и обновление рейтинга если проверка успешна
     [HttpPost("{assignmentId:int}/solutions")]
     public async Task<IActionResult> SetAssignmentSolution(int assignmentId, SetAssignmentSolutionDto dto)
     {

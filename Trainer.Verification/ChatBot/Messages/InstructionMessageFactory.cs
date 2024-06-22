@@ -5,6 +5,7 @@ namespace Trainer.Verification.ChatBot.Messages;
 
 public static class InstructionMessageFactory
 {
+    //Класс для создания сообщения к нейросети с содержанием уникальных фрагментов зависящих от темы проверяемого задания
     public static ChatMessage Create(IList<string> customInstructions)
     {
         var message = new StringBuilder()
