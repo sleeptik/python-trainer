@@ -1,22 +1,23 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Scripting.Utils;
 using Quartz;
 using Trainer.Database;
 using Trainer.Database.Entities.Assignments;
 using Trainer.Verification.ChatBot;
-using Trainer.Verification.InputData;
 
 namespace Trainer.WebApi.Jobs;
 
+/// <summary>
+///     Класс описывающий логику фоновой задачи по оценке кода студентов
+/// </summary>
 public class AssessmentJob(
     TrainerContext trainerContext,
     AssessmentService assessmentService
 ) : IJob
 {
     private const int AssessedAtOnceCount = 3;
+    private Dictionary<ValidatedReview, Func<Task>> _processableAssess = [];
 
-    private List<ValidatedReview> _unassessmentReview =  [];
-    private Dictionary<ValidatedReview, Func<Task>> _processableAssess =  [];
+    private List<ValidatedReview> _unassessmentReview = [];
 
     public async Task Execute(IJobExecutionContext context)
     {

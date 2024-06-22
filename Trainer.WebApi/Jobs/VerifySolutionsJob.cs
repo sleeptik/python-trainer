@@ -10,6 +10,9 @@ using Trainer.WebApi.Services;
 
 namespace Trainer.WebApi.Jobs;
 
+/// <summary>
+///     Класс описывающий логику фоновой задачи по проверке кода студентов
+/// </summary>
 public sealed class VerifySolutionsJob(
     TrainerContext trainerContext,
     VerificationService verificationService
@@ -87,7 +90,7 @@ public sealed class VerifySolutionsJob(
                     solution.Assignment.SetStatus(assignmentStatus.Id);
                 }
 
-                    ctx.Context.Reviews.Attach(review);
+                ctx.Context.Reviews.Attach(review);
 
                 solution.SetReview(review);
             })
