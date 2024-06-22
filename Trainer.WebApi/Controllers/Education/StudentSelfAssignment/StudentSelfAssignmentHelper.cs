@@ -7,9 +7,12 @@ namespace Trainer.WebApi.Controllers.Education.StudentSelfAssignment;
 
 public class StudentSelfAssignmentHelper(TrainerContext context)
 {
+    //Класс помогающий с назначением новых заданий пользователю
+    
+    //Метод получения задания для назначения
     public async Task<Assignment> SelfAssignment(StudentSelfAssignmentRequest request)
     {
-        var history = await GetStudentFinishedAssignments(request.StudentId);
+        var history = await GetStudentAssignments(request.StudentId);
         var subjectToStudy = GetSubjectsToStudy(request.StudentId);
         var newExercise = new Exercise();
 
@@ -52,7 +55,8 @@ public class StudentSelfAssignmentHelper(TrainerContext context)
         return assignment;
     }
 
-    private async Task<IList<Assignment>> GetStudentFinishedAssignments(
+    //Метод для получения всех назначенных пользователю заданий
+    private async Task<IList<Assignment>> GetStudentAssignments(
         int studentId
     )
     {
@@ -62,6 +66,7 @@ public class StudentSelfAssignmentHelper(TrainerContext context)
 
     }
 
+    //Метод для получения всех назначенных пользователю тем
     private IList<Subject> GetSubjectsToStudy(int studentId)
     {
         return context.Students.AsNoTracking()

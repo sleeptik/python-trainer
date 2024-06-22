@@ -5,6 +5,7 @@ namespace Trainer.WebApi.Services;
 
 public static class ReviewFactory
 {
+    //Класс с единственным методом создания ValidatedReview или FaultyReview, в зависимости от результата проверки, они наследуются от Review
     public static Review Create(VerificationResult result)
     {
         if (result.IsCorrect)
