@@ -12,6 +12,7 @@ import {AssignmentDetailsDto} from "../models/assignment-details-dto";
 export class AssignmentsService {
   constructor(private readonly httpClient: HttpClient) {
   }
+  //Сервис для обращения к контроллеру назначенныз заданий на беке
 
   getStudentAssignments() {
     return this.httpClient.get<Assignment[]>("api/education/assignments");

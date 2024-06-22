@@ -8,6 +8,7 @@ import {of, tap} from "rxjs";
 })
 export class StudentsService {
   student: Student | null;
+  //Сервис для обращения к контроллеру студента
 
   constructor(private readonly httpClient: HttpClient) {
     this.student = null;

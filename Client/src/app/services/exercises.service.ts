@@ -8,6 +8,7 @@ import {CodeTemplate} from "../models/code-template";
 export class ExercisesService {
   constructor(private readonly httpClient: HttpClient) {
   }
+  //Сервис для обращения к контроллеру заданий на беке
 
   getCodeTemplates(exerciseId:number) {
     return this.httpClient.get<CodeTemplate[]>(`api/education/exercises/${exerciseId}/code-template`);

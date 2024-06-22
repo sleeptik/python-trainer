@@ -10,6 +10,8 @@ namespace Trainer.Verification.ChatBot;
 
 public class AssessmentService(IOpenAIService completionService)
 {
+    //Сервис с настройками модели для получения критериев решения пользователя
+    
     private static readonly string GptModel = Models.Gpt_3_5_Turbo_1106;
     
     public async Task<AssessmentResult> AssessAsync(

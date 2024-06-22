@@ -8,6 +8,7 @@ import {Subject} from "../models/subject";
 export class SubjectsService {
   constructor(private readonly httpClient: HttpClient) {
   }
+  //Сервис для обращения к контроллеру тем на беке
 
   getSubjects() {
     return this.httpClient.get<Subject[]>("api/subjects");

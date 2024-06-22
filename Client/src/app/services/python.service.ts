@@ -8,6 +8,7 @@ import {loadPyodide, PyodideInterface} from "pyodide";
 export class PythonService {
   private loading: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private pyodide!: PyodideInterface;
+  //Сервис для взаимодействия интерпритатором Python на клиенте
 
   constructor() {
     setTimeout(() => {
