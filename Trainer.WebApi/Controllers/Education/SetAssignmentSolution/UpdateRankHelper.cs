@@ -43,7 +43,6 @@ public class UpdateRankHelper(TrainerContext context, RankService rankService)
                 cancellationToken
             );
 
-        // IsPassed должен быть уже присвоен к этому моменту
         return assignment.Solutions.First().Review!.IsCorrect ? 1.0f : -0.9f;
     }
 

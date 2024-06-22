@@ -11,6 +11,7 @@ export class AuthService {
 
   constructor(private readonly httpClient: HttpClient) {
   }
+  //Сервис для обращения к контоллеру авторизации на беке
 
   getCurrentUser() {
     // TODO remake with interceptors, possibly.
