@@ -1,12 +1,10 @@
-import {Component} from '@angular/core';
+import {Component} from "@angular/core";
 import {ActivatedRoute} from "@angular/router";
 import {PythonService} from "../../services/python.service";
 import {pipe, switchMap, tap} from "rxjs";
 import {AssignmentsService} from "../../services/assignments.service";
 import {AssignmentDetailsDto} from "../../models/assignment-details-dto";
 import {FormBuilder, FormControl} from "@angular/forms";
-import {StudentsService} from "../../services/students.service";
-import {ExercisesService} from "../../services/exercises.service";
 
 @Component({
   selector: 'app-trainer',
@@ -36,18 +34,22 @@ export class TrainerComponent {
     return this.assignment.suggestions;
   }
 
+  // Метод позволяющий вставить шаблон кода
   setCode(code:string) {
     this.codeControl.setValue(code)
   }
 
+  // Метод запускающий интерпретацию кода в браузере
   executeSolution() {
     this.pythonService.executeCode(this.codeControl.value).subscribe(value => this.output = value);
   }
 
+  // Метод отправляющий решение на проверку
   verifySolution() {
     this.assignmentsService.setAssignmentSolution(this.assignment.id, this.codeControl.value).pipe(this.refresh()).subscribe();
   }
 
+  // Метод очищающий вывод в консоли
   clearOutput() {
     this.output = [];
   }
